@@ -1,0 +1,340 @@
+##### start of Listing 9.1 ##### 
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.arange(10, 31, 1.0)
+plt.figure(figsize=(5, 3), dpi = 300)
+plt.xticks(x)
+plt.plot(x, np.log(x), color='g', linestyle='None',
+         marker = '*', label=r'$\log(x)$')
+plt.plot(x, x, color='k', linestyle='None',
+         marker = '+', label=r'$x$')
+plt.plot(x, x * np.log(x), color='b', linestyle='None',
+         marker = '<', label=r'$x\log(x)$')
+plt.plot(x, x ** 2, color='c', linestyle='None',
+         marker = 's', label=r'$x^{2}$')
+plt.xlabel('input size'); plt.ylabel('time complexity')
+plt.title("Order-of-growth of time complexity")
+plt.legend(); plt.grid(linestyle=':')
+plt.tight_layout(); plt.show()
+##### end of Listing 9.1 ##### 
+
+##### start of Listing 9.2 ##### 
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.arange(10.0, 205.0, 10.0)
+plt.figure(figsize=(8, 4), dpi = 300)
+plt.xticks(x)
+plt.yscale('log')
+plt.plot(x, np.log(x), color='g', linestyle='-',
+         linewidth = 2, label=r'$\log(x)$')
+plt.plot(x, x, color='k', linestyle='--', label=r'$x$')
+plt.plot(x, x * np.log(x), color='b',
+         linestyle='-.', label=r'$x\log(x)$')
+plt.plot(x, x ** 2, color='c', linestyle=':', label=r'$x^{2}$')
+plt.plot(x, x ** 3, color='r', label=r'$x^{3}$')
+plt.plot(x, 1.2 ** x, color='m', label=r'$1.1^{x}$')
+plt.plot(x, 1.5 ** x, color='y', label=r'$1.5^{x}$')
+plt.plot(x, 2 ** x, color='k', label=r'$2^{x}$')
+plt.xlabel('input size'); plt.ylabel('time complexity')
+plt.title("Order-of-growth of time complexity")
+plt.legend(); plt.grid(linestyle=':'); plt.show()
+##### end of Listing 9.2 ##### 
+
+##### start of Listing 9.3 ##### 
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.arange(-5, 25, 0.5)
+def f(x):
+    return x**4 / 4 - 26 * x**3 / 3 + 91 * x ** 2 / 2 + 294 * x
+
+plt.figure(figsize=(6, 4), dpi = 300)
+
+plt.subplot(2,1,1)
+flb = \
+  r'$f(x) = \frac{x^4}{4}-\frac{26x^3}{3}+\frac{91x^2}{2}+294x$'
+plt.plot(x, f(x), color='g', linestyle='-', label=flb)
+plt.title("local view of local minimum and global minimum")
+plt.text(-2, -1900, 'local minimum\nf(-2) = -332.66')
+plt.annotate('global minimum\nf(21) = -5402.25',
+             xy=(21, -5402.25), xytext=(17, -2800),
+             arrowprops=dict(facecolor='black'))
+plt.legend();
+
+plt.subplot(2,1,2)
+x = np.arange(-40, 60)
+plt.plot(x, f(x), color='g', linestyle='-', label=flb)
+plt.title("global view of local minimum and global minimum")
+plt.legend()
+plt.tight_layout(); plt.show()
+##### end of Listing 9.3 ##### 
+
+##### start of Listing 9.4 ##### 
+import numpy as np
+import matplotlib as mpl; import matplotlib.pyplot as plt
+
+plt.figure(figsize = (9, 6))
+
+plt.subplot(2, 3, 1)
+x = ['USA', 'China', 'Japan', 'Germany', 'India']
+y = [25.46, 18.10, 4.23, 4.08, 3.39]
+plt.bar(x,y); plt.grid(); ax = plt.gca()
+ax.set_xticks(x); ax.set_xticklabels(x, rotation=45)
+ax.tick_params(axis='x', labelsize=8)
+plt.title('Bar Chart of 2022 GDP by Country')
+plt.xlabel('Country'); plt.ylabel('2022 GDP (trillion USD)')
+
+plt.subplot(2, 3, 2)
+np.random.seed(10); xr = np.arange(5, 15, 1); n = 20
+y = np.zeros(len(xr)); yerr = np.zeros(len(xr))
+for i, x in enumerate(xr):  
+    d = 2*(np.zeros(n) + x) + 5 + np.random.randn(n)*3
+    y[i] = np.mean(d); yerr[i] = np.std(d) 
+plt.errorbar(xr, y, yerr=yerr, color='g', ecolor='r', capsize=5)
+plt.xlabel('x'); plt.ylabel(r'$[\bar{y}-std, \; \bar{y}+std]$');
+plt.title('Errorbar'); plt.grid()
+
+plt.subplot(2, 3, 3)
+dates = np.arange(np.datetime64('2021-12-03'),
+                  np.datetime64('2022-02-03'),
+                  np.timedelta64(1, 'h'))
+data = np.cumsum(np.random.randn(len(dates))) 
+plt.plot(dates, data)
+cdf = mpl.dates.ConciseDateFormatter(plt.gca().xaxis.
+                                     get_major_locator())
+plt.gca().xaxis.set_major_formatter(cdf);
+plt.title('Random Walk')
+
+plt.subplot(2, 3, 4)
+x = np.arange(1, 1000); y = 1.2**x
+plt.loglog(x,y)
+plt.title('Loglog plot of ' + r'$y=1.2^x$')
+plt.xlabel('x'); plt.ylabel('y'); plt.grid(which='both')
+
+plt.subplot(2, 3, 5)
+x = np.arange(10, 1000); y =  np.log(np.log(x))
+plt.semilogx(x,y)
+plt.title('SemilogX plot of ' + r'$y=\log(\log(x))$')
+plt.xlabel('x'); plt.ylabel('y'); plt.grid(which='both')
+
+plt.subplot(2, 3, 6)
+x = np.arange(1, 1000); y = x**3
+plt.semilogy(x,y)
+plt.title('SemilogY plot of ' + r'$y=x^3$')
+plt.xlabel('x'); plt.ylabel('y'); plt.grid(which='both')
+
+plt.tight_layout(); plt.show()
+##### end of Listing 9.4 ##### 
+
+##### start of Listing 9.5 ##### 
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.arange(5, 25)
+fig, ax = plt.subplots(figsize=(6, 4), dpi = 300)
+ax.set_yscale('log')
+ax.plot(x, np.log(x), color='g', linestyle='-',
+        linewidth = 2, label=r'$\log(x)$')
+ax.plot(x, x, color='k', linestyle='--', label=r'$x$')
+ax.plot(x, x * np.log(x), color='b',
+        linestyle='-.', label=r'$x\log(x)$')
+ax.plot(x, x ** 2, color='c', linestyle=':', label=r'$x^{2}$')
+ax.plot(x, x ** 3, color='r', label=r'$x^{3}$')
+ax.plot(x, 1.2 ** x, color='m', label=r'$1.1^{x}$')
+ax.plot(x, 1.5 ** x, color='y', label=r'$1.5^{x}$')
+ax.plot(x, 2 ** x, color='k', label=r'$2^{x}$')
+ax.set_xlabel('input size'); ax.set_ylabel('time complexity')
+ax.set_title("Order-of-growth of time complexity")
+ax.legend(); plt.show()
+##### end of Listing 9.5 ##### 
+
+##### start of Listing 9.6 ##### 
+import numpy as np
+import matplotlib as mpl; import matplotlib.pyplot as plt
+
+x = np.arange(-5, 25, 0.5)
+def f(x):
+    return x**4 / 4 - 26 * x**3 / 3 + 91 * x ** 2 / 2 + 294 * x
+title = "local minimum and global minimum"
+
+fig, axs = plt.subplots(2, 1, figsize=(6, 4))
+
+flb = \
+  r'$f(x) = \frac{x^4}{4}-\frac{26x^3}{3}+\frac{91x^2}{2}+294x$'
+axs[0].plot(x, f(x), color='g', linestyle='-', label=flb)
+axs[0].set_title("local view of " + title)
+axs[0].xaxis.set_major_locator(mpl.ticker.MaxNLocator(20))
+axs[0].xaxis.set_minor_locator(mpl.ticker.MaxNLocator(100))
+axs[0].yaxis.set_major_locator(mpl.ticker.MaxNLocator(10))
+axs[0].yaxis.set_minor_locator(mpl.ticker.MaxNLocator(50))
+grid_width = {"major":0.5, "minor":0.25}
+for axis in ('x','y'):
+    for gt in grid_width.keys():
+        axs[0].grid(color="grey", which=gt, axis=axis,
+                    linestyle='-', linewidth=grid_width[gt])
+axs[0].annotate('global minimum\nf(21) = -5402.25',
+                xy=(21, -5402.25), xytext=(17, -2800),
+                arrowprops=dict(facecolor='black'))
+axs[0].legend();
+
+x = np.arange(-40, 60)
+axs[1].plot(x, f(x), color='g', linestyle='-', label=flb)
+axs[1].set_title("global view of " + title)
+axs[1].legend();
+
+fig.tight_layout()
+plt.savefig("D:/images/dg.png", dpi=300, facecolor="
+plt.show()
+##### end of Listing 9.6 ##### 
+
+##### start of Listing 9.7 ##### 
+import numpy as np
+import matplotlib.pyplot as plt
+x = np.arange(0.01, 10.0, 0.01)
+data1 = 2 ** x; data2 = np.cos(2 * np.pi * x)
+data3 = np.cos(3 * np.pi * x); data4 = np.cos(5 * np.pi * x)
+
+color1 = 'r'; color2 = 'g'; color3 = 'b'; color4 = 'm'
+fig = plt.figure(figsize=(12, 5))
+subfigs = fig.subfigures(1, 2, width_ratios=[0.55, 0.4])
+subfigs[0].suptitle('Left figure')
+ax1 = subfigs[0].subplots()  
+ax1.set_xlabel('x'); ax1.set_ylabel(r'$2^{x}$', color=color1)
+ax1.plot(x, data1, color=color1)
+ax1.tick_params(axis='x', labelcolor='black')
+ax1.tick_params(axis='y', labelcolor=color1)
+ax1_2 = ax1.twinx() 
+ax1_2.yaxis.set_label_position("right")
+ax1_2.set_ylabel(r'$cos(2 \pi x)$', color=color2)
+ax1_2.plot(x, data2, color=color2)
+ax1_2.tick_params(axis='y', labelcolor=color2)
+
+subfigs[1].suptitle('Right figure')
+ax2 = subfigs[1].subplots(2, 1, sharex=True)
+ax2[0].plot(x, data3, color=color3)
+ax2[0].yaxis.set_label_position("right")
+ax2[0].set_ylabel(r'$cos(3 \pi x)$', color=color3)
+ax2[1].plot(x, data4, color=color4)
+ax2[1].set_xlabel('x')
+ax2[1].yaxis.set_label_position("right")
+ax2[1].set_ylabel(r'$cos(5 \pi x)$', color=color4)
+
+plt.show()
+##### end of Listing 9.7 ##### 
+
+##### start of Listing 9.8 ##### 
+In[1]: x=[2,3,5]; y=[7,9]
+In[2]: np.meshgrid(x,y)
+Out[2]:
+[array([[2, 3, 5],
+        [2, 3, 5]]),
+ array([[7, 7, 7],
+        [9, 9, 9]])]
+##### end of Listing 9.8 ##### 
+
+##### start of Listing 9.9 ##### 
+import numpy as np
+import matplotlib.pyplot as plt
+
+X, Y = np.meshgrid(np.linspace(-2, 2, 100),
+                   np.linspace(-2, 2, 100))
+Z = np.sin(X + 2 * Y) * np.cos(2 * X - Y)
+
+fig, axs = plt.subplots(2, 2, figsize=(8, 6))
+pc = axs[0, 0].pcolormesh(X, Y, Z, vmin=-1, vmax=1,
+                          cmap='RdBu_r', shading='auto')
+fig.colorbar(pc, ax=axs[0, 0])
+axs[0, 0].set_title('pcolormesh()')
+
+x, y = np.mgrid[-1.5:1.5:500j, -1.5:1.5:500j]
+z = (x**2 + y**2 - 1)**3 - x**2 * y**3
+co = axs[0, 1].contourf(x, y, z, levels=np.linspace(-2, 2, 21),
+                        cmap=plt.cm.RdBu)
+fig.colorbar(co, ax=axs[0, 1])
+axs[0, 1].set_title('contourf()')
+
+axs[1, 0].contourf(x, y, z, levels=[-1, 0], colors=["red"])
+axs[1, 0].set_aspect("equal");
+axs[1, 0].set_title('red heart')
+
+def f(x,y):
+    return (x**7 - y**6 + x**5 - y**4 + x**3 - y**2 + x - 1) * \
+            np.exp(-x**2 -y**2)
+
+x = y = np.linspace(-3, 3, 256)
+X,Y = np.meshgrid(x, y)
+C = axs[1, 1].contour(X, Y, f(X, Y), 16, colors='black')
+axs[1, 1].clabel(C, inline=1, fontsize=5)
+axs[1, 1].contourf(X, Y, f(X, Y), 16, alpha=.75,
+                   cmap=plt.cm.RdBu)
+axs[1, 1].set_title('contourf() and clabel()')
+
+fig.tight_layout(); plt.show()
+##### end of Listing 9.9 ##### 
+
+##### start of Listing 9.10 ##### 
+import numpy as np
+import matplotlib as mpl; import matplotlib.pyplot as plt
+
+def title_and_labels(ax, title):
+    ax.set_title(title); ax.set_xlabel("$x$")
+    ax.set_ylabel("$y$"); ax.set_zlabel("$z$")
+
+fig, axes = plt.subplots(2, 2, figsize=(6, 6),
+                         subplot_kw={'projection': '3d'})
+
+x = y = np.linspace(-3, 3, 100)
+X, Y = np.meshgrid(x, y)
+Z = (X**7 - Y**6 + X**5 - Y**4 + X**3 - Y**2 + X - 1) * \
+    np.exp(- X**2 - Y**2)
+
+norm = mpl.colors.Normalize(vmin = Z.min(), vmax = Z.max())
+p = axes[0, 0].plot_surface(X, Y, Z, linewidth=0, rcount=20,
+                            ccount=20, norm=norm,
+                            cmap=mpl.cm.hot)
+cb = fig.colorbar(p, ax=axes[0, 0], pad=0.1, shrink = 0.6)
+title_and_labels(axes[0, 0], "surface plot")
+
+p = axes[0, 1].plot_wireframe(X, Y, Z, rcount=20, ccount=20,
+                              color="green")
+title_and_labels(axes[0, 1], "wireframe plot")
+
+cset = axes[1, 0].contour(X, Y, Z, zdir='x', levels = 20,
+                          norm=norm, cmap=mpl.cm.hot)
+title_and_labels(axes[1, 0], "contour x")
+
+cset = axes[1, 1].contour(X, Y, Z, zdir='y', levels = 20,
+                          norm=norm, cmap=mpl.cm.hot)
+title_and_labels(axes[1, 1], "contour y")
+
+fig.tight_layout(); plt.show()
+##### end of Listing 9.10 ##### 
+
+##### start of Listing 9.11 ##### 
+import numpy as np
+import matplotlib.pyplot as plt
+
+fig = plt.figure(figsize=(8, 6), constrained_layout=True)
+gs = fig.add_gridspec(1, 2)
+
+ax1 = fig.add_subplot(gs[0, 0])
+x, y = np.mgrid[0.5:6.5:16j, 0.5:6.5:16j]
+dx_dt = x*(1 - x/7) - 6*x*y/(7+7*x)
+dy_dt = 0.2*y*(1 - 0.5*y/x)
+ax1.quiver(x, y, dx_dt, dy_dt, color='r', angles='xy',
+           scale_units='xy')
+
+ax2 = fig.add_subplot(gs[0, 1], projection='3d')
+ax2.set_xlabel("$x$"); ax2.set_ylabel("$y$");
+ax2.set_zlabel("$z$")
+grid1 = np.linspace(-4, 4, 9); grid2 = np.linspace(0, 2, 3)
+x, y, z = np.meshgrid(grid1, grid1, grid2)
+dx_dt = x * (1 - 2 * x + y - 5 * z)
+dy_dt = y * (1 - 5 * x - 2 * y - z)
+dz_dt = z * (1 + x - 3 * y - 2 * z)
+ax2.quiver(x, y, z, dx_dt, dy_dt, dz_dt, length=0.008)
+plt.show()
+##### end of Listing 9.11 ##### 
+

@@ -1,0 +1,894 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>大作业</title>
+  </head>
+  <body>
+    <h1 style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+      YaHei&quot;; font-style: normal; font-variant-ligatures: normal;
+      font-variant-caps: normal; letter-spacing: normal; orphans: 2;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;" align="center">基于改良有限差分法
+      的PDE求解与可视化</h1>
+    <h1 style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+      YaHei&quot;; font-style: normal; font-variant-ligatures: normal;
+      font-variant-caps: normal; letter-spacing: normal; orphans: 2;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;" align="center">数学科学学
+      院&nbsp; PB20030869&nbsp; 梅铁桦</h1>
+    <h2 style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+      YaHei&quot;; font-style: normal; font-variant-ligatures: normal;
+      font-variant-caps: normal; letter-spacing: normal; orphans: 2;
+      text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: 2; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; text-decoration-thickness:
+      initial; text-decoration-style: initial; text-decoration-color:
+      initial;">1. 科学技术原理</h2>
+    <p style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+      YaHei&quot;; font-size: medium; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;"><b><font size="+1">1.1
+          问题的提出</font></b><span style="color: rgb(0, 0, 0); font-family:
+        &quot;Microsoft YaHei&quot;; font-size: medium; font-style:
+        normal; font-variant-ligatures: normal; font-variant-caps:
+        normal; font-weight: 400; letter-spacing: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; text-decoration-thickness:
+        initial; text-decoration-style: initial; text-decoration-color:
+        initial; display: inline !important; float: none;"><br>
+        本学期我学习了机器学习这门课，并对其中涉及的数值分析方法产生了浓厚的兴趣。数值分析主要是为那些不能求出精确解，或者求精确解要消耗
+        大量时间的问题而服务的。这其中一个典型问题就是偏微分方程</span><span style="color: rgb(0, 0,
+        0); font-family: &quot;Microsoft YaHei&quot;; font-size: medium;
+        font-style: normal; font-variant-ligatures: normal;
+        font-variant-caps: normal; font-weight: 400; letter-spacing:
+        normal; orphans: 2; text-align: start; text-indent: 0px;
+        text-transform: none; white-space: normal; widows: 2;
+        word-spacing: 0px; -webkit-text-stroke-width: 0px;
+        text-decoration-thickness: initial; text-decoration-style:
+        initial; text-decoration-color: initial; display: inline
+        !important; float: none;">（PDE)</span><span style="color: rgb(0,
+        0, 0); font-family: &quot;Microsoft YaHei&quot;; font-size:
+        medium; font-style: normal; font-variant-ligatures: normal;
+        font-variant-caps: normal; font-weight: 400; letter-spacing:
+        normal; orphans: 2; text-align: start; text-indent: 0px;
+        text-transform: none; white-space: normal; widows: 2;
+        word-spacing: 0px; -webkit-text-stroke-width: 0px;
+        text-decoration-thickness: initial; text-decoration-style:
+        initial; text-decoration-color: initial; display: inline
+        !important; float: none;"><span style="color: rgb(0, 0, 0);
+          font-family: &quot;Microsoft YaHei&quot;; font-size: medium;
+          font-style: normal; font-variant-ligatures: normal;
+          font-variant-caps: normal; font-weight: 400; letter-spacing:
+          normal; orphans: 2; text-align: start; text-indent: 0px;
+          text-transform: none; white-space: normal; widows: 2;
+          word-spacing: 0px; -webkit-text-stroke-width: 0px;
+          text-decoration-thickness: initial; text-decoration-style:
+          initial; text-decoration-color: initial; display: inline
+          !important; float: none;"></span><sup><font size="-1">[1] </font></sup><span
+          style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+          YaHei&quot;; font-size: medium; font-style: normal;
+          font-variant-ligatures: normal; font-variant-caps: normal;
+          font-weight: 400; letter-spacing: normal; orphans: 2;
+          text-align: start; text-indent: 0px; text-transform: none;
+          white-space: normal; widows: 2; word-spacing: 0px;
+          -webkit-text-stroke-width: 0px; text-decoration-thickness:
+          initial; text-decoration-style: initial;
+          text-decoration-color: initial; display: inline !important;
+          float: none;"></span>的
+        求解。PDE在数学、物理、工程等领域都有极为广泛的应用，例如著名的爱因斯坦相对论的核心“场方程”就是一个PDE.
+        然而，PDE的精确求解往往是及其困难的，比常微分方程(ODE)难的多。我去年上过微分方程引论这门课，其中可以求解的PDE是屈指可数。但是我现在上
+        的课程，如微分几何、复分析等，
+        常常接触大量PDE，他们起到帮助分析问题的作用，所以不必精确地求解。此时PDE的数值解就能极大地方便其他课程的应用。课程中介绍了ODE的求解方
+        法，但未涉及PDE. 因此我决定用Python编写程序以实现一些</span><span style="color:
+        rgb(0, 0, 0); font-family: &quot;Microsoft YaHei&quot;;
+        font-size: medium; font-style: normal; font-variant-ligatures:
+        normal; font-variant-caps: normal; font-weight: 400;
+        letter-spacing: normal; orphans: 2; text-align: start;
+        text-indent: 0px; text-transform: none; white-space: normal;
+        widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;
+        text-decoration-thickness: initial; text-decoration-style:
+        initial; text-decoration-color: initial; display: inline
+        !important; float: none;"><span style="color: rgb(0, 0, 0);
+          font-family: &quot;Microsoft YaHei&quot;; font-size: medium;
+          font-style: normal; font-variant-ligatures: normal;
+          font-variant-caps: normal; font-weight: 400; letter-spacing:
+          normal; orphans: 2; text-align: start; text-indent: 0px;
+          text-transform: none; white-space: normal; widows: 2;
+          word-spacing: 0px; -webkit-text-stroke-width: 0px;
+          text-decoration-thickness: initial; text-decoration-style:
+          initial; text-decoration-color: initial; display: inline
+          !important; float: none;">广泛使用的</span>PDE的数值求解与可视化。</span><br>
+    </p>
+    <p style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+      YaHei&quot;; font-size: medium; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;"><font size="+1"><b>1.2
+          实验目标</b></font><span style="color: rgb(0, 0, 0); font-family:
+        &quot;Microsoft YaHei&quot;; font-size: medium; font-style:
+        normal; font-variant-ligatures: normal; font-variant-caps:
+        normal; font-weight: 400; letter-spacing: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; text-decoration-thickness:
+        initial; text-decoration-style: initial; text-decoration-color:
+        initial; display: inline !important; float: none;"><br>
+        本程序求解以下方程的Dirichlet</span><span style="color: rgb(0, 0, 0);
+        font-family: &quot;Microsoft YaHei&quot;; font-size: medium;
+        font-style: normal; font-variant-ligatures: normal;
+        font-variant-caps: normal; font-weight: 400; letter-spacing:
+        normal; orphans: 2; text-align: start; text-indent: 0px;
+        text-transform: none; white-space: normal; widows: 2;
+        word-spacing: 0px; -webkit-text-stroke-width: 0px;
+        text-decoration-thickness: initial; text-decoration-style:
+        initial; text-decoration-color: initial; display: inline
+        !important; float: none;"><span style="color: rgb(0, 0, 0);
+          font-family: &quot;Microsoft YaHei&quot;; font-size: medium;
+          font-style: normal; font-variant-ligatures: normal;
+          font-variant-caps: normal; font-weight: 400; letter-spacing:
+          normal; orphans: 2; text-align: start; text-indent: 0px;
+          text-transform: none; white-space: normal; widows: 2;
+          word-spacing: 0px; -webkit-text-stroke-width: 0px;
+          text-decoration-thickness: initial; text-decoration-style:
+          initial; text-decoration-color: initial; display: inline
+          !important; float: none;">问题</span><span style="color: rgb(0,
+          0, 0); font-family: &quot;Microsoft YaHei&quot;; font-size:
+          medium; font-style: normal; font-variant-ligatures: normal;
+          font-variant-caps: normal; font-weight: 400; letter-spacing:
+          normal; orphans: 2; text-align: start; text-indent: 0px;
+          text-transform: none; white-space: normal; widows: 2;
+          word-spacing: 0px; -webkit-text-stroke-width: 0px;
+          text-decoration-thickness: initial; text-decoration-style:
+          initial; text-decoration-color: initial; display: inline
+          !important; float: none;"><span style="color: rgb(0, 0, 0);
+            font-family: &quot;Microsoft YaHei&quot;; font-size: medium;
+            font-style: normal; font-variant-ligatures: normal;
+            font-variant-caps: normal; font-weight: 400; letter-spacing:
+            normal; orphans: 2; text-align: start; text-indent: 0px;
+            text-transform: none; white-space: normal; widows: 2;
+            word-spacing: 0px; -webkit-text-stroke-width: 0px;
+            text-decoration-thickness: initial; text-decoration-style:
+            initial; text-decoration-color: initial; display: inline
+            !important; float: none;"></span><sup><font size="-1">[1] </font></sup><span
+            style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+            YaHei&quot;; font-size: medium; font-style: normal;
+            font-variant-ligatures: normal; font-variant-caps: normal;
+            font-weight: 400; letter-spacing: normal; orphans: 2;
+            text-align: start; text-indent: 0px; text-transform: none;
+            white-space: normal; widows: 2; word-spacing: 0px;
+            -webkit-text-stroke-width: 0px; text-decoration-thickness:
+            initial; text-decoration-style: initial;
+            text-decoration-color: initial; display: inline !important;
+            float: none;"></span></span>，即提供初值<math
+          xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mo
+                stretchy="false">(</mo><mn>0</mn><mo>,</mo><mi>x</mi><mo
+                stretchy="false">)</mo><mo>=</mo><mtext></mtext><mi>i</mi><mi>c</mi><mo
+                stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo></mrow><annotation
+              encoding="TeX">u(0,x)=\ic(x)</annotation></semantics></math>和
+        边界值<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mi>f</mi><mo
+                stretchy="false">(</mo><mi>t</mi><mo>,</mo><mi>x</mi><mo
+                stretchy="false">)以及方程参数。</mo></mrow><annotation
+              encoding="TeX">bf(t,x)</annotation></semantics></math><br>
+        （1）一维波方程：<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>u</mi><mrow><mi>t</mi><mi>t</mi></mrow></msub><mo>=</mo><msup><mi>c</mi><mn>2</mn></msup><msub><mi>u</mi><mrow><mi>x</mi><mi>x</mi></mrow></msub><mo>+</mo><mi>f</mi><mo
+                stretchy="false">(</mo><mi>u</mi><mo stretchy="false">)</mo><mo>+</mo><mi>g</mi><mo
+                stretchy="false">(</mo><mi>t</mi><mo>,</mo><mi>x</mi><mo
+                stretchy="false">)</mo></mrow><annotation encoding="TeX">u_{tt}
+
+
+
+              = c ^2 u_{xx} + f(u) + g(t,x)</annotation></semantics></math>；
+        （2）一维热方程：<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>u</mi><mi>t</mi></msub><mo>=</mo><mi>c</mi><msub><mi>u</mi><mrow><mi>x</mi><mi>x</mi></mrow></msub><mo>+</mo><mi>f</mi><mo
+                stretchy="false">(</mo><mi>u</mi><mo stretchy="false">)</mo><mo>+</mo><mi>g</mi><mo
+                stretchy="false">(</mo><mi>t</mi><mo>,</mo><mi>x</mi><mo
+                stretchy="false">)</mo></mrow><annotation encoding="TeX">u_t
+
+
+
+              = cu_{xx }+ f(u) + g(t,x) </annotation></semantics></math>；
+        （3）二维泊松方程：<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>u</mi><mrow><mi>x</mi><mi>x</mi></mrow></msub><mo>+</mo><msub><mi>u</mi><mrow><mi>y</mi><mi>y</mi></mrow></msub><mo>=</mo><mi>f</mi><mo
+                stretchy="false">(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo
+                stretchy="false">).&nbsp; 其中,&nbsp;&nbsp;&nbsp;&nbsp; </mo><msub><mi>u</mi><mi>x</mi></msub><mo>=</mo><mfrac><mrow><mo>∂</mo><mi>u</mi></mrow><mrow><mo>∂</mo><mi>x</mi></mrow></mfrac></mrow><annotation
+              encoding="TeX">。u_x = \frac{\partial u}{ \partial x}</annotation></semantics></math></span></p>
+    <p style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+      YaHei&quot;; font-size: medium; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;"><span style="color:
+        rgb(0, 0, 0); font-family: &quot;Microsoft YaHei&quot;;
+        font-size: medium; font-style: normal; font-variant-ligatures:
+        normal; font-variant-caps: normal; font-weight: 400;
+        letter-spacing: normal; orphans: 2; text-align: start;
+        text-indent: 0px; text-transform: none; white-space: normal;
+        widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;
+        text-decoration-thickness: initial; text-decoration-style:
+        initial; text-decoration-color: initial; display: inline
+        !important; float: none;">（2）基本假设：</span><span style="color:
+        rgb(0, 0, 0); font-family: &quot;Microsoft YaHei&quot;;
+        font-size: medium; font-style: normal; font-variant-ligatures:
+        normal; font-variant-caps: normal; font-weight: 400;
+        letter-spacing: normal; orphans: 2; text-align: start;
+        text-indent: 0px; text-transform: none; white-space: normal;
+        widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;
+        text-decoration-thickness: initial; text-decoration-style:
+        initial; text-decoration-color: initial; display: inline
+        !important; float: none;">所求解的方程有良好的光滑性，从而可以采用离散逼近的思想</span><span
+        style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+        YaHei&quot;; font-size: medium; font-style: normal;
+        font-variant-ligatures: normal; font-variant-caps: normal;
+        font-weight: 400; letter-spacing: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; text-decoration-thickness:
+        initial; text-decoration-style: initial; text-decoration-color:
+        initial; display: inline !important; float: none;"><font
+          size="-1"><sup>[2]</sup></font></span><span style="color:
+        rgb(0, 0, 0); font-family: &quot;Microsoft YaHei&quot;;
+        font-size: medium; font-style: normal; font-variant-ligatures:
+        normal; font-variant-caps: normal; font-weight: 400;
+        letter-spacing: normal; orphans: 2; text-align: start;
+        text-indent: 0px; text-transform: none; white-space: normal;
+        widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;
+        text-decoration-thickness: initial; text-decoration-style:
+        initial; text-decoration-color: initial; display: inline
+        !important; float: none;"><math
+          xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mrow></mrow><mrow><mn></mn></mrow></msup><annotation
+              encoding="TeX">{的使得 }^{[2]}</annotation></semantics></math><br>
+      </span></p>
+    <p style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+      YaHei&quot;; font-size: medium; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;"><font size="+1"><b>1.3
+          原理和公式</b></font><span style="color: rgb(0, 0, 0); font-family:
+        &quot;Microsoft YaHei&quot;; font-size: medium; font-style:
+        normal; font-variant-ligatures: normal; font-variant-caps:
+        normal; font-weight: 400; letter-spacing: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; text-decoration-thickness:
+        initial; text-decoration-style: initial; text-decoration-color:
+        initial; display: inline !important; float: none;"></span><br>
+      <span style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+        YaHei&quot;; font-size: medium; font-style: normal;
+        font-variant-ligatures: normal; font-variant-caps: normal;
+        font-weight: 400; letter-spacing: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; text-decoration-thickness:
+        initial; text-decoration-style: initial; text-decoration-color:
+        initial; display: inline !important; float: none;"></span><span
+        style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+        YaHei&quot;; font-size: medium; font-style: normal;
+        font-variant-ligatures: normal; font-variant-caps: normal;
+        font-weight: 400; letter-spacing: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; text-decoration-thickness:
+        initial; text-decoration-style: initial; text-decoration-color:
+        initial; display: inline !important; float: none;">数值求解PDE的主要方法有</span><span
+        style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+        YaHei&quot;; font-size: medium; font-style: normal;
+        font-variant-ligatures: normal; font-variant-caps: normal;
+        font-weight: 400; letter-spacing: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; text-decoration-thickness:
+        initial; text-decoration-style: initial; text-decoration-color:
+        initial; display: inline !important; float: none;">有限元法、有限差分法、有限
+        体积法</span><sup><font size="-1">[2] </font></sup><span
+        style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+        YaHei&quot;; font-size: medium; font-style: normal;
+        font-variant-ligatures: normal; font-variant-caps: normal;
+        font-weight: 400; letter-spacing: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; text-decoration-thickness:
+        initial; text-decoration-style: initial; text-decoration-color:
+        initial; display: inline !important; float: none;">。本实
+        验我选择了有限差分法。其基本内容为：<math
+          xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mrow></mrow><mrow><mo
+                  stretchy="false"></mo></mrow></msup><annotation
+              encoding="TeX">{}^{</annotation></semantics></math></span><math
+        xmlns="http://www.w3.org/1998/Math/MathML"></math><br>
+    </p>
+    <p style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+      YaHei&quot;; font-size: medium; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;"><math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext></mtext><mtext>（</mtext><mn>1</mn><mtext>）</mtext><mtext>网</mtext><mtext>格</mtext><mtext>化</mtext><mtext>：</mtext><mtext>设</mtext><mtext>增</mtext><mtext>量</mtext><mtext>为</mtext><mi>d</mi><mi>t</mi><mo>,</mo><mi>d</mi><mi>x</mi><mtext>，</mtext><mtext>求</mtext><mtext>解</mtext><mtext>区</mtext><mtext>域</mtext><mtext>为</mtext><mn>0</mn><mo>≤</mo><mi>t</mi><mo>≤</mo><mi>m</mi><mi>a</mi><msub><mi>x</mi><mi>t</mi></msub><mo>,</mo><mn>0</mn><mo>≤</mo><mi>x</mi><mo>≤</mo><mi>m</mi><mi>a</mi><msub><mi>x</mi><mi>x</mi></msub><mo>,</mo><mtext>将</mtext><mtext>该</mtext><mtext>区</mtext><mtext>域</mtext><mtext>划</mtext><mtext>分</mtext><mtext>为</mtext><mi>d</mi><mi>t</mi><mo>,</mo><mi>d</mi><mi>x</mi><mtext>大</mtext><mtext>小</mtext><mtext>的</mtext><mtext>网</mtext><mtext>格</mtext><mtext>，</mtext><mtext>通</mtext><mtext>过</mtext><mtext>求</mtext><mtext>解</mtext><mtext>格</mtext><mtext>点</mtext><mtext>值</mtext><mtext>来</mtext><mtext>逼</mtext><mtext>近</mtext><mtext>原</mtext><mtext>方</mtext><mtext>程</mtext><mtext>。</mtext><mtext>定</mtext><mtext>义</mtext><mtext>解</mtext><mtext>矩</mtext><mtext>阵</mtext><mi>M</mi><mtext>来</mtext><mtext>储</mtext><mtext>存</mtext><mtext>格</mtext><mtext>点</mtext><mtext>值</mtext><mtext>并</mtext><mtext>对</mtext><mi>M</mi><mtext>进</mtext><mtext>行</mtext><mtext>初</mtext><mtext>始</mtext><mtext>化</mtext><mtext>。</mtext></mrow><annotation
+            encoding="TeX">。 （1）网格化：设增量为dt, dx，求解区域为0\le
+            t≤max_t,0≤x≤max_x,将该区域划分为dt,dx大小的网格，通过求解格点值来逼近原方程。定义解矩阵M来储存格点值并对M进行初始化。</annotation></semantics></math></p>
+    <p style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+      YaHei&quot;; font-size: medium; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">（2）离散逼近公式：对下标z，设其对应下标i，则
+      有<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>u</mi><mi>z</mi></msub><mo>≈</mo><mfrac><mrow><msub><mi>u</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn><mo>,</mo><mi>j</mi></mrow></msub><mo>−</mo><msub><mi>u</mi><mrow><mi>i</mi><mo>,</mo><mi>j</mi></mrow></msub></mrow><mrow><mi>d</mi><mi>z</mi></mrow></mfrac><mo>,</mo><mspace
+              width="1em"></mspace><msub><mi>u</mi><mrow><mi>z</mi><mi>z</mi></mrow></msub><mo>≈</mo><mfrac><mrow><msub><mi>u</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn><mo>,</mo><mi>j</mi></mrow></msub><mo>−</mo><mn>2</mn><msub><mi>u</mi><mrow><mi>i</mi><mo>,</mo><mi>j</mi></mrow></msub><mo>+</mo><msub><mi>u</mi><mrow><mi>i</mi><mo>−</mo><mn>1</mn><mo>,</mo><mi>j</mi></mrow></msub></mrow><mrow><mi>d</mi><msup><mi>z</mi><mn>2</mn></msup></mrow></mfrac></mrow><annotation
+            encoding="TeX"> u_z \approx
+            \frac{u_{i+1,j}-u_{i,j}}{dz},\quad u_{zz} \approx
+            \frac{u_{i+1,j}-2u_{i,j}+u_{i-1,j}}{dz^2}</annotation></semantics></math>.
+      用此公式替换则得到：<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1.&nbsp; 热方程：采用《<span
+        style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+        YaHei&quot;; font-size: medium; font-style: normal;
+        font-variant-ligatures: normal; font-variant-caps: normal;
+        font-weight: 400; letter-spacing: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; text-decoration-thickness:
+        initial; text-decoration-style: initial; text-decoration-color:
+        initial; display: inline !important; float: none;">基于Python编写求解抛
+        物型pde方程的经典数值格式模拟》</span><span style="color: rgb(0, 0, 0);
+        font-family: &quot;Microsoft YaHei&quot;; font-size: medium;
+        font-style: normal; font-variant-ligatures: normal;
+        font-variant-caps: normal; font-weight: 400; letter-spacing:
+        normal; orphans: 2; text-align: start; text-indent: 0px;
+        text-transform: none; white-space: normal; widows: 2;
+        word-spacing: 0px; -webkit-text-stroke-width: 0px;
+        text-decoration-thickness: initial; text-decoration-style:
+        initial; text-decoration-color: initial; display: inline
+        !important; float: none;"><span style="color: rgb(0, 0, 0);
+          font-family: &quot;Microsoft YaHei&quot;; font-size: medium;
+          font-style: normal; font-variant-ligatures: normal;
+          font-variant-caps: normal; font-weight: 400; letter-spacing:
+          normal; orphans: 2; text-align: start; text-indent: 0px;
+          text-transform: none; white-space: normal; widows: 2;
+          word-spacing: 0px; -webkit-text-stroke-width: 0px;
+          text-decoration-thickness: initial; text-decoration-style:
+          initial; text-decoration-color: initial; display: inline
+          !important; float: none;"></span><span style="color: rgb(0, 0,
+          0); font-family: &quot;Microsoft YaHei&quot;; font-size:
+          medium; font-style: normal; font-variant-ligatures: normal;
+          font-variant-caps: normal; font-weight: 400; letter-spacing:
+          normal; orphans: 2; text-align: start; text-indent: 0px;
+          text-transform: none; white-space: normal; widows: 2;
+          word-spacing: 0px; -webkit-text-stroke-width: 0px;
+          text-decoration-thickness: initial; text-decoration-style:
+          initial; text-decoration-color: initial; display: inline
+          !important; float: none;"></span><font size="-1"><sup>[3] </sup></font>的
+        CN格式：</span><font size="-1"><sup>&nbsp;</sup></font><span
+        style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+        YaHei&quot;; font-size: medium; font-style: normal;
+        font-variant-ligatures: normal; font-variant-caps: normal;
+        font-weight: 400; letter-spacing: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; text-decoration-thickness:
+        initial; text-decoration-style: initial; text-decoration-color:
+        initial; display: inline !important; float: none;"><math
+          xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><msub><mi>u</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn><mo>,</mo><mi>j</mi></mrow></msub><mo>−</mo><msub><mi>u</mi><mrow><mi>i</mi><mo>,</mo><mi>j</mi></mrow></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mfrac><mi>c</mi><mn>2</mn></mfrac><mrow><mo>[</mo><mrow><mfrac><mrow><msub><mi>u</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn><mo>,</mo><mi>j</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>−</mo><mn>2</mn><msub><mi>u</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn><mo>,</mo><mi>j</mi></mrow></msub><mo>+</mo><msub><mi>u</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn><mo>,</mo><mi>j</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><mrow><mi>d</mi><msup><mi>x</mi><mn>2</mn></msup></mrow></mfrac><mo>+</mo><mfrac><mrow><msub><mi>u</mi><mrow><mi>i</mi><mo>,</mo><mi>j</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>−</mo><mn>2</mn><msub><mi>u</mi><mrow><mi>i</mi><mo>,</mo><mi>j</mi></mrow></msub><mo>+</mo><msub><mi>u</mi><mrow><mi>i</mi><mo>,</mo><mi>j</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><mrow><mi>d</mi><msup><mi>x</mi><mn>2</mn></msup></mrow></mfrac></mrow><mo>]</mo></mrow><mo>+</mo><mi>f</mi><mo
+                stretchy="false">(</mo><msub><mi>u</mi><mrow><mi>i</mi><mo>,</mo><mi>j</mi></mrow></msub><mo
+                stretchy="false">)</mo><mo>+</mo><mi>g</mi><mo
+                stretchy="false">(</mo><msub><mi>t</mi><mi>i</mi></msub><mo>,</mo><msub><mi>x</mi><mi>j</mi></msub><mo
+                stretchy="false">)</mo></mrow><annotation encoding="TeX">\frac{u_{i+1,j}-u_{i,j}}{dt}=\frac{c}{2}\left[\frac{u_{i+1,j+1}-2u_{i+1,j}+u_{i+1,j-1}}{dx^2}+\frac{u_{i,j+1}-2u_{i,j}+u_{i,j-1}}{dx^2}\right]+f(u_{i,j})+g(t_i,x_j)</annotation></semantics></math></span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2.&nbsp;
+      波方程：基于《Python——一维波动方程求解》<font size="-1"><sup>[4]</sup></font>，<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mrow></mrow><mrow><mo
+                stretchy="false"></mo><mo stretchy="false"></mo></mrow></msup><annotation
+            encoding="TeX">{}^{</annotation></semantics></math>但是将经
+      典算法用CN方法改良。原始算法为：<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><msub><mi>u</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn><mo>,</mo><mi>j</mi></mrow></msub><mo>−</mo><mn>2</mn><msub><mi>u</mi><mrow><mi>i</mi><mo>,</mo><mi>j</mi></mrow></msub><mo>+</mo><msub><mi>u</mi><mrow><mi>i</mi><mo>−</mo><mn>1</mn><mo>,</mo><mi>j</mi></mrow></msub></mrow><mrow><mi>d</mi><msup><mi>t</mi><mn>2</mn></msup></mrow></mfrac><mo>=</mo><msup><mi>c</mi><mn>2</mn></msup><mrow><mo>[</mo><mfrac><mrow><msub><mi>u</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn><mo>,</mo><mi>j</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>−</mo><mn>2</mn><msub><mi>u</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn><mo>,</mo><mi>j</mi></mrow></msub><mo>+</mo><msub><mi>u</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn><mo>,</mo><mi>j</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><mrow><mi>d</mi><msup><mi>x</mi><mn>2</mn></msup></mrow></mfrac><mo>]</mo></mrow><mo>+</mo><mi>f</mi><mo
+              stretchy="false">(</mo><msub><mi>u</mi><mrow><mi>i</mi><mo>,</mo><mi>j</mi></mrow></msub><mo
+              stretchy="false">)</mo><mo>+</mo><mi>g</mi><mo
+              stretchy="false">(</mo><msub><mi>t</mi><mi>i</mi></msub><mo>,</mo><msub><mi>x</mi><mi>j</mi></msub><mo
+              stretchy="false">)</mo></mrow><annotation encoding="TeX">\frac{u_{i+1,j}-2u_{i,j}+u_{i-1,j}}{dt^2}=c^2\left[\frac{u_{i+1,j+1}-2u_{i+1,j}+u_{i+1,j-1}}{dx^2}\right]+f(u_{i,j})+g(t_i,x_j)</annotation></semantics></math>，
+      改良后为<br>
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><msub><mi>u</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn><mo>,</mo><mi>j</mi></mrow></msub><mo>−</mo><mn>2</mn><msub><mi>u</mi><mrow><mi>i</mi><mo>,</mo><mi>j</mi></mrow></msub><mo>+</mo><msub><mi>u</mi><mrow><mi>i</mi><mo>−</mo><mn>1</mn><mo>,</mo><mi>j</mi></mrow></msub></mrow><mrow><mi>d</mi><msup><mi>t</mi><mn>2</mn></msup></mrow></mfrac><mo>=</mo><mfrac><msup><mi>c</mi><mn>2</mn></msup><mn>2</mn></mfrac><mrow><mo>[</mo><mrow><mfrac><mrow><msub><mi>u</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn><mo>,</mo><mi>j</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>−</mo><mn>2</mn><msub><mi>u</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn><mo>,</mo><mi>j</mi></mrow></msub><mo>+</mo><msub><mi>u</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn><mo>,</mo><mi>j</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><mrow><mi>d</mi><msup><mi>x</mi><mn>2</mn></msup></mrow></mfrac><mo>+</mo><mfrac><mrow><msub><mi>u</mi><mrow><mi>i</mi><mo>,</mo><mi>j</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>−</mo><mn>2</mn><msub><mi>u</mi><mrow><mi>i</mi><mo>,</mo><mi>j</mi></mrow></msub><mo>+</mo><msub><mi>u</mi><mrow><mi>i</mi><mo>,</mo><mi>j</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><mrow><mi>d</mi><msup><mi>x</mi><mn>2</mn></msup></mrow></mfrac></mrow><mo>]</mo></mrow><mo>+</mo><mi>f</mi><mo
+              stretchy="false">(</mo><msub><mi>u</mi><mrow><mi>i</mi><mo>,</mo><mi>j</mi></mrow></msub><mo
+              stretchy="false">)</mo><mo>+</mo><mi>g</mi><mo
+              stretchy="false">(</mo><msub><mi>t</mi><mi>i</mi></msub><mo>,</mo><msub><mi>x</mi><mi>j</mi></msub><mo
+              stretchy="false">)</mo></mrow><annotation encoding="TeX">\frac{u_{i+1,j}-2u_{i,j}+u_{i-1,j}}{dt^2}=\frac{c^2}{2}\left[\frac{u_{i+1,j+1}-2u_{i+1,j}+u_{i+1,j-1}}{dx^2}+\frac{u_{i,j+1}-2u_{i,j}+u_{i,j-1}}{dx^2}\right]+f(u_{i,j})+g(t_i,x_j)</annotation></semantics></math><br>
+    </p>
+    <p style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+      YaHei&quot;; font-size: medium; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3.&nbsp;
+      泊松方程：基于《有限差分法的泊松方程第一类边界问题求解》<font size="-1"><sup>[5]</sup></font><math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mrow></mrow><mrow><mo
+                stretchy="false"></mo><mo stretchy="false"></mo></mrow></msup><annotation
+            encoding="TeX">{}^{[5]</annotation></semantics></math>，但是将递
+      推法改为求解线性方程法，并利用稀疏矩阵的特点减小运算量<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mrow></mrow><mrow><mo
+                stretchy="false"></mo></mrow></msup><annotation
+            encoding="TeX">}^{[</annotation></semantics></math><font
+        size="-1"><sup>[6]</sup></font> 。 算法为：<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><msub><mi>u</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn><mo>,</mo><mi>j</mi></mrow></msub><mo>−</mo><mn>2</mn><msub><mi>u</mi><mrow><mi>i</mi><mo>,</mo><mi>j</mi></mrow></msub><mo>+</mo><msub><mi>u</mi><mrow><mi>i</mi><mo>−</mo><mn>1</mn><mo>,</mo><mi>j</mi></mrow></msub></mrow><mrow><mi>d</mi><msup><mi>x</mi><mn>2</mn></msup></mrow></mfrac><mo>+</mo><mfrac><mrow><msub><mi>u</mi><mrow><mi>i</mi><mo>,</mo><mi>j</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>−</mo><mn>2</mn><msub><mi>u</mi><mrow><mi>i</mi><mo>,</mo><mi>j</mi></mrow></msub><mo>+</mo><msub><mi>u</mi><mrow><mi>i</mi><mo>,</mo><mi>j</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><mrow><mi>d</mi><msup><mi>y</mi><mn>2</mn></msup></mrow></mfrac><mo>=</mo><mi>f</mi><mo
+              stretchy="false">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>,</mo><msub><mi>y</mi><mi>j</mi></msub><mo
+              stretchy="false">)</mo></mrow><annotation encoding="TeX">\frac{u_{i+1,j}-2u_{i,j}+u_{i-1,j}}{dx^2}+\frac{u_{i,j+1}-2u_{i,j}+u_{i,j-1}}{dy^2}
+
+
+            = f(x_i,y_j)</annotation></semantics></math></p>
+    <p style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+      YaHei&quot;; font-size: medium; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">以上为每一步的递推式，将其整合为矩阵形式，即可通
+      过求逆的方法求出解。<br>
+      （3）计算以上M方阵，绘制可视化图。<br>
+      （4）插值：对离散方阵插值得到连续的数值解s。<span style="color: rgb(0, 0, 0);
+        font-family: &quot;Microsoft YaHei&quot;; font-size: medium;
+        font-style: normal; font-variant-ligatures: normal;
+        font-variant-caps: normal; font-weight: 400; letter-spacing:
+        normal; orphans: 2; text-align: start; text-indent: 0px;
+        text-transform: none; white-space: normal; widows: 2;
+        word-spacing: 0px; -webkit-text-stroke-width: 0px;
+        text-decoration-thickness: initial; text-decoration-style:
+        initial; text-decoration-color: initial; display: inline
+        !important; float: none;"></span></p>
+    <h2 style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+      YaHei&quot;; font-style: normal; font-variant-ligatures: normal;
+      font-variant-caps: normal; letter-spacing: normal; orphans: 2;
+      text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: 2; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; text-decoration-thickness:
+      initial; text-decoration-style: initial; text-decoration-color:
+      initial;">2. 设计方案</h2>
+    <p>&nbsp; <span style="color: rgb(0, 0, 0); font-family:
+        &quot;Microsoft YaHei&quot;; font-size: medium; font-style:
+        normal; font-variant-ligatures: normal; font-variant-caps:
+        normal; font-weight: 400; letter-spacing: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; text-decoration-thickness:
+        initial; text-decoration-style: initial; text-decoration-color:
+        initial; display: inline !important; float: none;">本程序由一个PDE类，3个
+        子类Heat, Wave,
+        Poisson以及一个主程序application.py组成，此外在程序内自定义了一些异常处理和测试函数，以排除一些不正确的输入并检验正确性。</span></p>
+    <p><span style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+        YaHei&quot;; font-size: medium; font-style: normal;
+        font-variant-ligatures: normal; font-variant-caps: normal;
+        font-weight: 400; letter-spacing: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; text-decoration-thickness:
+        initial; text-decoration-style: initial; text-decoration-color:
+        initial; display: inline !important; float: none;"></span><b
+        style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+        YaHei&quot;; font-size: medium; font-style: normal;
+        font-variant-ligatures: normal; font-variant-caps: normal;
+        letter-spacing: normal; orphans: 2; text-align: start;
+        text-indent: 0px; text-transform: none; white-space: normal;
+        widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;
+        text-decoration-thickness: initial; text-decoration-style:
+        initial; text-decoration-color: initial;"><font size="+1">2.1
+          PDE类</font></b><br style="color: rgb(0, 0, 0); font-family:
+        &quot;Microsoft YaHei&quot;; font-size: medium; font-style:
+        normal; font-variant-ligatures: normal; font-variant-caps:
+        normal; font-weight: 400; letter-spacing: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; text-decoration-thickness:
+        initial; text-decoration-style: initial; text-decoration-color:
+        initial;">
+      <span style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+        YaHei&quot;; font-size: medium; font-style: normal;
+        font-variant-ligatures: normal; font-variant-caps: normal;
+        font-weight: 400; letter-spacing: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; text-decoration-thickness:
+        initial; text-decoration-style: initial; text-decoration-color:
+        initial; display: inline !important; float: none;">类的构造方法定义了步长dt
+        和dx，默认值为0.01，用户可自行修改，同时定义了fig，取值0,1，标识用户是否希望绘制图像。然后类内包含了4个函数
+        grid，figure_3D，tight, error_test，分别实现初始化网格、画图、</span><span
+        style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+        YaHei&quot;; font-size: medium; font-style: normal;
+        font-variant-ligatures: normal; font-variant-caps: normal;
+        font-weight: 400; letter-spacing: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; text-decoration-thickness:
+        initial; text-decoration-style: initial; text-decoration-color:
+        initial; display: inline !important; float: none;"><span
+          style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+          YaHei&quot;; font-size: medium; font-style: normal;
+          font-variant-ligatures: normal; font-variant-caps: normal;
+          font-weight: 400; letter-spacing: normal; orphans: 2;
+          text-align: start; text-indent: 0px; text-transform: none;
+          white-space: normal; widows: 2; word-spacing: 0px;
+          -webkit-text-stroke-width: 0px; text-decoration-thickness:
+          initial; text-decoration-style: initial;
+          text-decoration-color: initial; display: inline !important;
+          float: none;">为可视图添加坐标和标题、</span>分析<br>
+        误差的功能。<br>
+      </span></p>
+    <p><b style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+        YaHei&quot;; font-size: medium; font-style: normal;
+        font-variant-ligatures: normal; font-variant-caps: normal;
+        letter-spacing: normal; orphans: 2; text-align: start;
+        text-indent: 0px; text-transform: none; white-space: normal;
+        widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;
+        text-decoration-thickness: initial; text-decoration-style:
+        initial; text-decoration-color: initial;"><font size="+1">2.1.1
+          Heat子类&nbsp; 2.1.2 Wave子类 2.1.3Poisson子类<br>
+        </font></b><span style="color: rgb(0, 0, 0); font-family:
+        &quot;Microsoft YaHei&quot;; font-size: medium; font-style:
+        normal; font-variant-ligatures: normal; font-variant-caps:
+        normal; font-weight: 400; letter-spacing: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; text-decoration-thickness:
+        initial; text-decoration-style: initial; text-decoration-color:
+        initial; display: inline !important; float: none;">三个类均各包含两个函
+        数：init_solution和solve，分别实现按给定类型和条件初始化M、数值求解热方程并作出可视化画图的功能。<br>
+      </span></p>
+    <p><span style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+        YaHei&quot;; font-size: medium; font-style: normal;
+        font-variant-ligatures: normal; font-variant-caps: normal;
+        font-weight: 400; letter-spacing: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; text-decoration-thickness:
+        initial; text-decoration-style: initial; text-decoration-color:
+        initial; display: inline !important; float: none;"><font
+          size="+1"><b>2.2 函数test_all<br>
+          </b></font></span><span style="color: rgb(0, 0, 0);
+        font-family: &quot;Microsoft YaHei&quot;; font-size: medium;
+        font-style: normal; font-variant-ligatures: normal;
+        font-variant-caps: normal; font-weight: 400; letter-spacing:
+        normal; orphans: 2; text-align: start; text-indent: 0px;
+        text-transform: none; white-space: normal; widows: 2;
+        word-spacing: 0px; -webkit-text-stroke-width: 0px;
+        text-decoration-thickness: initial; text-decoration-style:
+        initial; text-decoration-color: initial; display: inline
+        !important; float: none;">定义在PDE.py中的测试函数。当直接运行PDE.py时，会自动调用此函数。
+        它会调用函数test_heat, test_wave,
+        test_poisson，将已知答案的方程和数值解对比，并输出数值解图、准确解图和错误率图象。</span></p>
+    <p><span style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+        YaHei&quot;; font-size: medium; font-style: normal;
+        font-variant-ligatures: normal; font-variant-caps: normal;
+        font-weight: 400; letter-spacing: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; text-decoration-thickness:
+        initial; text-decoration-style: initial; text-decoration-color:
+        initial; display: inline !important; float: none;"></span><b
+        style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+        YaHei&quot;; font-size: medium; font-style: normal;
+        font-variant-ligatures: normal; font-variant-caps: normal;
+        letter-spacing: normal; orphans: 2; text-align: start;
+        text-indent: 0px; text-transform: none; white-space: normal;
+        widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;
+        text-decoration-thickness: initial; text-decoration-style:
+        initial; text-decoration-color: initial;"><font size="+1">2.3
+          主程序application<br>
+        </font></b><span style="color: rgb(0, 0, 0); font-family:
+        &quot;Microsoft YaHei&quot;; font-size: medium; font-style:
+        normal; font-variant-ligatures: normal; font-variant-caps:
+        normal; font-weight: 400; letter-spacing: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; text-decoration-thickness:
+        initial; text-decoration-style: initial; text-decoration-color:
+        initial; display: inline !important; float: none;">应用PDE类具体求解两个
+        PDE方程。第一个方程来源为网站“Poisson Equation”</span><span style="color:
+        rgb(0, 0, 0); font-family: &quot;Microsoft YaHei&quot;;
+        font-size: medium; font-style: normal; font-variant-ligatures:
+        normal; font-variant-caps: normal; font-weight: 400;
+        letter-spacing: normal; orphans: 2; text-align: start;
+        text-indent: 0px; text-transform: none; white-space: normal;
+        widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;
+        text-decoration-thickness: initial; text-decoration-style:
+        initial; text-decoration-color: initial; display: inline
+        !important; float: none;"><font size="-1"><sup>[7]</sup></font>的
+        例 20.8，第二个方程为我自己举的例子。<br>
+      </span></p>
+    <h2 style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+      YaHei&quot;; font-style: normal; font-variant-ligatures: normal;
+      font-variant-caps: normal; letter-spacing: normal; orphans: 2;
+      text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: 2; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; text-decoration-thickness:
+      initial; text-decoration-style: initial; text-decoration-color:
+      initial;">3. 创新性描述</h2>
+    <p style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+      YaHei&quot;; font-size: medium; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">（1）算法上， 热方程算法参考<span
+        style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+        YaHei&quot;; font-size: medium; font-style: normal;
+        font-variant-ligatures: normal; font-variant-caps: normal;
+        font-weight: 400; letter-spacing: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; text-decoration-thickness:
+        initial; text-decoration-style: initial; text-decoration-color:
+        initial; display: inline !important; float: none;">《基于Python编写求解
+        抛物型pde方程的经典数值格式模拟》的CN算法，其优点是收敛稳定，不会受系数影响。波方程算法利用CN算法改良了原始递推算法，根据</span>《Python
+
+
+
+      ——一维波动方程求解》，原始算法的收敛性与系数c，dt,
+      dx的表达式有关。我使用改良CN算法，求解方程更加稳定，在第4部分我会给出一个实例，表明存在波方程使用原始算法收敛，但使用改良算法拟合良好。泊松
+      方程算法基于《有限差分法的泊松方程第一类边界问题求解》，但我将问题转化为稀疏矩阵求逆问题，更快更稳定。最后，我拓展了一些非标准的
+      PDE，例如在波方程标准型上添加<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo
+              stretchy="false">(</mo><mi>u</mi><mo stretchy="false">)</mo><mo>+</mo><mi>g</mi><mo
+              stretchy="false">(</mo><mi>t</mi><mo>,</mo><mi>x</mi><mo
+              stretchy="false">)</mo></mrow><annotation encoding="TeX">f(u)
+
+
+
+            + g(t,x)</annotation></semantics></math>项， 在热方程中添加<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo
+              stretchy="false">(</mo><mi>u</mi><mo stretchy="false">)</mo><mo>+</mo><mi>g</mi><mo
+              stretchy="false">(</mo><mi>t</mi><mo>,</mo><mi>x</mi><mo
+              stretchy="false">)项，更有助于应用。</mo></mrow><annotation
+            encoding="TeX">f(u) + g(t,x)</annotation></semantics></math><br>
+      （2）程序上<span style="color: rgb(0, 0, 0); font-family:
+        &quot;Microsoft YaHei&quot;; font-size: medium; font-style:
+        normal; font-variant-ligatures: normal; font-variant-caps:
+        normal; font-weight: 400; letter-spacing: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; text-decoration-thickness:
+        initial; text-decoration-style: initial; text-decoration-color:
+        initial; display: inline !important; float: none;">，除了绘图与拟合连续值均由
+        本人独立写成。同时编写了解的可视化化、误差分析等功能。此外，如果用户输入的<math
+          xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>t</mi><mtext>或</mtext><mi>d</mi><mi>x</mi><mo>≤</mo><mn>0</mn><mtext>，</mtext><mtext>或</mtext><mtext>者</mtext><mi>m</mi><mi>a</mi><msub><mi>x</mi><mi>t</mi></msub><mtext>或</mtext><mi>m</mi><mi>a</mi><msub><mi>x</mi><mi>x</mi></msub><mo>≤</mo><mn>0</mn><mtext>，</mtext><mtext>或</mtext><mtext>者</mtext><mtext>边</mtext><mtext>值</mtext><mtext>与</mtext><mtext>初</mtext><mtext>值
+                之间</mtext></mrow></semantics></math></span><span
+        style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+        YaHei&quot;; font-size: medium; font-style: normal;
+        font-variant-ligatures: normal; font-variant-caps: normal;
+        font-weight: 400; letter-spacing: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; text-decoration-thickness:
+        initial; text-decoration-style: initial; text-decoration-color:
+        initial; display: inline !important; float: none;">相交的</span><span
+        style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+        YaHei&quot;; font-size: medium; font-style: normal;
+        font-variant-ligatures: normal; font-variant-caps: normal;
+        font-weight: 400; letter-spacing: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; text-decoration-thickness:
+        initial; text-decoration-style: initial; text-decoration-color:
+        initial; display: inline !important; float: none;">定义域上函数值不相等（从而
+        边界条件不连续）</span><span style="color: rgb(0, 0, 0); font-family:
+        &quot;Microsoft YaHei&quot;; font-size: medium; font-style:
+        normal; font-variant-ligatures: normal; font-variant-caps:
+        normal; font-weight: 400; letter-spacing: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; text-decoration-thickness:
+        initial; text-decoration-style: initial; text-decoration-color:
+        initial; display: inline !important; float: none;">都会报错，提高健壮性。 </span><span
+        style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+        YaHei&quot;; font-size: medium; font-style: normal;
+        font-variant-ligatures: normal; font-variant-caps: normal;
+        font-weight: 400; letter-spacing: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; text-decoration-thickness:
+        initial; text-decoration-style: initial; text-decoration-color:
+        initial; display: inline !important; float: none;"><math
+          xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext></mtext></mrow><annotation
+              encoding="TeX">dt或dx\le 0，或者max_t或max_x\le 0，或者边值与初值</annotation></semantics></math></span><br>
+    </p>
+    <h2 style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+      YaHei&quot;; font-style: normal; font-variant-ligatures: normal;
+      font-variant-caps: normal; letter-spacing: normal; orphans: 2;
+      text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: 2; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; text-decoration-thickness:
+      initial; text-decoration-style: initial; text-decoration-color:
+      initial;">4. 运行方法和参数设置</h2>
+    <p>在调用PDE类后，使用help(PDE)即可看到完整的使用方法。用户先选择inr_x和inr_t（对应x,t的间隔）和想求解的方程
+      类型，用于初始化计算模块h。然后输入参数，s<br>
+      （1）热方程 s = h.solve(c, f, g, bf, ic, max_t, max_x)，c表示方程中的常系数，f是方程中
+      u 的函数，g是 t,x 的函数， bf 是边界条件， ic 是初值， max_t和 max_x 是<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; t 和 x 的最大值（需大于0）<br>
+      （2）波方程 s = h.solve(c, f, g, bf, ic, iv, max_t,
+      max_x)，c表示方程中的正常系数的平方根，f是方程中 u 的函数，g是 t,x 的函数， bf 是边界条件， ic 是初值，
+      iv 是初始速度，max_t和&nbsp;&nbsp;&nbsp; max_x 是 t 和 x 的最大值（需大于0）<br>
+      （3）泊松方程s =&nbsp; h.solve(f, bf, max_t, max_x)，f是方程的源函数， bf
+      是边界条件，max_t和 max_x 是 t 和 x 的最大值（需大于0）</p>
+    <h2 style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+      YaHei&quot;; font-style: normal; font-variant-ligatures: normal;
+      font-variant-caps: normal; letter-spacing: normal; orphans: 2;
+      text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: 2; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; text-decoration-thickness:
+      initial; text-decoration-style: initial; text-decoration-color:
+      initial;">5. 运行结果</h2>
+    <p>直接运行PDE.py可以得到三种方程的验证图，耗时为1.1秒，如果不加f和g项，则三个函数的绝对误差量级为1e-6, 1e-4,
+      1e-5。test里面的给定方程均考虑了f和g项，因此对逼近结果有代表意义，在这种情况下，绝对误差数量级为1e-3，1e-2,
+      1e-5，相对误差为1e-4, 1e-3, 1e-4. 结果如下图（为节约空间，图像经过压缩有些模糊）：<br>
+      <img moz-do-not-send="true" src="images/result1.png" alt=""
+        width="713" height="362"><img moz-do-not-send="true"
+        src="images/heat.png" alt="" width="720" height="274"><br>
+    </p>
+    <img moz-do-not-send="true" src="images/wave.png" alt="" width="720"
+      height="274"><img moz-do-not-send="true" src="images/poisson.png"
+      alt="" width="720" height="274">
+    <p>程序application.py的运行结果：<br>
+      <img moz-do-not-send="true" src="images/result2.png" alt=""
+        width="714" height="362"><br>
+      <img moz-do-not-send="true" src="images/application.png" alt=""
+        width="720" height="274"><br>
+    </p>
+    <p><img moz-do-not-send="true" src="images/application_fig" alt=""><img
+        moz-do-not-send="true" src="images/improve.png" alt=""
+        width="720" height="274"><br>
+    </p>
+    <img moz-do-not-send="true" src="scr =
+      &quot;images/application_fig.png&quot;" alt="">上图是求解泊松方程部分的输出结果，耗时
+    0.38秒，速度相当快。可见错误率数量级在1e-4左右，拟合效果较好。<br>
+    下图是改良算法计算波方程的输出结果，程序耗时0.35秒。这里方程为<math
+      xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>u</mi><mrow><mi>t</mi><mi>t</mi></mrow></msub><mo>=</mo><mn>4</mn><msub><mi>u</mi><mrow><mi>x</mi><mi>x</mi></mrow></msub></mrow><annotation
+          encoding="TeX">u_{tt}=4u_{xx}</annotation></semantics></math>，
+    给定恰当的条件使得精确解为<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mo>=</mo><mo
+            lspace="0em" rspace="0em">sin</mo><mo stretchy="false">(</mo><mfrac><mi>x</mi><mn>2</mn></mfrac><mo>+</mo><mi>t</mi><mo
+            stretchy="false">)</mo></mrow><annotation encoding="TeX">u=\sin(\frac{x}{2}+t)</annotation></semantics></math>，
+    取<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>t</mi><mo>=</mo><mi>d</mi><mi>x</mi><mo>=</mo><mn>0.01</mn><mtext>，</mtext><mi>c</mi><mo>=</mo><mn>2</mn></mrow><annotation
+          encoding="TeX">dt=dx=0.01，c=2 </annotation></semantics></math>，
+    则不满足原始算法的收敛条件，由以上左图明显看出数值解发散。但采 用我改良的算法后，数值解收敛且与精确解吻合较好。<br>
+    <h2 style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+      YaHei&quot;; font-style: normal; font-variant-ligatures: normal;
+      font-variant-caps: normal; letter-spacing: normal; orphans: 2;
+      text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: 2; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; text-decoration-thickness:
+      initial; text-decoration-style: initial; text-decoration-color:
+      initial;">5. 学习心得和收获</h2>
+    <p>通过本课程的学习，我学会了Python基本语法，了解了numpy,
+      scipy等功能丰富的库，并认识到python在科学计算中的重要作用。在完成大作业的过程中，我尝试自己提出实际问题，然后通过python编程解决
+      问题，这既锻炼了我的代码能力，又帮助我学会进行学科之间的融合。总而言之，上了这门课，我感觉收获很大。<br>
+      在完成大作业时，我也遇到不少困难，但最终都能尽力化解。查阅文献是我遇到的第一个困难，一开始我在中文网站上搜索，得到的结果很有限。后来
+      我尝试去国际网站上查阅文献，获得了一些很不错的信息。其次，在编写程序时，因为逻辑错误或者我自己推导的算法本身的错误，常常出现一堆
+      bug，后来我尝试重新一步步推导公式，并仔细阅读scipy和numpy等库的使用教程，最终解决了这些问题。<br>
+      在此过程中，我充分认识到python功能的强大和齐全。我逐渐发觉，利用python进行编程时，应首先查询是否有已有的函数能直接实现我
+      想要的功能，这不仅节约时间，而且具有更好的时间和稳定性能。同时，此课程能帮助像我一样的理学院学生锻炼写代码的能力，因此这门课程是相等
+      重要的，祝本课程越来越好！<br>
+      课程建议：教材中部分程序比较长，或者是几个功能合并到一个程序中，就导致算法解释和程序隔得比较远，建议适当采用程序内注释的方法<br>
+      <br>
+    </p>
+    <h2 style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+      YaHei&quot;; font-style: normal; font-variant-ligatures: normal;
+      font-variant-caps: normal; letter-spacing: normal; orphans: 2;
+      text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: 2; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; text-decoration-thickness:
+      initial; text-decoration-style: initial; text-decoration-color:
+      initial;">参考资料</h2>
+    <p style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+      YaHei&quot;; font-size: medium; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;"><span style="color:
+        rgb(0, 0, 0); font-family: &quot;Microsoft YaHei&quot;;
+        font-size: medium; font-style: normal; font-variant-ligatures:
+        normal; font-variant-caps: normal; font-weight: 400;
+        letter-spacing: normal; orphans: 2; text-align: start;
+        text-indent: 0px; text-transform: none; white-space: normal;
+        widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;
+        text-decoration-thickness: initial; text-decoration-style:
+        initial; text-decoration-color: initial; display: inline
+        !important; float: none;">[1]</span><span style="color: rgb(0,
+        0, 0); font-family: &quot;Microsoft YaHei&quot;; font-size:
+        medium; font-style: normal; font-variant-ligatures: normal;
+        font-variant-caps: normal; font-weight: 400; letter-spacing:
+        normal; orphans: 2; text-align: start; text-indent: 0px;
+        text-transform: none; white-space: normal; widows: 2;
+        word-spacing: 0px; -webkit-text-stroke-width: 0px;
+        text-decoration-thickness: initial; text-decoration-style:
+        initial; text-decoration-color: initial; display: inline
+        !important; float: none;"><span style="color: rgb(0, 0, 0);
+          font-family: &quot;Microsoft YaHei&quot;; font-size: medium;
+          font-style: normal; font-variant-ligatures: normal;
+          font-variant-caps: normal; font-weight: 400; letter-spacing:
+          normal; orphans: 2; text-align: start; text-indent: 0px;
+          text-transform: none; white-space: normal; widows: 2;
+          word-spacing: 0px; -webkit-text-stroke-width: 0px;
+          text-decoration-thickness: initial; text-decoration-style:
+          initial; text-decoration-color: initial; display: inline
+          !important; float: none;">陈祖墀.</span> 偏微分方程(第三版)[M]. 北京：
+        高等教育出版社，2003.<br>
+        [2][印]Mehta. Python科学计算基础教程[M]. 陶俊杰，陈小莉. 北京：人民邮电出版社，2016.<br>
+        [3]</span><span style="color: rgb(0, 0, 0); font-family:
+        &quot;Microsoft YaHei&quot;; font-size: medium; font-style:
+        normal; font-variant-ligatures: normal; font-variant-caps:
+        normal; font-weight: 400; letter-spacing: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; text-decoration-thickness:
+        initial; text-decoration-style: initial; text-decoration-color:
+        initial; display: inline !important; float: none;">知乎文章《基于Python
+        编写求解抛物型pde方程的经典数值格式模拟》, </span><a moz-do-not-send="true"
+        href="https://zhuanlan.zhihu.com/p/32065028" style="font-family:
+        &quot;Microsoft YaHei&quot;; font-size: medium; font-style:
+        normal; font-variant-ligatures: normal; font-variant-caps:
+        normal; font-weight: 400; letter-spacing: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px;">https://zhuanlan.zhihu.com/p/409935825</a><br>
+      [4]CSDN文章《Python——一维波动方程求解》，https://blog.csdn.net/Thattear/article
+      /details/125576991<br>
+      [5]杜书德. 基于有限差分法的泊松方程第一类边值问题求解[J]. 科技通报, 2018, 34(4) ：21-24.<br>
+      [6]Scipy教程“Sparse linear algebra”,
+      https://docs.scipy.org/doc/scipy/reference/sparse.linalg.html<br>
+      [7]网站“Poisson Equation",
+      https://www.sciencedirect.com/topics/mathematics/poisson-equation</p>
+    <p style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+      YaHei&quot;; font-size: medium; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;"><br>
+      打算讲解的日期：12月22日，12月29日<br>
+    </p>
+    <p style="color: rgb(0, 0, 0); font-family: &quot;Microsoft
+      YaHei&quot;; font-size: medium; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;"><span style="color:
+        rgb(0, 0, 0); font-family: &quot;Microsoft YaHei&quot;;
+        font-size: medium; font-style: normal; font-variant-ligatures:
+        normal; font-variant-caps: normal; font-weight: 400;
+        letter-spacing: normal; orphans: 2; text-align: start;
+        text-indent: 0px; text-transform: none; white-space: normal;
+        widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;
+        text-decoration-thickness: initial; text-decoration-style:
+        initial; text-decoration-color: initial; display: inline
+        !important; float: none;"><math
+          xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mrow></mrow><mrow><mo
+                  stretchy="false"></mo></mrow></msup><annotation
+              encoding="TeX">{）}^{[1]}</annotation></semantics></math><br>
+      </span><span style="color: rgb(0, 0, 0); font-family:
+        &quot;Microsoft YaHei&quot;; font-size: medium; font-style:
+        normal; font-variant-ligatures: normal; font-variant-caps:
+        normal; font-weight: 400; letter-spacing: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; text-decoration-thickness:
+        initial; text-decoration-style: initial; text-decoration-color:
+        initial; display: inline !important; float: none;"></span><br>
+    </p>
+  </body>
+</html>

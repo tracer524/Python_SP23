@@ -1,0 +1,548 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>PB21030864 肖嘉钰</title>
+  </head>
+  <body vlink="#551A8B" text="#000000" link="#0000EE" bgcolor="#ffffff"
+    alink="#EE0000">
+    <div align="center"><font size="+3"><b>通过实际气体状态方程计算气体临界点和转换曲线<br>
+        </b></font><font size="+1" color="#666666">化学与材料科学学院&nbsp;
+        PB21030864&nbsp; 肖嘉钰<br>
+        <br>
+      </font>
+      <div align="left"><b><font size="+2">1 科学技术原理</font></b><br>
+      </div>
+      <div align="left">&nbsp;&nbsp; <font size="+1"><b>1.1 实际气体状态方程</b><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </font>理想气体状态方程 p = RT/V
+        能够较好地预测低压范围气体的压强（p）与摩尔体积（V=V总/n）、温度（T）的关系。此方程成立的前提是，气体分子间的相互吸引作用和分子体积可以忽
+        略，但实际气体（尤其是在高压下）的分子间相互作用往往不可忽略，因此处理实际气体问题时，需要建立数学模型来对理想气体状态方程进行修
+        正，得到形式不同的实际气体状态方程。<math
+          xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow></mrow>11<annotation
+              encoding="TeX"></annotation></semantics></math><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; van de Waals （范德华）气体：<br>
+        <div align="left"><math display="block"
+            xmlns="http://www.w3.org/1998/Math/MathML" dir="ltr"><semantics><mrow><mi>p</mi><mo>=</mo><mfrac><mrow><mi>R</mi><mi>T</mi></mrow><mrow><mi>V</mi><mo>−</mo><mi>b</mi></mrow></mfrac><mo>−</mo><mfrac><mi>a</mi><msup><mi>V</mi><mn>2</mn></msup></mfrac></mrow><annotation
+                encoding="TeX">p=\frac{RT}{V-b}-\frac{a}{{V}^{2}}</annotation></semantics></math>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          Berthelot （柏赛罗）气体：</div>
+        <div align="left"><math
+            xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>p</mi><mo>=</mo><mfrac><mrow><mi>R</mi><mi>T</mi></mrow><mrow><mi>V</mi><mo>−</mo><mi>b</mi></mrow></mfrac><mo>−</mo><mfrac><mi>a</mi><mrow><mi>T</mi><msup><mi>V</mi><mn>2</mn></msup></mrow></mfrac></mrow><annotation
+                encoding="TeX">p=\frac{RT}{V-b}-\frac{a}{T{V}^{2}}</annotation></semantics></math>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          Dieterici （迪特里齐）气体：（一般取 s=1）</div>
+        <div align="left"><math
+            xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>p</mi><mo>=</mo><mfrac><mrow><mi>R</mi><mi>T</mi></mrow><mrow><mi>V</mi><mo>−</mo><mi>b</mi></mrow></mfrac><mo
+                  lspace="0em" rspace="0em">exp</mo><mrow><mo>(</mo><mrow><mo>−</mo><mfrac><mi>a</mi><mrow><mi>R</mi><msup><mi>T</mi><mi>s</mi></msup><mi>V</mi></mrow></mfrac></mrow><mo>)</mo></mrow></mrow><annotation
+                encoding="TeX">p=\frac{RT}{V-b}\exp\left({-\frac{a}{R{T}^{s}V}}\right)</annotation></semantics></math>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          Redlich-Kwong（雷德里克-邝） 气体：（本文中不讨论）</div>
+        <div align="left"><math display="block"
+            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mfrac><mrow><mi>R</mi><mi>T</mi></mrow><mrow><mi>V</mi><mo>−</mo><mi>b</mi></mrow></mfrac><mo>−</mo><mfrac><mi>a</mi><mrow><msup><mi>T</mi><mrow><mn>1</mn><mo>/</mo><mn>2</mn></mrow></msup><mi>V</mi><mo
+                      stretchy="false">(</mo><mi>V</mi><mo>+</mo><mi>b</mi><mo
+                      stretchy="false">)</mo></mrow></mfrac></mrow><annotation
+                encoding="TeX">p=\frac{RT}{V-b}-\frac{a}{{T}^{1/2}V(V+b)}</annotation></semantics></math>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          其中R是气体常数，为 8.3144 J/mol K，参数 a, b 的值由气体的性质决定。<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          上述实际气体状态方程建立了单位物质的量气体的压强与体积、温度的关系，即气体压强（p）是体积（V）与温度（T）的函数。在已知
+          1mol某气体的体积与温度时，可通过实际气体状态方程来计算该气体的压强。<br>
+          <br>
+          &nbsp;&nbsp; <font size="+1"><b>1.2 气体临界点<br>
+            </b></font></div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        气体在某一温度时，加上一定的压力就能转化为液体，这种温度和压力即该气体的临界点。在气体状态方程中，临界点处压强（p）对体积（V）的一、二阶偏导等
+        于0，即：<br>
+        <div align="left"><math
+            xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mrow><mo>(</mo><mfrac><mrow><mo>∂</mo><mi>p</mi></mrow><mrow><mo>∂</mo><mi>V</mi></mrow></mfrac><mo>)</mo></mrow><mi>T</mi></msub><mo>=</mo><mn>0</mn></mrow><annotation
+                encoding="TeX">{\left(\frac{\partialp}{\partialV}\right)}_{T}=0</annotation></semantics></math><math
+            xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mrow><mo>(</mo><mfrac><mrow><msup><mo>∂</mo><mn>2</mn></msup><mi>p</mi></mrow><msup><mrow><mo>∂</mo><mi>V</mi></mrow><mn>2</mn></msup></mfrac><mo>)</mo></mrow><mi>T</mi></msub><mo>=</mo><mn>0</mn></mrow><annotation
+                encoding="TeX">{\left(\frac{{\partial}^{2}p}{{\partialV}^{2}}\right)}_{T}=0</annotation></semantics></math>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          联立这两个方程即可解得该实际气体的临界温度（Tc）和临界体积（Vc），然后代入气体状态方程计算临界压强（pc）。<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对于真实气体，临界温度和临界压强是容易精确测量的，因此如果参数
+          a, b 的值不能通过查表得到，也可以查气体的临界温度和临界压强，然后代入上述方程组求解参数 a,
+          b。这是获得实际气体参数的重要方法。<br>
+          <br>
+          &nbsp;&nbsp; <font size="+1"><b>1.3 气体焦耳-汤姆森系数与转换曲线</b></font></div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 焦耳-汤姆森系数简称 J-T
+        系数，是等焓（H）下温度（T）对气体压强（p）的偏导，描述气体经节流膨胀过程后的温度变化与压力变化的比值<span
+          style="color: rgb(51, 51, 51); font-family: &quot;Helvetica
+          Neue&quot;, Helvetica, Arial, &quot;PingFang SC&quot;,
+          &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;,
+          &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 14px;
+          font-style: normal; font-variant-ligatures: normal;
+          font-variant-caps: normal; font-weight: 400; letter-spacing:
+          normal; orphans: 2; text-align: start; text-indent: 28px;
+          text-transform: none; white-space: normal; widows: 2;
+          word-spacing: 0px; -webkit-text-stroke-width: 0px;
+          background-color: rgb(255, 255, 255);
+          text-decoration-thickness: initial; text-decoration-style:
+          initial; text-decoration-color: initial; display: inline
+          !important; float: none;">。</span>运用热力学函数关系可以得到：<br>
+        <div align="left"><math
+            xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>μ</mi><mrow><mi>J</mi><mo>−</mo><mi>T</mi></mrow></msub><mo>=</mo><msub><mrow><mo>(</mo><mfrac><mrow><mo>∂</mo><mi>T</mi></mrow><mrow><mo>∂</mo><mi>p</mi></mrow></mfrac><mo>)</mo></mrow><mi>H</mi></msub><mo>=</mo><mfrac><mrow><mi>T</mi><msub><mrow><mo
+                          stretchy="false">(</mo><mo>∂</mo><mi>V</mi><mo>/</mo><mo>∂</mo><mi>T</mi><mo
+                          stretchy="false">)</mo></mrow><mi>p</mi></msub><mo>−</mo><mi>V</mi></mrow><msub><mi>C</mi><mi>p</mi></msub></mfrac></mrow><annotation
+                encoding="TeX">{μ}_{J-T}={\left(\frac{\partialT}{\partialp}\right)}_{H}=\frac{T{(\partialV/\partialT)}_{p}-V}{{C}_{p}}</annotation></semantics></math>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+          由偏导的循环关系：<br>
+          <div align="left"><math
+              xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mrow><mo>(</mo><mfrac><mrow><mo>∂</mo><mi>V</mi></mrow><mrow><mo>∂</mo><mi>T</mi></mrow></mfrac><mo>)</mo></mrow><mi>p</mi></msub><mo>=</mo><mo>−</mo><mfrac><msub><mrow><mo>(</mo><mfrac><mrow><mo>∂</mo><mi>p</mi></mrow><mrow><mo>∂</mo><mi>T</mi></mrow></mfrac><mo>)</mo></mrow><mi>V</mi></msub><msub><mrow><mo>(</mo><mfrac><mrow><mo>∂</mo><mi>p</mi></mrow><mrow><mo>∂</mo><mi>V</mi></mrow></mfrac><mo>)</mo></mrow><mi>T</mi></msub></mfrac></mrow><annotation
+                  encoding="TeX">{\left(\frac{\partialV}{\partialT}\right)}_{p}=-\frac{{\left(\frac{\partialp}{\partialT}\right)}_{V}}{{\left(\frac{\partialp}{\partialV}\right)}_{T}}</annotation></semantics></math>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+            在已知气体状态方程时，压强对体积和温度的偏导函数是容易求得的。在结合查表得到气体等压热容（Cp）后即可计算气体在一定体积
+            和温度下的焦耳-汤姆森系数。<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            当焦耳-汤姆森系数系数为零时，在此状态下的气体在节流膨胀或压缩过程后，压强发生微小变化时，温度没有变化趋势。此时气体的状态称为转换点
+            （Inversion Point）。在 p-T
+            图中将所有转换点连成的曲线称为转换曲线。要使焦耳-汤姆森系数系数为零，只需求解如下方程：<br>
+            <div align="left"><math
+                xmlns="http://www.w3.org/1998/Math/MathML"
+                display="block"><semantics><mrow><mi>T</mi><msub><mrow><mo>(</mo><mfrac><mrow><mo>∂</mo><mi>p</mi></mrow><mrow><mo>∂</mo><mi>T</mi></mrow></mfrac><mo>)</mo></mrow><mi>V</mi></msub><mo>+</mo><mi>V</mi><msub><mrow><mo>(</mo><mfrac><mrow><mo>∂</mo><mi>p</mi></mrow><mrow><mo>∂</mo><mi>V</mi></mrow></mfrac><mo>)</mo></mrow><mi>T</mi></msub><mo>=</mo><mn>0</mn></mrow><annotation
+                    encoding="TeX">T{\left(\frac{\partialp}{\partialT}\right)}_{V}+V{\left(\frac{\partialp}{\partialV}\right)}_{T}=0</annotation></semantics></math>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+              由此求解出转换点体积与温度的关系，再代入气体状态方程求解压强与温度的关系：<br>
+              <div align="left"><math
+                  xmlns="http://www.w3.org/1998/Math/MathML"
+                  display="block"><semantics><mrow><msub><mi>p</mi><mrow><mi>i</mi><mi>n</mi><mi>v</mi></mrow></msub><mo
+                        stretchy="false">(</mo><mi>T</mi><mo
+                        stretchy="false">)</mo><mo>=</mo><mi>p</mi><mo
+                        stretchy="false">(</mo><msub><mi>V</mi><mrow><mi>i</mi><mi>n</mi><mi>v</mi></mrow></msub><mo
+                        stretchy="false">(</mo><mi>T</mi><mo
+                        stretchy="false">)</mo><mo>,</mo><mi>T</mi><mo
+                        stretchy="false">)</mo></mrow><annotation
+                      encoding="TeX">{p}_{inv}(T)=p({V}_{inv}(T), T)</annotation></semantics></math>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+                得到的函数即可用于绘制转换曲线。<br>
+                <br>
+                <font size="+1" color="#666666"><br>
+                </font>
+                <div align="left"><b><font size="+2">2 </font></b><b><font
+                      size="+2"><b><font size="+2">设计方案</font></b><font
+                        size="+1">&nbsp;&nbsp; <br>
+                        &nbsp;&nbsp; 2.1 </font></font></b><b><font
+                      size="+2"><font size="+1"><b><font size="+2"><font
+                              size="+1">不同气体状态方程描述二氧化碳的 p-V-T 图像<br>
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </font></font></b></font></font></b>通
+                  过查表获得二氧化碳在不同的气体状态方程中的气体参数 a, b：<br>
+                  <div align="center">
+                    <table width="775" height="154" cellspacing="2"
+                      cellpadding="2" border="1">
+                      <tbody>
+                        <tr>
+                          <td valign="top"><br>
+                          </td>
+                          <td valign="top" align="center">a<br>
+                          </td>
+                          <td valign="top" align="center">b<br>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td valign="top" align="center">vdW gas<br>
+                          </td>
+                          <td valign="top" align="center">364.77<br>
+                          </td>
+                          <td valign="top" align="center">0.04286<br>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td valign="top" align="center">Berthelot gas<br>
+                          </td>
+                          <td valign="top" align="center">111290<br>
+                          </td>
+                          <td valign="top" align="center">0.04286<br>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td valign="top" align="center">Dieterici gas<br>
+                          </td>
+                          <td valign="top" align="center">650.42<br>
+                          </td>
+                          <td valign="top" align="center">0.06429<br>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      将气体参数代入气体状态方程，使用 matplotlib.pyplot 库分别绘制气体在低压与高压下的
+                      p-V-T 图像，验证理想气体状态方程在低压下对实际气体状态的预测是否准确，并观察各种实际气体在高压
+                      时的状态分布。</div>
+                    <br>
+                  </div>
+                  <b><font size="+2"><font size="+1">&nbsp;&nbsp; 2.2
+                        不同实际气体状态方程的临界点与转换曲线<br>
+                      </font></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b>对
+                  于前文中不同的气体状态方程，使用 sympy
+                  库，联立压强（p）对体积（V）的一、二阶偏导函数，求解气体临界点的解析解，并与教科书上的结论进行对比。以二氧化碳为例，计算用不同的气体状态方程描
+                  述的临界点，然后在 p-V-T 图像中标出临界点。<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 使用 sympy 库构建方程求解转换点的
+                  V-T 关系，代入气体状态方程后得到转换曲线的解析式，然后代入二氧化碳的气体参数后将其转换为 numpy
+                  函数，使用 matplotlib.pyplot 库绘制出转换曲线。然后用 scipy.optimize
+                  库求解最大转换温度与最大转换压强。前者是转换曲线的最大零点，后者是转换曲线的极大值，也即一阶导数的零点。此外，对于
+                  Dieterici （迪特里齐）气体，探讨 s 的取值与转换曲线的关系。<br>
+                </div>
+              </div>
+            </div>
+            &nbsp;&nbsp;&nbsp; <br>
+            <b><font size="+1">&nbsp;&nbsp; 2.3 科学计算器</font><font
+                size="+1"><br>
+              </font></b></div>
+        </div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        目标：输入气体的临界压强和临界温度，输出三种实际气体状态方程的气体参数 a, b
+        和对应的临界体积，输出三种实际气体状态方程描述的转换曲线图及对应的最大转换温度与最大转换压强。<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 调用 sympy、numpy、scipy.optimize 和
+        matplotlib.pyplot 库。<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 创建函数 get_parameter(pc,
+        Tc)，返回三种实际气体状态方程的气体参数 a, b 及对应的临界体积；<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 创建函数 get_inversion_curve(A, B,
+        tmp, L, H)，保存三种实际气体状态方程描述的转换曲线图（A, B 为气体参数 a, b 构成的字典，L
+        为图像横坐标上限，默认为3000；H 为纵坐标上限/100000kPa，默认为1.5）；<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 创建函数 get_inversion_max(A, B, tmp,
+        l, h)，返回三种实际气体状态方程描述的最大转换温度和最大转换压强（l, h
+        为温度所在范围的上下界，观察图像获得，需包含最大转换温度和最大转换压强的温度，且对应压强之积为负；tmp
+        为气体种类对应字符串）。<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+        <font size="+2"><b>3 </b><b>运行结果：实际气体</b></font><font size="+2"><b>二
+            氧化碳的</b></font><font size="+2"><b>分析<br>
+          </b></font><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b>本部分是文件 CO2
+        analysis.py 的运行结果，是对不同实际气体状态方程及其临界点、转换曲线的初步分析、处理和以二氧化碳为例的求解。<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sympy.nonlinsolve
+        函数求解理想气体、vdW、Berthrlot、Dieterici气体的临界点解析解，输出结果为：<br>
+        <font size="-1"><font color="#006600"><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+              EmptySet</i><i><br>
+            </i><i>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              FiniteSet((3*b, 8*a/(27*R*b)))</i><i><br>
+            </i><i> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+              FiniteSet((3*b, -2*sqrt(6)*sqrt(a)/(9*sqrt(R)*sqrt(b))),
+              (3*b, 2*sqrt(6)*sqrt(a)/(9*sqrt(R)*sqrt(b))))</i><i><br>
+            </i><i> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+              FiniteSet((2*b, a/(4*R*b)))</i></font><br>
+          <br>
+        </font> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; matplotlib.pyplot
+        库在体积范围 1~3L 和 0.1~0.4L 下绘制 二氧化碳的 p-V-T surface 图，输出图像分别为：<br>
+        <div align="left"><img moz-do-not-send="true"
+            src="image/CO2_p-V-T.png" alt="image/CO2_p-V-T.png"
+            width="617" height="617">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+          &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <img moz-do-not-send="true"
+            src="image/CO2_p-V-T%20by%20low%20pressure.png"
+            alt="image/CO2_p-V-T%20by%20low%20pressure.png" width="616"
+            height="616"><br>
+        </div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 求出对应的临界点，将其标在二氧化碳的 p-V-T contour
+        图中，输出结果为：（V/L/mol, T/K, p/kPa）<br>
+        <font color="#006600"><i><font size="-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              0.12858 303.2929078983176 7354.4638165824<br>
+            </font></i><i><font size="-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              0.12858 304.19329849263966 7376.29713307046</font></i><i><br>
+          </i></font><font size="-1"><font color="#006600"><i><font
+                size="-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                0.12858 304.2002423439793 5324.245596942433</font></i></font><br>
+        </font><img moz-do-not-send="true"
+          src="image/CO2%20critical%20point.png"
+          alt="image/CO2%20critical%20point.png" width="589"
+          height="490"><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sympy.solveset
+        求解vdW、Berthrlot、Dieterici气体的临界点体积与温度关系的解析解，输出结果为：<br>
+        <font size="-1"><font color="#006600"><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              Complement(FiniteSet(0,
+              sqrt(2)*sqrt(R)*sqrt(T)*sqrt(a)*b**(3/2)/(R*T*b - 2*a) +
+              2*a*b/(-R*T*b + 2*a),
+              -sqrt(2)*sqrt(R)*sqrt(T)*sqrt(a)*b**(3/2)/(R*T*b - 2*a) +
+              2*a*b/(-R*T*b + 2*a)), FiniteSet(-(-12*a*b/(R*T) +
+              4*a**2/(R**2*T**2))/(3*(sqrt(-4*(-12*a*b/(R*T) +
+              4*a**2/(R**2*T**2))**3 + (-54*a*b**2/(R*T) +
+              72*a**2*b/(R**2*T**2) - 16*a**3/(R**3*T**3))**2)/2 -
+              27*a*b**2/(R*T) + 36*a**2*b/(R**2*T**2) -
+              8*a**3/(R**3*T**3))**(1/3)) - (sqrt(-4*(-12*a*b/(R*T) +
+              4*a**2/(R**2*T**2))**3 + (-54*a*b**2/(R*T) +
+              72*a**2*b/(R**2*T**2) - 16*a**3/(R**3*T**3))**2)/2 -
+              27*a*b**2/(R*T) + 36*a**2*b/(R**2*T**2) -
+              8*a**3/(R**3*T**3))**(1/3)/3 + 2*a/(3*R*T),
+              -(-12*a*b/(R*T) + 4*a**2/(R**2*T**2))/(3*(-1/2 -
+              sqrt(3)*I/2)*(sqrt(-4*(-12*a*b/(R*T) +
+              4*a**2/(R**2*T**2))**3 + (-54*a*b**2/(R*T) +
+              72*a**2*b/(R**2*T**2) - 16*a**3/(R**3*T**3))**2)/2 -
+              27*a*b**2/(R*T) + 36*a**2*b/(R**2*T**2) -
+              8*a**3/(R**3*T**3))**(1/3)) - (-1/2 -
+              sqrt(3)*I/2)*(sqrt(-4*(-12*a*b/(R*T) +
+              4*a**2/(R**2*T**2))**3 + (-54*a*b**2/(R*T) +
+              72*a**2*b/(R**2*T**2) - 16*a**3/(R**3*T**3))**2)/2 -
+              27*a*b**2/(R*T) + 36*a**2*b/(R**2*T**2) -
+              8*a**3/(R**3*T**3))**(1/3)/3 + 2*a/(3*R*T),
+              -(-12*a*b/(R*T) + 4*a**2/(R**2*T**2))/(3*(-1/2 +
+              sqrt(3)*I/2)*(sqrt(-4*(-12*a*b/(R*T) +
+              4*a**2/(R**2*T**2))**3 + (-54*a*b**2/(R*T) +
+              72*a**2*b/(R**2*T**2) - 16*a**3/(R**3*T**3))**2)/2 -
+              27*a*b**2/(R*T) + 36*a**2*b/(R**2*T**2) -
+              8*a**3/(R**3*T**3))**(1/3)) - (-1/2 +
+              sqrt(3)*I/2)*(sqrt(-4*(-12*a*b/(R*T) +
+              4*a**2/(R**2*T**2))**3 + (-54*a*b**2/(R*T) +
+              72*a**2*b/(R**2*T**2) - 16*a**3/(R**3*T**3))**2)/2 -
+              27*a*b**2/(R*T) + 36*a**2*b/(R**2*T**2) -
+              8*a**3/(R**3*T**3))**(1/3)/3 + 2*a/(3*R*T)))</i><i><br>
+            </i><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              Complement(FiniteSet(0,
+              sqrt(3)*sqrt(R)*T*sqrt(a)*b**(3/2)/(R*T**2*b - 3*a) +
+              3*a*b/(-R*T**2*b + 3*a),
+              -sqrt(3)*sqrt(R)*T*sqrt(a)*b**(3/2)/(R*T**2*b - 3*a) +
+              3*a*b/(-R*T**2*b + 3*a)), FiniteSet(-(-12*a*b/(R*T**2) +
+              4*a**2/(R**2*T**4))/(3*(sqrt(-4*(-12*a*b/(R*T**2) +
+              4*a**2/(R**2*T**4))**3 + (-54*a*b**2/(R*T**2) +
+              72*a**2*b/(R**2*T**4) - 16*a**3/(R**3*T**6))**2)/2 -
+              27*a*b**2/(R*T**2) + 36*a**2*b/(R**2*T**4) -
+              8*a**3/(R**3*T**6))**(1/3)) - (sqrt(-4*(-12*a*b/(R*T**2) +
+              4*a**2/(R**2*T**4))**3 + (-54*a*b**2/(R*T**2) +
+              72*a**2*b/(R**2*T**4) - 16*a**3/(R**3*T**6))**2)/2 -
+              27*a*b**2/(R*T**2) + 36*a**2*b/(R**2*T**4) -
+              8*a**3/(R**3*T**6))**(1/3)/3 + 2*a/(3*R*T**2),
+              -(-12*a*b/(R*T**2) + 4*a**2/(R**2*T**4))/(3*(-1/2 -
+              sqrt(3)*I/2)*(sqrt(-4*(-12*a*b/(R*T**2) +
+              4*a**2/(R**2*T**4))**3 + (-54*a*b**2/(R*T**2) +
+              72*a**2*b/(R**2*T**4) - 16*a**3/(R**3*T**6))**2)/2 -
+              27*a*b**2/(R*T**2) + 36*a**2*b/(R**2*T**4) -
+              8*a**3/(R**3*T**6))**(1/3)) - (-1/2 -
+              sqrt(3)*I/2)*(sqrt(-4*(-12*a*b/(R*T**2) +
+              4*a**2/(R**2*T**4))**3 + (-54*a*b**2/(R*T**2) +
+              72*a**2*b/(R**2*T**4) - 16*a**3/(R**3*T**6))**2)/2 -
+              27*a*b**2/(R*T**2) + 36*a**2*b/(R**2*T**4) -
+              8*a**3/(R**3*T**6))**(1/3)/3 + 2*a/(3*R*T**2),
+              -(-12*a*b/(R*T**2) + 4*a**2/(R**2*T**4))/(3*(-1/2 +
+              sqrt(3)*I/2)*(sqrt(-4*(-12*a*b/(R*T**2) +
+              4*a**2/(R**2*T**4))**3 + (-54*a*b**2/(R*T**2) +
+              72*a**2*b/(R**2*T**4) - 16*a**3/(R**3*T**6))**2)/2 -
+              27*a*b**2/(R*T**2) + 36*a**2*b/(R**2*T**4) -
+              8*a**3/(R**3*T**6))**(1/3)) - (-1/2 +
+              sqrt(3)*I/2)*(sqrt(-4*(-12*a*b/(R*T**2) +
+              4*a**2/(R**2*T**4))**3 + (-54*a*b**2/(R*T**2) +
+              72*a**2*b/(R**2*T**4) - 16*a**3/(R**3*T**6))**2)/2 -
+              27*a*b**2/(R*T**2) + 36*a**2*b/(R**2*T**4) -
+              8*a**3/(R**3*T**6))**(1/3)/3 + 2*a/(3*R*T**2)))</i><i><br>
+            </i><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              Complement(FiniteSet(0, a*b*(s + 1)/(-R*T**s*b + a*s +
+              a)), FiniteSet(-T**(-s)*sqrt(a)*sqrt(-4*R*T**s*b +
+              a)/(2*R) + T**(-s)*a/(2*R),
+              T**(-s)*sqrt(a)*sqrt(-4*R*T**s*b + a)/(2*R) +
+              T**(-s)*a/(2*R)))</i><br>
+          </font><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </font>化简结果，排除不合理解和无意义解，
+        得到的函数输入为 sympy 表示的函数：<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; _Vt_vdW =
+        (sym.sqrt(2*a*R*T)*b**(3/2) + 2*a*b)/(-R*T*b + 2*a)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        _Vt_Berthelot = (sym.sqrt(3*a*R)*T*b**(3/2) + 3*a*b)/(-R*T**2*b
+        + 3*a)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        _Vt_Dieterici = a*b*(s + 1)/(-R*T**s*b + a*s + a)<br>
+        <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 代入气体状态方程，转换为 numpy
+        函数，绘制转换曲线，输出图像为：<br>
+        <img moz-do-not-send="true"
+          src="image/CO2%20inversion%20curve.png"
+          alt="image/CO2%20inversion%20curve.png" width="504"
+          height="288"><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 用 scipy.optimize
+        解方程，计算vdW、Berthrlot、Dieterici气体的最大转换温度（T）和最大转换压强（T, p）:<br>
+        <font color="#006600"><i><font size="-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              2047.2271283136402<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              967.93714870042<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              2433.6019387518318<br>
+              <br>
+            </font></i><i><font size="-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              909.8787236949512 66190.1743492415<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              483.968574350208 62589.95667409242<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              1216.8009693759209 95446.45319844982</font></i></font><br>
+        <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 调节 Dieterici 气体状态方程中 s
+        的值，绘制转换曲线，输出图像为：<br>
+        <img moz-do-not-send="true"
+          src="image/CO2%20Dieterici%20inversion%20curve%20by%20s.png"
+          alt="image/CO2%20Dieterici%20inversion%20curve%20by%20s.png"
+          width="504" height="288"><br>
+        <font size="+2"><b>4 科学计算器</b><b>运行方法<br>
+          </b></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 直接运行
+        calculater.py，在运行框中出现提示语。按照提示语先后输入临界压强/kPa与临界温度/K，然后会出现选择实际气体类型的提示语（输入
+        0,1,2,3 以外的数字或字符时，会被程序当做范德华气体处理）。按照提示语选择气体类型或输入 0
+        以结束循环。程序将会根据选择的气体类型，输出计算得到的气体参数 a, b 以及对于的临界体积/L。<br>
+        &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
+        然后程序会先绘制一次转换曲线图，使用者需要观察图像的峰值和最大零点对应温度所在范围的大致上下界，同时需保证上下界满足
+        scipy.optimize.bisect
+        函数使用的条件，即对应压强的乘积为负值。如果这次绘制的图像无法判断出上下界，可以在出现是否更改图像坐标轴上届的提示语后选择是（输入
+        1
+        以外的数字或字符时，会被程序当做不再更改），在调节坐标轴上届后程序将重新绘制转换曲线图，并再次询问是否更改，直到选择否为止。最后输入判断得到的温
+        度下界和上界，程序将输出最大转换温度和最大转换压强的计算结果，然后结束一次循环并重新出现询问气体类型的提示语。<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        如果需要修改临界压强/kPa与临界温度/K，则需要重新运行程序。<br>
+        <br>
+        <font size="+2"><b>5 </b><b>运行结果：科学计算器</b></font><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 输入临界压强/kPa 为 6000，临界温度/K 为
+        400。在询问气体类型是输入 3 来选择 Dieterici 气体。输出结果：<br>
+        <i><font size="-1"><font color="#006600">&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Please input the
+              critical pressure/kPa<br>
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              6000<br>
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <br>
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              Please input the critical temperature/K<br>
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              400<br>
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <br>
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              (Input 0 to quit)<br>
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              Please choose the type of gas:<br>
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              1.vdW&nbsp;&nbsp; 2.Berthelot&nbsp;&nbsp; 3.Dieterici<br>
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 3<br>
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              a: 997.933469<br>
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              b: 0.075015<br>
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              V_c: 0.150031<br>
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              Picture is saved!<br>
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <br>
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              Do you need to change the Ub of p and T in the picture?<br>
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              0.No&nbsp;&nbsp; 1.Yes</font><br>
+            <br>
+          </font></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        由于在输出的图像中，最大零点在 3000K 以外，温度上界不能直接确定，所以输入 1 来更改 T 轴上界为 4000，p
+        轴保持为1.5。输出结果：<br>
+        <font size="-1"><font color="#006600"><i>&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 1</i><i><br>
+            </i><i>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp; </i><i><br>
+            </i><i>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp; Please input the Ub of the T/K</i><i><br>
+            </i><i>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp; 4000</i><i><br>
+            </i><i>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp; </i><i><br>
+            </i><i>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp; Please input the Ub of the p/100MPa</i><i><br>
+            </i><i>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp; 1.5</i><i><br>
+            </i><i>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp; Picture is saved!</i><i><br>
+            </i><i>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp; </i><i><br>
+            </i><i>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp; Do you need to change the Ub of p and T
+              in the picture?</i><i><br>
+            </i><i>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp; 0.No&nbsp;&nbsp; 1.Yes</i></font><i><br>
+          </i></font><img moz-do-not-send="true"
+          src="image/inversion%20curve%20by%20calculater.png"
+          alt="image/inversion%20curve%20by%20calculater.png"
+          width="504" height="288"><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 此时可以观察到温度下界在 1000K 左右，上界在
+        3500K 左右可以满足条件。输入 0 结束坐标轴的更改，然后输入下界和上界。输出结果：<br>
+        <font color="#006600"><i><font size="-1">&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 0<br>
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <br>
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              Please input the Lb of the inversion_max<br>
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              1000<br>
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <br>
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              Please input the Ub of the inversion_max<br>
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              3500<br>
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              T_inv_max: 3200.000000<br>
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              p_inv_max: 107560.537688<br>
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <br>
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              (Input 0 to quit)<br>
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              Please choose the type of gas:<br>
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              1.vdW&nbsp;&nbsp; 2.Berthelot&nbsp;&nbsp; 3.Dieterici</font></i></font><br>
+        <br>
+        &nbsp;&nbsp;&nbsp; &nbsp; 最后输入 0 以结束运行即可。<br>
+        <br>
+        <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow></mrow><annotation
+              encoding="TeX"> </annotation></semantics></math><br>
+        <font size="+1"><mrow><mfrac><msup><mn><font size="+2"><b>6 程序评价</b></font>
+                </mn></msup></mfrac></mrow></font><font size="+1"> </font></div>
+      <div align="left">&nbsp;&nbsp;&nbsp; &nbsp;
+        本程序全部内容由本人独立完成。在编写和调试程序时，使用 sympy 库定义方程，然后用 .subs 函数代入参数并用
+        sympy.lambdify 函数转换为 numpy
+        函数的做法避免了方程的重复输入；将各个气体状态方程中的状态函数以及参数保存在字典中的做法也减少了冗余变量名的定义，也使其可以使用字符串作为变量的
+        索引，便于自定义函数的调用，也减少了同类函数的多次定义。这些一定程度地缩短了代码长度，减轻了编程的工作量。<br>
+        &nbsp;&nbsp;&nbsp; &nbsp; 但程序中也有一些不足之处，比如在调用 sympy.solveset 或
+        sympy.nonlinsolve
+        函数进行方程解析解的求解时，返回值的解集不能被直接调用，而需在输出结果后将解析解复制粘贴到程序中（甚至需要加以修改，如给
+        sqrt 前加上 sym. ）。此外，同一意义的变量在 sympy 定义符号时不能与 numpy 的 lambda
+        函数以及赋值的结果重复，这意味着在定义一个参数 a
+        时需要三种变量名，再加上其在自定义函数中的局部变量名，会导致严重地冗余，如果编程时不加以注意将很容易混淆。<br>
+        <br>
+        <font size="+1"><font size="+1"><font size="+2"><b>7 学习心得与收获</b></font></font></font><br>
+        &nbsp;&nbsp;&nbsp; &nbsp; 在本课程的学习与大作业程序中的编写中，我深刻感受到了编程语言 Python
+        功能之强大，感受到了其解决科学计算问题的便捷，也帮助我增加了编写程序的经验，培养了对程序设计的兴趣。在物理化学和分析化学学习中，
+        常有需要通过计算机来解决的复杂计算问题，而普通的科学计算器功能有限且计算速度缓慢。学习了这门 Python
+        科学计算基础后，我收获了解决复杂计算问题的新工具，也得以能够从一个崭新的角度来学习化学专业课程。<br>
+        &nbsp;&nbsp;&nbsp; &nbsp;
+        此外，在物理化学课程中，实际气体的诸多性质并没有得到充分地讨论。在完成大作业选题之后，我查阅了许多相关资料，拓展了许多课外知识，也进一步理解了实
+        际气体的研究方法。<br>
+        <font size="+1"><br>
+          <br>
+          <b>参考文献<br>
+          </b></font>&nbsp;[1] Peter Atkins,Julio de Paula. Physical
+        Chemistry 10edition. W.H.Freeman and Company New
+        York,:46-50,97-98.<br>
+        &nbsp;[2] 陈漓,覃铭,李德贵. Berthelot气体在CO2中的J-T效应[J].
+        百色学院学报,2014,27(3):115-119.
+        DOI:10.3969/j.issn.1673-8233.2014.03.022. <br>
+        &nbsp;[3] 陈漓,莫小梅. Dieterici方程在CO2中的J-T效应[J].
+        常熟理工学院学报,2014(4):26-29.
+        DOI:10.3969/j.issn.1008-2794.2014.04.006. <br>
+        <br>
+        <br>
+        <br>
+      </div>
+    </div>
+  </body>
+</html>

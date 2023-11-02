@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html>
+
+<head> 
+    <meta charset="utf-8"> 
+    <title>Python科学计算基础大作业展示</title> 
+    <style type="text/css">
+        a {
+            text-decoration: none
+        }
+    </style>
+    <!--取消超链接下划线-->
+</head>
+
+<body>
+
+    <div id="container" style="width:1200px">
+
+        <div id="header" style="background-color:#ffffff;">
+            <h2 style="margin-bottom:0;text-align:center"> 题目：Python解决一些经典的网络最优化问题</h2>
+        </div>
+
+        <div id="menu" style="position: fixed; top: 100;left:0;background-color:#ffffff;width:400px;float:left;">
+            <!--用position固定menu位置-->
+            <ul>
+                <li><a href="#first">1.科学技术原理</a></li>
+                <!--跳转到name为first的锚点-->
+                <li><a href="#问题引入">&emsp;1.1问题引入</a></li>
+                <!--&emsp表示一个汉字宽度的空格-->
+                <li><a href="#问题介绍">&emsp;1.2问题介绍</a></li>
+                <li><a href="#最短路径问题">&emsp;&emsp;1.2.1最短路径问题</a></li>
+                <li><a href="#最大流问题">&emsp;&emsp;1.2.2最大流问题</a></li>
+                <li><a href="#最小成本流问题">&emsp;&emsp;1.2.3最小成本流问题</a></li>
+                <li><a href="#最小成本最大流问题">&emsp;&emsp;1.2.4最小成本最大流问题</a></li>
+                <li><a href="#second">2.算法及代码介绍</a></li>
+                <li><a href="#最短路径问题算法">&emsp;2.1最短路径问题算法</a></li>
+                <li><a href="#最大流问题算法">&emsp;2.2最大流问题算法</a></li>
+                <li><a href="#最小成本流问题算法">&emsp;2.3最小成本流问题算法</a></li>
+                <li><a href="#最小成本最大流问题算法">&emsp;2.4最小成本最大流问题算法</a></li>
+                <li><a href="#third">3.创新性描述</a></li>
+                <li><a href="#fourth">4.运行注意事项</a></li>
+                <li><a href="#fifth">5.学习心得和收获</a></li>
+                <li><a href="#学习心得">&emsp;&emsp;5.1学习收获</a></li>
+                <li><a href="#学习收获">&emsp;&emsp;5.2学习心得</a></li>
+                <li><a href="#sixth">6.参考文献</a></li>
+            </ul>
+        </div>
+
+        <div id="content" style="background-color:#ffffff;width:800px;float:right;">
+            <h2>学院：数学概率与统计系
+                <br>学号：PB20010370
+                <br>姓名：潘子瑞
+            </h2>
+            <a name="first"></a>
+            <!--name为first的锚点-->
+            <h2><b>1.科学技术原理</b>
+                <hr>
+            </h2>
+            <a name="问题引入"></a>
+            <!--name为问题引入的锚点-->
+            <p><b>1.1.问题引入：</b></p>
+            <p style="text-indent:2em;">
+                <b>网络最优化问题</b>
+                是一类特殊的组合最优化问题。应用图论理论，通过网络的拓扑结构及其性质
+                ，对网络进行研究，并且以计算机算法寻求网络中的最短路径、最大流值、最小成本等。
+            </p>
+            <p style="text-indent:2em;">
+                这类问题广泛应用于解决不同领域中的各种问题，如生产、分配、项目计划、厂址选择、资源管理和财务策划等等。
+                网络最优化问题类型主要包括： 最小费用流问题、最大流问题、最短路问题、最小支撑树问题、货郎担问题和中国邮路问题等。
+                这里，我将挑选网络最优化问题中最具有代表性的几类问题进行讲解。</p>
+            <a name="问题介绍"></a>
+            <p><b>1.2.问题介绍：</b></p>
+            <a name="最短路径问题"></a>
+            <p><b>1.2.1最短路径问题</b></p>
+            直观上看，它描述的是如何求解两点之间的最短距离，如图（1）中A,B之间的最短距离为6；A，C之间最短距离为11。</p>
+            <img src="images\图1.png" alt="图1" width="400" height="240">
+            <p>这类问题是最基本的网络最优化问题，也是最简单的。</p>
+            用于解决最短路径问题的常用方法有两种:<b>狄克斯特拉（Dijkstra）算法</b>、<b>弗洛伊德（Floyd）算法</b>。
+            <p>二者的区别在于<b>Dijkstra算法</b>主要用于解决从初始点到各个点位的最短路径问题，而<b>Floyd算法</b>
+                研究的是任意两结点之间的最短路径。</p>
+            <a name="最大流问题"></a>
+            <p><b>1.2.2最大流问题</b></p>
+            <p>在介绍最大流问题前，我们先引入图的相关定义，见图（2）</p>
+            <img src="images/图 2.png" alt="图2" width="700" height="300">
+            <p style="text-indent:2em;">最大流问题，是网络流理论研究的一个基本问题，求网络中一个可行流f*，使其流量v(f)(一个图的流量定义为从源点s
+                流出的流量值或者输入汇点t的流量值)达到最大， 这种流f称为最大流，这个问题称为(网络)最大流问题。
+                最大流问题是一个特殊的线性规划问题，就是在容量网络中，寻找流量最大的可行流。</p>
+            <p>最大流问题的<b>数学表述</b>如下:</p>
+            <img src="images/图 3.png" alt="图3" width="500" height="200">
+            <a name="最小成本流问题"></a>
+            <p><b>1.2.3最小成本流问题</b></p>
+            <p style="text-indent:2em;">最小成本流可以看成最短路径问题和最大流问题的结合，它在图的每条边上加入了成本这一概念，
+                考虑在流值固定的(不超过网络最大流)的条件下，使总成本达到最小的流。</p>
+            <p>最小成本流问题的<b>数学表述</b>如下:</p>
+            <img src="images/图 4.png" alt="图4" width="500" height="200">
+            <a name="最小成本最大流问题"></a>
+            <p><b>1.2.4最小成本最大流问题</b></p>
+            <p style="text-indent:2em;">最小成本最大流问题是特殊的最小成本流问题，考虑的是在流值等于网络最大流的条件下，使总成本达到最小的流。</p>
+            <a name="second"></a>
+            <h2><b>2.算法及代码介绍</b>
+                <hr>
+            </h2>
+            <a name="最短路径问题算法"></a>
+            <p><b>2.1最短路径问题算法</b></p>
+            <p>最短路径问题算法一般有两种，<b>狄克斯特拉（Dijkstra）算法</b>、<b>弗洛伊德（Floyd）算法</b>。</p>
+            <p><b>2.1.1狄克斯特拉（Dijkstra）算法</b></p>
+            <p style="text-indent:2em;">这一算法主要利用了最短路径的最优子路径性质，
+                即如果S(i,j)={Vi…Vk…Vs…Vj}是从顶点i到j的最短路径，m和n是这条路径上的一个中间顶点，那么S(m,n)必定是从m到n的最短路径。</p>
+            <P>利用上述性质，Dijikstra算法描述如下：</P>
+            <p>假设存在N=<'V,E'>，源顶点为V0，S={V0},distance[i]记录V0到i的最短距离，matrix[i][j]记录从i到j的边的权值，即两点之间的距离。
+                    <br>1）从V-S中选择使dist[i]值最小的顶点i，将i加入到U中；
+                    <br>2）更新与i直接相邻顶点的dist值。dist[j]=min{dist[j],dist[i]+matrix[i][j]}
+                    <br>3）直到S=V，所有顶点都包含进来了，算法停止。
+            </p>
+            <p><b>Dijkstra算法代码如下：</b></p>
+            <textarea style="background-color:#eee7e7;border: 0;width: 800px;height: 475px;">
+import math
+def dijkstra(s):
+    distance[s] = 0
+    while True:
+        v = -1# v在这里相当于是一个指标，对包含起点s做统一处理
+        for u in range(V):# 从未使用过的顶点中选择一个距离最小的顶点
+            if not used[u] and (v == -1 or distance[u] < distance[v]):
+                v = u
+        if v == -1: # 说明所有顶点都添加到S中了！
+            break
+        # 将选定的顶点加入到S中, 同时进行距离更新
+        used[v] = True
+        # 更新U中各个顶点到起点s的距离。
+        for u in range(V):
+            distance[u] = min(distance[u], distance[v] + cost[v][u])
+
+if __name__ == '__main__':
+    V =int(input('顶点个数:')) #顶点数
+    used = [False for _ in range(V)] #标记数组：used[v]值为False说明改顶点还没有访问过，在S中，否则在U中
+    distance = [float(math.inf) for _ in range(V)]
+    # distance[i]表示从源点s到ｉ的最短距离，distance[s]=0
+    cost = [[float(math.inf) for _ in range(V)] for _ in range(V)]
+    # cost[u][v]表示边e=(u,v)的长度，不存在时设为INF，初始化时统一设置为inf
+    cost=[]
+    n=V#n为矩阵的维数，与顶点个数相等
+    print('请输入邻接矩阵')
+    for i in range(0,n):
+        cost.append(list(map(float,input().split())))#这里采用map函数对输入数据进行类型转换
+    s = int(input('请输入一个起始点：'))#指定一个起始点
+    dijkstra(s)
+    print(distance)
+                </textarea>
+            <p><b>2.1.2弗洛伊德（Floyd）算法</b></p>
+            <p style="text-indent:2em;">与Dijkstra算法相比，Floyd算法是直接对邻接矩阵进行操作，代码更加简洁，但往往时间复杂度比Dijkstra算法大，不适合处理大规模数据。</p>
+            <p>Floyd算法描述如下:
+                <br>1，构建邻接矩阵A。(A[i][k]表示从i到k的距离，若初始时没有则记为正无穷)
+                <br>2，对于每一对顶点 u 和 v，看看是否存在一个顶点 w 使得从 u 到 w 再到 v 比已知的路径更短。如果是更新它。
+                即A[j][k] = min(A[j][i] + A[i][k],A[j][k])
+            </p>
+            <p><b>Floyd算法代码如下：</b></p>
+            <textarea style="background-color:#eee7e7;border: 0;width: 800px;height: 120px;">
+def floyd(A):#A为邻接矩阵
+    node_num = len(A)
+    for i in range(node_num):        
+        for j in range(node_num):    
+            for k in range(node_num): 
+                A[j][k] = min(A[j][i] + A[i][k],A[j][k])
+                </textarea>
+                <p>利用性能分析工具line_profiler我们也可已看出Dijkstra算法与Floyd算法的区别，Floyd算法虽然代码更加简洁，但往往时间复杂度较高：</p>
+                <p><b>Dijkstra算法:</b></p>
+                <img src="images\dijistra时间分析.png" alt="dijistra时间分析" width="800" height="400">
+                <p><b>Floyd算法:</b></p>
+                <img src="images\floyd时间分析.png" alt="floyd时间分析" width="800" height="300">
+            <a name="最大流问题算法"></a>
+            <p><b>2.2最大流问题算法</b></p>
+            <p style="text-indent:2em;">引入余网络和流扩充路的定义，通过判断余网络是否有流扩充路来判断是否达到最大流。
+                当余网络中没有流扩充路时，该流即达到最大流值。</p>
+            <img src="images/流扩充路.png" alt="图4" width="600" height="350">
+            <p><b>最大流问题算法代码如下：</b></p>
+<textarea style="background-color:#eee7e7;border: 0;width: 800px;height: 1000px;">
+    from queue import Queue
+    import numpy as np
+    import math
+    #初始化
+    m = int(input('请输入顶点个数:'))#顶点个数
+    limit=[]
+    maxflow = [[0 for i in range(m)] for j in range(m)]
+    #记录最大流图，初始都为0
+    flow = [0 for i in range(m)]
+    #记录增广路径前进过程记录的最小流量
+    pre = [float('inf') for i in range(m)]
+    #记录增广路径每个节点的前驱
+    q = Queue()
+    
+    #输入流量限制图
+    print('请输入邻接矩阵:')
+    for i in range(0,m):
+        limit.append(list(map(int,input().split())))#这里采用map函数对输入数据进行类型转换
+    
+    def Find(s,t):#Find找寻增广路径
+        q.empty()#清空队列
+    
+        for i in range(m):
+            pre[i] = float('inf')
+    
+        flow[s] = float('inf')
+    
+        q.put(s)
+        while(not q.empty()):
+            index = q.get()
+            if(index == t):
+                break
+            for i in range(m):
+                if( (i!=s) & (limit[index][i]>0) & (pre[i]==float('inf')) ):
+                    pre[i] = index
+                    flow[i] = min(flow[index],limit[index][i]) 
+                    q.put(i)
+        if(pre[t] == float('inf')):
+            #汇点的前驱还是初始值，说明已无增广路径
+            return -1
+        else:
+            return flow[t]##增广路径增加的最小流量
+    
+    def max_flow(s,t):
+        augmentflow = 0#当前寻找到的增广路径的最小通过流量
+        sumflow = 0#记录最大流，一直累加
+        while(True):
+            augmentflow = Find(s,t)
+            if(augmentflow == -1):#返回-1说明已没有增广路径
+                break
+            k = t
+            while(k!=s):#k回溯到起点，停止
+                prev = pre[k]#走的方向是从prev到k
+                maxflow[prev][k] += augmentflow
+                limit[prev][k] -= augmentflow#前进方向消耗掉了
+                limit[k][prev] += augmentflow#反向边
+                k = prev
+            sumflow += augmentflow
+        return sumflow
+    
+    result=max_flow(0,m-1)    
+    print('最大流值为：',result)
+    print(maxflow) #最大流图</textarea>
+
+            <a name="最小成本流问题算法"></a>
+            <p><b>2.3最小成本流问题算法</b></p>
+            <p>由于最小成本流问题最小成本最大流问题算法函数较复杂，我们用调用ortools来解决这两个问题</p>
+            <p>ortools库是一款非常强大的用于运筹优化的开源软件套件，这里我附上了ortools官网：</p>
+            <li><a href="https://developers.google.cn/optimization/">OR-Tools | Google Developers </a></li>
+            <p><b>最小成本流问题算法代码如下：</b></p>
+<textarea style="background-color:#eee7e7;border: 0;width: 800px;height: 700px;">
+import numpy as np
+
+from ortools.graph.python import min_cost_flow
+
+def main():
+    smcf = min_cost_flow.SimpleMinCostFlow()
+
+    start_nodes= np.loadtxt('test data/start_nodes.txt',comments='#',encoding='utf-8')#读取起点
+    end_nodes = np.loadtxt('test data/end_nodes.txt',comments='#',encoding='utf-8')#读取终点
+    capacities = np.loadtxt('test data/capacities.txt',comments='#',encoding='utf-8')#起点和终点之间的路径容量
+    unit_costs = np.loadtxt('test data/unit_costs.txt',comments='#',encoding='utf-8')#单位费用
+
+    supplies = np.loadtxt('test data/supplies.txt',comments='#',encoding='utf-8')#每个点的输出和需求
+
+    # Add arcs, capacities and costs in bulk using numpy.
+    all_arcs = smcf.add_arcs_with_capacity_and_unit_cost(
+        start_nodes, end_nodes, capacities, unit_costs)
+
+    # Add supply for each nodes.
+    smcf.set_nodes_supply(np.arange(0, len(supplies)), supplies)
+
+    # Find the min cost flow.
+    status = smcf.solve()
+
+    if status != smcf.OPTIMAL:
+        print('There was an issue with the min cost flow input.')#错误时输出
+        print(f'Status: {status}')
+        exit(1)#中断
+    print(f'Minimum cost: {smcf.optimal_cost()}')
+    print('')
+    print(' Arc    Flow / Capacity Cost')
+    solution_flows = smcf.flows(all_arcs)
+    costs = solution_flows * unit_costs
+    for arc, flow, cost in zip(all_arcs, solution_flows, costs):
+        print(
+            f'{smcf.tail(arc):1} -> {smcf.head(arc)}  {flow:3}  / {smcf.capacity(arc):3}       {cost}'
+        )
+
+
+if __name__ == '__main__':
+    main()</textarea>
+        <a name="最小成本最大流问题算法"></a>
+        <p><b>2.4最小成本最大流问题算法：</b></p>
+<textarea style="background-color:#eee7e7;border: 0;width: 800px;height: 750px;">
+    import numpy as np
+
+    from ortools.graph.python import min_cost_flow
+    from ortools.graph.python import max_flow
+    
+    def main():
+        smcf = min_cost_flow.SimpleMinCostFlow()
+        smf = max_flow.SimpleMaxFlow()
+    
+        start_nodes= np.loadtxt('test data/start_nodes.txt',comments='#',encoding='utf-8')#读取起点
+        end_nodes = np.loadtxt('test data/end_nodes.txt',comments='#',encoding='utf-8')#读取终点
+        capacities = np.loadtxt('test data/capacities.txt',comments='#',encoding='utf-8')#起点和终点之间的路径容量
+        all_arcs = smf.add_arcs_with_capacity(start_nodes, end_nodes, capacities)
+        status = smf.solve(0, 4)
+        m=smf.optimal_flow()
+        unit_costs = np.loadtxt('test data/unit_costs.txt',comments='#',encoding='utf-8')#单位费用
+        # Define an array of supplies at each node.
+        supplies = [int(m), 0, 0, 0, -int(m)]
+    
+        # Add arcs, capacities and costs in bulk using numpy.
+        all_arcs = smcf.add_arcs_with_capacity_and_unit_cost(
+            start_nodes, end_nodes, capacities, unit_costs)
+    
+        # Add supply for each nodes.
+        smcf.set_nodes_supply(np.arange(0, len(supplies)), supplies)
+    
+        # Find the min cost flow.
+        status = smcf.solve()
+    
+        if status != smcf.OPTIMAL:
+            print('There was an issue with the min cost flow input.')
+            print(f'Status: {status}')
+            exit(1)
+        print('Max flow:', m)
+        print(f'Minimum cost: {smcf.optimal_cost()}')
+        print('')
+        print(' Arc    Flow / Capacity Cost')
+        solution_flows = smcf.flows(all_arcs)
+        costs = solution_flows * unit_costs
+        for arc, flow, cost in zip(all_arcs, solution_flows, costs):
+            print(
+                f'{smcf.tail(arc):1} -> {smcf.head(arc)}  {flow:3}  / {smcf.capacity(arc):3}       {cost}'
+            )
+    
+    
+    if __name__ == '__main__':
+        main()</textarea>
+            <a name="third"></a>
+            <h2><b>3.创新性描述</b>
+                <hr>
+            </h2>          
+            <p>1.由于将来使用过程中可能遇到一些数量较大的数据，所以上述算法有些采用了读取文件的输入方式</p>
+            <p><b>2.利用Matplotlib和networkx绘图</b></p>
+            <p>Matplotib和networkx可用来绘制图像使最大流、最小成本流等问题的解更直观，下面以最大流问题为例：</p>
+<textarea style="background-color:#eee7e7;border: 0;width: 800px;height: 800px;">
+    import numpy as np
+    import matplotlib.pyplot as plt 
+    import networkx as nx
+    # 创建有向图
+    G1 = nx.DiGraph()  # 创建一个空的有向图 DiGraph
+    G1.add_edge('s', '1', capacity=15)  # 添加边的属性 "capacity"，即容量
+    G1.add_edge('s', '2', capacity=8)
+    G1.add_edge('1', '2', capacity=20)
+    G1.add_edge('1', '3', capacity=4)
+    G1.add_edge('1', 't', capacity=10)
+    G1.add_edge('2', '3', capacity=15)
+    G1.add_edge('2', 't', capacity=4)
+    G1.add_edge('3', 't', capacity=20)
+    
+    # 求网络最大流
+    from networkx.algorithms.flow import edmonds_karp  # 导入 edmonds_karp 算法函数
+    #maxFlowValue：最大流值
+    #maxFlowDict：达到最大流值的时候各边的流量
+    maxFlowValue, maxFlowDict = nx.maximum_flow(G1, 's', 't', flow_func=edmonds_karp)  # 用edmonds_karp 算法函数计算网络最大流
+    
+    # 数据格式转换
+    edgeCapacity = nx.get_edge_attributes(G1, 'capacity')
+    edgeLabel = {}  # 边的标签
+    for i in edgeCapacity.keys():  # 整理边的标签，用于绘图显示
+        edgeLabel[i] = f'c={edgeCapacity[i]:}'  # 边的容量
+    edgeLists = []  # 最大流的边的 list
+    for i in maxFlowDict.keys():
+        for j in maxFlowDict[i].keys():
+            edgeLabel[(i, j)] += ',f=' + str(maxFlowDict[i][j])  # 取出每条边流量信息存入边显示值
+            if maxFlowDict[i][j] > 0:  # 网络最大流的边（流量>0）
+                edgeLists.append((i,j))
+    
+    # 输出显示
+    print("最大流值: ", maxFlowValue)
+    print("最大流的途径及流量: ", maxFlowDict)  # 输出最大流的途径和各路径上的流量
+    print("最大流的路径：", edgeLists)  # 输出最大流的途径
+    
+    # 绘制有向网络图
+    fig, ax = plt.subplots(figsize=(8, 6))
+    pos = {'s': (1, 8), '1': (1,7), '2': (7, 8), '3': (3, 6), 't': (9, 6) }#指定顶点位置
+    edge_labels = nx.get_edge_attributes(G1, 'capacity')
+    ax.set_title("Maximum flow by Networkx and Matplotlib ")  # 设置标题
+    nx.draw(G1, pos, with_labels=True, node_color='c')  # 绘制有向图，显示顶点标签
+    nx.draw_networkx_edge_labels(G1, pos, edgeLabel, font_color='navy')  # 绘制网络G的边图，边有label：'capacity' + maxFlow
+    nx.draw_networkx_edges(G1, pos, edgelist=edgeLists, edge_color='m')  # 绘制网络G的边图，设置指定边的颜色、宽度
+    plt.axis('on')#Same as true
+    plt.show()#在窗口中展示这幅图像</textarea>
+            </p>
+            <p>运行结果:</p>
+            <img src="images/Networx绘图示例.png" alt="图4" width="600" height="350">
+
+            <a name="fourth"></a>
+            <h2><b>4.运行注意事项</b>
+                <hr>
+            </h2>
+            <p style="text-indent:2em;">1.注意安装所需要的库，本大作业程序需要ortools、Matplotlib、networkx等。
+                使用者可先用 pip list 查询已安装的库是否包含上述。若未安装，则可在cmd中直接输入对应指令:
+                <br>ortools安装：python -m pip install --upgrade --user ortools
+                <br>matplotlib安装：python -m pip install matplotlib
+                <br>networkx安装：pip install networkx
+            </p>
+            <p style="text-indent:2em;">2注意调试代码：输入邻接矩阵的时候需要一行一行输入，元素之间用空格隔开，行之间用转行符隔开。</p>
+            <p>以上代码在vs_code中均能跑出对应结果。</p>
+            <a name="fifth"></a>
+            <h2><b>5.学习收获和心得</b></h2>
+            <a name="学习收获"></a>
+            <p><b>5.1学习收获：</b></p>
+            <p style="text-indent:2em;">
+                这学期通过学习python科学计算这门课，我初步掌握了python语言的一些基本应用，也体会到python语言简单易懂、简练清晰的特点。
+            此外，通过调用各种库，python也能用于解决复杂的数学问题，这与我专业相对应。独自完成大作业也让我检索知识的能力得到提升，
+            在实践中提升了对python语言的熟练程度。</p>
+            <a name="学习心得"></a>
+            <p><b>5.2学习心得：</b></p>
+            <p style="text-indent:2em;">
+                在学习这么课之前，我对用计算机解决数学问题知之甚少，然而通过一学期的学习，我看到了计算机与数学紧密联系的特点。这学期我选
+            的数理统计和运筹学两门课都与罗老师上课讲的内容相呼应，本次大作业也是用python解决运筹学中的经典问题。在今后，我也会逐步了解
+            python中多种多样的库，并将其应用在解决具体的数学问题上。</p>
+            <a name="sixth"></a>
+            <h2><b>6.参考文献</b></h2>
+                <p>1.Python科学计算基础 罗奇鸣</p>
+                <p>2.运筹学讲义 杨周旺</p>
+                <p><a href="https://developers.google.cn/optimization/">3.OR-Tools | Google Developers </a></p>
+                <p><a href="https://networkx.org/documentation/stable/reference/index.html">4.Networkx introduction</a></p>
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

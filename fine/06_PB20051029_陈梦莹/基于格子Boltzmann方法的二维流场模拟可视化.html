@@ -1,0 +1,539 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>基于格子Boltzmann方法的二维流场模拟可视化</title>
+  </head>
+  <body>
+    <div align="center"><font size="-1"><span style="color: rgb(51, 51,
+          51); font-family: &quot;Helvetica Neue&quot;, Helvetica,
+          Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;,
+          &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;,
+          sans-serif; font-size: 14px; font-style: normal;
+          font-variant-ligatures: normal; font-variant-caps: normal;
+          font-weight: 400; letter-spacing: normal; orphans: 2;
+          text-align: start; text-indent: 28px; text-transform: none;
+          white-space: normal; widows: 2; word-spacing: 0px;
+          -webkit-text-stroke-width: 0px; background-color: rgb(255,
+          255, 255); text-decoration-thickness: initial;
+          text-decoration-style: initial; text-decoration-color:
+          initial; display: inline !important; float: none;"></span></font><font
+        size="+3"><b>基于</b></font><font size="+3"><b>格子Boltzmann方法的二维流场模
+          拟可视化</b></font></div>
+    <h1 align="center"><font size="-1">工程科学学院&nbsp; PB20051029&nbsp; 陈梦莹</font>
+      <br>
+    </h1>
+    <h2>1. 科学技术原理</h2>
+    <p>本程序采用格子Boltzmann方法（Lattice Boltzmann方法，以下简称LBM）模拟二维流体的运动。LBM是一种基于
+      介观（mesoscopic）模拟尺度的计算流体力学方法。相比于其他传
+      统CFD计算方法（如有限单元法（FEM）和有限差分法（FDM）等），该方法具有介于微观分子动力学模型和宏观连续模型的介观模型特
+      点，因此具备流体相互作用描述简单、复杂边界易于设置、易于并行计算、程序易于实施等优势。LBM已经广泛地被认为是描述流体运动与处理工程
+      问题的有效手段。当前，已有若干LBM开源软件如OpenLB、MESO等能够并行处理不同尺度下的计算流体力学问题。本程序旨在使用格子
+      Boltzmann方法对二维流场进行简略的模拟。</p>
+    <p>格子Boltzmann方法的基本思想是：流体的宏观运动是流体分子微观热运动的统计平均结果，宏观行为对每个具体分子的运动细节并不敏
+      感，N-
+      S方程组所描述的守恒定律与微观粒子的运动规律是一致的，流体分子内部的相互作用差别反映在N-S方程组的输运系数上，因此可以构造微观模型或介观模型，
+      使之在遵循基本守恒律的前提下尽可能简洁。<br>
+    </p>
+    <p>我们从Boltzman方程开始讲起。Boltzman方程是统计力学中用以描述非平衡状态分布函数演化规律的方程：<br>
+      <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mo>∂</mo><mi>f</mi></mrow><mrow><mo>∂</mo><mi>t</mi></mrow></mfrac><mo>+</mo><mi>ξ</mi><mo>•</mo><mfrac><mrow><mo>∂</mo><mi>f</mi></mrow><mrow><mo>∂</mo><mi>r</mi></mrow></mfrac><mo>+</mo><mi>a</mi><mo>•</mo><mfrac><mrow><mo>∂</mo><mi>f</mi></mrow><mrow><mo>∂</mo><mi>ξ</mi></mrow></mfrac><mo>=</mo><mo>∬</mo><mrow><mo>(</mo><mrow><msup><mi>f</mi><mo>′</mo></msup><msub><msup><mi>f</mi><mo>′</mo></msup><mn>1</mn></msub><mo>−</mo><mi>f</mi><msub><mi>f</mi><mn>1</mn></msub></mrow><mo>)</mo></mrow><msubsup><mi>d</mi><mn>2</mn><mi>D</mi></msubsup><mo
+              stretchy="false">|</mo><mi>g</mi><mo stretchy="false">|</mo><mi>c</mi><mi>o</mi><mi>s</mi><mi>θ</mi><mi>d</mi><mi
+              mathvariant="normal">Ω</mi><mi>d</mi><msub><mi>ξ</mi><mn>1</mn></msub></mrow><annotation
+            encoding="TeX">\frac{∂f}{∂t}+ξ•\frac{∂f}{∂r}+a•\frac{∂f}{∂ξ}=∬\left(f'{f'}_{1}-f{f}_{1}\right){d}_{2}^{D}|g|cosθdΩd{ξ}_{</annotation></semantics></math>其
+      右端项称为碰撞积分或碰撞项，我们可以发现这一项非常复杂，正是它的存在给Boltzman方程的求解带来极大的困难。因此，人们提出了很多
+      该项的近似解法进行简化。在这里，我们用一种简单的形式代替碰撞项，就从Boltzman方程得到了Boltzman-BGK方程：</p>
+    <p><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mfrac><mrow><mo>∂</mo><mi>f</mi></mrow><mrow><mo>∂</mo><mi>t</mi></mrow></mfrac><mo>+</mo><mi>ξ</mi><mo>•</mo><mfrac><mrow><mo>∂</mo><mi>f</mi></mrow><mrow><mo>∂</mo><mi>r</mi></mrow></mfrac><mo>+</mo><mi>a</mi><mo>•</mo><mfrac><mrow><mo>∂</mo><mi>f</mi></mrow><mrow><mo>∂</mo><mi>ξ</mi></mrow></mfrac><mo>=</mo><mi>v</mi><mrow><mo>(</mo><mrow><msup><mi>f</mi><mrow><mi>e</mi><mi>q</mi></mrow></msup><mo>−</mo><mi>f</mi></mrow><mo>)</mo></mrow></mrow><annotation
+            encoding="TeX">\frac{∂f}{∂t}+ξ•\frac{∂f}{∂r}+a•\frac{∂f}{∂ξ}=v\left({f}^{eq}-f\right</annotation></semantics></math>引
+      入弛豫时间，Boltzman-BGK方程将变为：<br>
+    </p>
+    <p><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mfrac><mrow><mo>∂</mo><mi>f</mi></mrow><mrow><mo>∂</mo><mi>t</mi></mrow></mfrac><mo>+</mo><mi>ξ</mi><mo>•</mo><mo>∇</mo><mi>f</mi><mo>+</mo><mi>a</mi><mo>•</mo><msub><mo>∇</mo><mi>ξ</mi></msub><mi>f</mi><mo>=</mo><mo>−</mo><mfrac><mn>1</mn><msub><mi>τ</mi><mn>0</mn></msub></mfrac><mrow><mo>(</mo><mrow><mo
+                  stretchy="false">(</mo><mi>f</mi><mo>−</mo><msup><mi>f</mi><mrow><mi>e</mi><mi>q</mi></mrow></msup></mrow><mo>)</mo></mrow></mrow><annotation
+            encoding="TeX">\frac{∂f}{∂t}+ξ•∇f+a•{∇}_{ξ}f=-\frac{1}{{τ}_{0}}\left((f-{f}^{eq}\right)</annotation></semantics></math><br>
+      <span style="font-family: -apple-system, &quot;SF UI Text&quot;,
+        Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;,
+        &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;,
+        sans-serif; font-size: 16px; font-style: normal;
+        font-variant-ligatures: no-common-ligatures; font-variant-caps:
+        normal; font-weight: 400; letter-spacing: normal; text-align:
+        start; text-indent: 0px; text-transform: none; white-space:
+        normal; word-spacing: 0px; -webkit-text-stroke-width: 0px;
+        background-color: rgb(255, 255, 255); text-decoration-style:
+        initial; text-decoration-color: initial; display: inline
+        !important; float: none;">而格子Boltzman方程
+        是Boltzman-BGK方程的一种特殊离散形式。这一离散包括速度离散、时间离散和空间离散。速度离散后的Boltzman方程为：</span></p>
+    <p><span style="color: rgb(77, 77, 77); font-family: -apple-system,
+        &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;,
+        &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;,
+        &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px;
+        font-style: normal; font-variant-ligatures: no-common-ligatures;
+        font-variant-caps: normal; font-weight: 400; letter-spacing:
+        normal; orphans: 2; text-align: start; text-indent: 0px;
+        text-transform: none; white-space: normal; widows: 2;
+        word-spacing: 0px; -webkit-text-stroke-width: 0px;
+        background-color: rgb(255, 255, 255); text-decoration-thickness:
+        initial; text-decoration-style: initial; text-decoration-color:
+        initial; display: inline !important; float: none;"><math
+          xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mfrac><mrow><mo>∂</mo><msub><mi>f</mi><mi>α</mi></msub></mrow><mrow><mo>∂</mo><mi>t</mi></mrow></mfrac><mo>+</mo><msub><mi>e</mi><mi>α</mi></msub><mo>•</mo><mo>∇</mo><msub><mi>f</mi><mi>α</mi></msub><mo>=</mo><mo>−</mo><mfrac><mn>1</mn><msub><mi>τ</mi><mn>0</mn></msub></mfrac><mrow><mo>(</mo><mrow><msub><mi>f</mi><mi>α</mi></msub><mo>−</mo><msubsup><mi>f</mi><mi>α</mi><mrow><mi>e</mi><mi>q</mi></mrow></msubsup></mrow><mo>)</mo></mrow><mo>+</mo><msub><mi>F</mi><mi>α<br>
+                </mi></msub></mrow><annotation encoding="TeX">\frac{∂{f}_{α}}{∂t}+{e}_{α}•∇{f}_{α}=-\frac{1}{{τ}_{0}}\left({f}_{α}-{f}_{α}^{eq}\right)+{F}_{α</annotation></semantics></math></span><br>
+      式中，<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>f</mi><mi>α</mi><mrow><mi>e</mi><mi>q</mi></mrow></msubsup><annotation
+            encoding="TeX">{f}_{α}^{eq}</annotation></semantics></math>为
+      离散速度空间的局部平衡态分布函数，<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>F</mi><mi>α</mi></msub><annotation
+            encoding="TeX">{F}_{α}</annotation></semantics></math>为离散速度空
+      间的外力项，它是外力项<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>•</mo><msub><mo>∇</mo><mi>ξ</mi></msub><mi>f</mi></mrow><annotation
+            encoding="TeX">a•{∇}_{ξ}f</annotation></semantics></math>在离散
+      速度空间的投影，即<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mi>α</mi></msub><mo>=</mo><msub><mrow><mo>(</mo><mrow><mi>a</mi><mo>•</mo><msub><mo>∇</mo><mi>ξ</mi></msub><mi>f</mi></mrow><mo>)</mo></mrow><mi>α</mi></msub></mrow><annotation
+            encoding="TeX">{F}_{α}={\left(a•{∇}_{ξ}f\right)}_{α}</annotation></semantics></math>。<br>
+      通过求解此方程，我们就得到了流体的宏观流动。要求解该方程还需要对其在空间和时间上进行离散，从而得到完全离散的Boltzman方程，这
+      可 以通过沿特征线积分得到，在此不再赘述。</p>
+    <p>有了数学基础，接下来就轮到了具体的物理模型。一个完整的Boltzman模型通常由三部分组成：格子（离散速度模型，DVM），平衡态分
+      布函数，以及分布函数的演化方程。本程序采用的模型是D2Q9模型计算流体运动，即在二维空间使用九个离散速度进行模拟。这九个离散速度的方
+      向和（相对）大小如下图所示：<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+      &nbsp; &nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <img moz-do-not-send="true"
+        src="images/D2Q9%E6%A8%A1%E5%9E%8B.jpg" alt="" width="222"
+        height="235"><br>
+      其速度配置为：<br>
+      <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>e</mi><mi>α</mi></msub><mo>=</mo><mrow><mo>{</mo><mtable
+                displaystyle="false" columnalign="left left"><mtr><mtd><mrow><mo>(</mo><mrow><mn>0</mn><mo>,</mo><mn>0</mn></mrow><mo>)</mo></mrow><mtext>，</mtext><mi>α</mi><mo>=</mo><mn>0</mn></mtd></mtr><mtr><mtd><mi>c</mi><mrow><mo>(</mo><mrow><mi>c</mi><mi>o</mi><mi>s</mi><mrow><mo>[</mo><mrow><mrow><mo>(</mo><mrow><mi>α</mi><mo>−</mo><mn>1</mn></mrow><mo>)</mo></mrow><mfrac><mi>π</mi><mn>2</mn></mfrac></mrow><mo>]</mo></mrow><mo>,</mo><mi>s</mi><mi>i</mi><mi>n</mi><mrow><mo>[</mo><mrow><mrow><mo>(</mo><mrow><mi>α</mi><mo>−</mo><mn>1</mn></mrow><mo>)</mo></mrow><mfrac><mi>π</mi><mn>2</mn></mfrac></mrow><mo>]</mo></mrow></mrow><mo>)</mo></mrow><mtext>，</mtext><mi>α</mi><mo>=</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mn>3</mn><mo>,</mo><mn>4</mn></mtd></mtr><mtr><mtd><msqrt><mn>2</mn></msqrt><mi>c</mi><mrow><mo>(</mo><mrow><mi>c</mi><mi>o</mi><mi>s</mi><mrow><mo>[</mo><mrow><mrow><mo>(</mo><mrow><mn>2</mn><mi>α</mi><mo>−</mo><mn>1</mn></mrow><mo>)</mo></mrow><mfrac><mi>π</mi><mn>4</mn></mfrac></mrow><mo>]</mo></mrow><mo>,</mo><mi>s</mi><mi>i</mi><mi>n</mi><mrow><mo>[</mo><mrow><mrow><mo>(</mo><mrow><mn>2</mn><mi>α</mi><mo>−</mo><mn>1</mn></mrow><mo>)</mo></mrow><mfrac><mi>π</mi><mn>4</mn></mfrac></mrow><mo>]</mo></mrow></mrow><mo>)</mo></mrow><mtext>，</mtext><mi>α</mi><mo>=</mo><mn>5</mn><mo>,</mo><mn>6</mn><mo>,</mo><mn>7</mn><mo>,</mo><mn>8</mn></mtd></mtr></mtable></mrow></mrow><annotation
+            encoding="TeX">{e}_{α}=\begin{cases} \left(0,0
+            \right)，α=0\\c\left(cos\left[\left(α-1\right)\frac{π}{2}\right],sin
+            \left[\left(α-1\right)\frac{π}{2}\right]\right)，α=1,2,3,4
+            \\\sqrt{2}c\left(cos\left[\left(2α-1\right)\frac{π}{4}
+            \right],sin\left[\left(2α-1\right)\frac{π}{4}\right]
+            \right)，α=5,6,7,8\end{cases}</annotation></semantics></math><br>
+      本程序采用的平衡态分布函数为Qian等人的DdQm系列模型的平衡态分布函数，如下所示：</p>
+    <p><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msubsup><mi>f</mi><mi>α</mi><mrow><mi>e</mi><mi>q</mi></mrow></msubsup><mo>=</mo><mi>ρ</mi><msub><mi>𝔴</mi><mi>α</mi></msub><mrow><mo>[</mo><mrow><mn>1</mn><mo>+</mo><mfrac><mrow><msub><mi>e</mi><mi>α</mi></msub><mo>•</mo><mi>u</mi></mrow><msubsup><mi>c</mi><mi>s</mi><mn>2</mn></msubsup></mfrac><mo>+</mo><mfrac><msup><mrow><mo>(</mo><mrow><msub><mi>e</mi><mi>α</mi></msub><mo>•</mo><mi>u</mi></mrow><mo>)</mo></mrow><mn>2</mn></msup><mrow><mn>2</mn><msubsup><mi>c</mi><mi>s</mi><mn>4</mn></msubsup></mrow></mfrac><mo>−</mo><mfrac><msup><mi>u</mi><mn>2</mn></msup><mrow><mn>2</mn><msubsup><mi>c</mi><mi>s</mi><mn>2</mn></msubsup></mrow></mfrac></mrow><mo>]</mo></mrow></mrow><annotation
+            encoding="TeX">{f}_{α}^{eq}=ρ{𝔴}_{α}\left[1+\frac{{e}_{α}•u}{{c}_{s}^{2}}+\frac{{\left({e}_{α}•u\right)}^{2}}{2{c}_{s}^{4}}-\frac{{u}^{2}}{2{c}_{s}^{2}}\right]</annotation></semantics></math><br>
+    </p>
+    <p>式中，<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>C</mi><mi>S</mi></msub><annotation
+            encoding="TeX">{C}_{S}</annotation></semantics></math>为格子声速，<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>𝔴</mi><mi>α</mi></msub><annotation
+            encoding="TeX">{𝔴}_{α}</annotation></semantics></math>为权系数。
+      为 了能从现在的方程恢复宏观方程，此函数还需满足几个矩方程。由此可以算出，对D2Q9模型而言，其权系数<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>𝔴</mi><mi>0</mi></msub><annotation
+            encoding="TeX">{𝔴}_{α}</annotation></semantics></math>=4/9，<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>𝔴</mi><mi>1</mi></msub><annotation
+            encoding="TeX">{𝔴}_{}</annotation></semantics></math>=1/9，<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>𝔴</mi><mi>2</mi></msub><annotation
+            encoding="TeX">{𝔴}_{α}</annotation></semantics></math>=1/36，<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>c</mi><mi>s</mi><mn>2</mn></msubsup><annotation
+            encoding="TeX">{c}_{s}^{2}</annotation></semantics></math>=<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mn>S</mn></msub><annotation
+            encoding="TeX">{c}_{2}</annotation></semantics></math>/3。</p>
+    <p>分布函数的演化方程为：<br>
+      <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>f</mi><mi>α</mi></msub><mrow><mo>(</mo><mrow><mi>r</mi><mo>+</mo><msub><mi>e</mi><mi>α</mi></msub><msub><mi>δ</mi><mi>t</mi></msub><mo>,</mo><mi>t</mi><mo>+</mo><msub><mi>δ</mi><mi>t</mi></msub></mrow><mo>)</mo></mrow><mo>=</mo><msubsup><mi>f</mi><mi>α</mi><mo>+</mo></msubsup><mrow><mo>(</mo><mrow><mi>r</mi><mo>,</mo><mi>t</mi></mrow><mo>)</mo></mrow></mrow><annotation
+            encoding="TeX">{f}_{α}\left(r+{e}_{α}{δ}_{t},t+{δ}_{t}\right)={f}_{α}^{+}\left(r,t\right)</annotation></semantics></math><br>
+    </p>
+    <p>依据上述原理，本程序模拟了几种障碍物在流体中以恒定速率运动时的情形。</p>
+    <p><br>
+    </p>
+    <h2>2. 设计方案</h2>
+    <p>本程序的主要步骤分为：初始化；碰撞（collision）；迁移
+      （steaming）；边界处理；显示图像并重复前三步；窗口界面设置。<br>
+    </p>
+    <h2>2.1 初始化</h2>
+    <p>设置各类障碍物的位置、参数，初始化宏观量，基于宏观量计算九个离散速度。</p>
+    <h2>2.2 碰撞（collision）</h2>
+    <p>根据平衡态分布函数：<br>
+    </p>
+    <p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>f</mi><mi>α</mi><mo>+</mo></msubsup><mrow><mo>(</mo><mrow><mi>r</mi><mo>,</mo><mi>t</mi></mrow><mo>)</mo></mrow><mo>−</mo><msub><mi>f</mi><mi>α</mi></msub><mrow><mo>(</mo><mrow><mi>r</mi><mo>,</mo><mi>t</mi></mrow><mo>)</mo></mrow><mo>=</mo><mo>−</mo><mfrac><mn>1</mn><msub><mi>τ</mi><mn>0</mn></msub></mfrac><mrow><mo>[</mo><mrow><mo
+                  stretchy="false">(</mo><msub><mi>f</mi><mi>α</mi></msub><mrow><mo>(</mo><mrow><mi>r</mi><mo>,</mo><mi>t</mi></mrow><mo>)</mo></mrow><mo>−</mo><msubsup><mi>f</mi><mi>α</mi><mrow><mi>e</mi><mi>q</mi></mrow></msubsup><mrow><mo>(</mo><mrow><mi>r</mi><mo>,</mo><mi>t</mi></mrow><mo>)</mo></mrow></mrow><mo>]<br>
+              </mo></mrow></mrow><annotation encoding="TeX">{f}_{α}^{+}\left(r,t\right)-{f}_{α}\left(r,t\right)=-\frac{1}{{τ}_{0}}\left[({f}_{α}\left(r,t\right)-{f}_{α}^{eq}\left(r,t\right)\right]</annotation></semantics></math><br>
+    </p>
+    <p>由之前的离散速度和宏观速度，迭代计算新的离散速度和宏观速度。</p>
+    <p><font size="+2"><b>2.3 迁移</b><b>（steaming）</b></font></p>
+    <p>由于流体在不断迁移，因此需要更新离散速度和宏观速度：</p>
+    <p><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>α</mi></msub><mrow><mo>(</mo><mrow><mi>r</mi><mo>+</mo><msub><mi>e</mi><mi>α</mi></msub><msub><mi>δ</mi><mi>t</mi></msub><mo>,</mo><mi>t</mi><mo>+</mo><msub><mi>δ</mi><mi>t</mi></msub></mrow><mo>)</mo></mrow><mo>=</mo><msubsup><mi>f</mi><mi>α</mi><mo>+</mo></msubsup><mrow><mo>(</mo><mrow><mi>r</mi><mo>,</mo><mi>t</mi></mrow><mo>)</mo></mrow></mrow><annotation
+            encoding="TeX">{f}_{α}\left(r+{e}_{α}{δ}_{t},t+{δ}_{t}\right)={f}_{α}^{+}\left(r,t\right)</annotation></semantics></math><br>
+    </p>
+    <p>使用numpy.roll函数，可以将所有粒子沿其运动方 向移动一步，达到这一目的。</p>
+    <p><font size="+2"><b>2.4 边界处理</b></font></p>
+    <p>本程序采用格子Boltzmann方法中的反弹格式进行边界处理，即认为所有粒子碰到边界（即障碍物）时发生反弹，切向速度不变，法向速度
+      反向。在代码上，只需将法向速度赋值为相反方向的速度即可。</p>
+    <p><font size="+2"><b><img moz-do-not-send="true"
+            src="images/%E6%A0%87%E5%87%86%E5%8F%8D%E5%BC%B9%E6%A0%BC%E5%BC%8F.png"
+            alt="" width="280" height="190"><br>
+        </b></font></p>
+    <p><font size="+2"><b>2.5 </b></font><font size="+2"><b>显示图像并重复前三步</b></font></p>
+    <p>本程序使用matplotlib库的FuncAnimation函数显示动画。图像每变化一次，即调用一次collision函数（表示碰
+      撞）、steaming函数（表示迁移）、BoundProcess函数（表示反弹），迭代计算一次流体的运动。在动画中，对宏观速度的旋度
+      进 行了颜色映射，以反映流体运动的情况。</p>
+    <p><font size="+2"><b>2.6 窗口界面设置</b></font></p>
+    <p>使用tkinter库生成窗口与按钮。每个按钮都对应了一个函数，这些函数通过改变全局变量来改变流场，它们的作用有：<br>
+      1. 重置流场（令所有速度回到初始值）；<br>
+      2. 暂停动画（再次点击则可以继续动画）；<br>
+      3. 改变初始流速；<br>
+      4. 改变流体黏度；<br>
+      5. 放置各种屏障。<br>
+    </p>
+    <p> <br>
+      <font size="+2"><b> </b></font></p>
+    <h2>3. 创新性描述</h2>
+    <p>流体运动的数值模拟是一个深奥的课题，迄今仍是科研热点。本程序的数值模拟虽然比较粗略，但运行速度较快，且除去为前人所提出的计算方法
+      外，程序均为本人自行完成，并成功地演示了几种经典的流体运动现象。从内容上来看，相比传统CFD计算方法，本程序所使用的格子
+      Boltzman方法在本科教学中很少提及；从直观上看，对于像流体运动这样复杂且难以想象的问题，生成动画有助于我们在思考相关问题时进行
+      定性的理解；从操作简便性而言，本程序生成的操作窗口使改变设置非常便捷；此外，本程序基本都由函数构成，可以很容易地加入新的设置（比如新
+      的障碍物形状），计算其他情形下的流体运动。<br>
+    </p>
+    <h2>4. 运行方法和参数设置</h2>
+    若要在spyder中查看动画，需要在“工具-偏好-IPython控制台-绘图-图形的后端”中选择“Qt5”，否则将只能看见一张静态图像。<br>
+    程序会生成两个窗口，一个显示动画，另一个则是操作窗口。操作根据文字提示点击各种按钮即可。参数保存在txt文件中，程序会在需要时自动读入。
+    需要注意的是，动画窗口中一开始没有放置障碍物，流体旋度处处为0，所以显示是空白的。<br>
+    <p><font size="+1"><b>运行结果：</b></font><br>
+      首先生成两个窗口，左下为操作窗口，右下为动画窗口：</p>
+    <img moz-do-not-send="true"
+      src="images/%E6%93%8D%E4%BD%9C%E7%95%8C%E9%9D%A2.png" alt=""
+      width="502" height="659"><img moz-do-not-send="true"
+      src="images/%E5%88%9D%E5%A7%8B%E5%9B%BE%E5%83%8F.png" alt=""
+      width="802" height="379"><br>
+    点击任一屏障即可看到流场动画。<br>
+    比如点击线性屏障，经过几秒的流场演变后，我们就可以看到著名的卡门涡街：<br>
+    <img moz-do-not-send="true"
+      src="images/%E5%8D%A1%E9%97%A8%E6%B6%A1%E8%A1%97.png" alt=""
+      width="802" height="379"><br>
+    我们选择平板边界，可以看见边界层厚度的增加：<br>
+    <img moz-do-not-send="true"
+src="images/%E8%BE%B9%E7%95%8C%E5%B1%82%E5%8E%9A%E5%BA%A6%E5%A2%9E%E5%8A%A0.png"
+      alt="" width="802" height="379"><br>
+    最后放置一个二维翼型的动画（经过压缩和加速处理以减小大小），这演示了转捩现象的发生：<br>
+    <img moz-do-not-send="true" src="images/animation.gif" alt=""
+      width="800" height="300"><br>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="ProgId" content="Word.Document">
+    <meta name="Generator" content="Microsoft Word 14">
+    <meta name="Originator" content="Microsoft Word 14">
+    <title></title>
+    <!--[if gte mso 9]><xml><o:DocumentProperties><o:Revision>1</o:Revision><o:Pages>1</o:Pages><o:Lines>1</o:Lines><o:Paragraphs>1</o:Paragraphs></o:DocumentProperties></xml><![endif]--><!--[if gte mso 9]><xml><o:OfficeDocumentSettings></o:OfficeDocumentSettings></xml><![endif]--><!--[if gte mso 9]><xml><w:WordDocument><w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel><w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery><w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery><w:DocumentKind>DocumentNotSpecified</w:DocumentKind><w:DrawingGridVerticalSpacing>7.8 磅</w:DrawingGridVerticalSpacing><w:PunctuationKerning></w:PunctuationKerning><w:View>Normal</w:View><w:Compatibility><w:AdjustLineHeightInTable/><w:DontGrowAutofit/><w:BalanceSingleByteDoubleByteWidth/><w:DoNotExpandShiftReturn/><w:UseFELayout/></w:Compatibility><w:Zoom>0</w:Zoom></w:WordDocument></xml><![endif]--><!--[if gte mso 9]><xml><w:LatentStyles DefLockedState="false"  DefUnhideWhenUsed="true"  DefSemiHidden="true"  DefQFormat="false"  DefPriority="99"  LatentStyleCount="260" >
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Normal" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="heading 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="heading 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="heading 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="heading 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="heading 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="heading 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="heading 7" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="heading 8" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="heading 9" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="index 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="index 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="index 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="index 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="index 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="index 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="index 7" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="index 8" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="index 9" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="toc 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="toc 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="toc 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="toc 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="toc 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="toc 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="toc 7" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="toc 8" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="toc 9" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Normal Indent" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="footnote text" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="annotation text" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="header" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="footer" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="index heading" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="caption" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="table of figures" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="envelope address" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="envelope return" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="footnote reference" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="annotation reference" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="line number" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="page number" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="endnote reference" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="endnote text" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="table of authorities" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="macro" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="toa heading" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="List" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="List Bullet" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="List Number" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="List 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="List 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="List 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="List 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="List Bullet 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="List Bullet 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="List Bullet 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="List Bullet 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="List Number 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="List Number 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="List Number 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="List Number 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Title" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Closing" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Signature" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Default Paragraph Font" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Body Text" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Body Text Indent" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="List Continue" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="List Continue 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="List Continue 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="List Continue 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="List Continue 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Message Header" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Subtitle" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Salutation" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Date" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Body Text First Indent" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Body Text First Indent 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Note Heading" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Body Text 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Body Text 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Body Text Indent 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Body Text Indent 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Block Text" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Hyperlink" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="FollowedHyperlink" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Strong" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Emphasis" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Document Map" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Plain Text" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="E-mail Signature" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Normal (Web)" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="HTML Acronym" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="HTML Address" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="HTML Cite" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="HTML Code" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="HTML Definition" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="HTML Keyboard" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="HTML Preformatted" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="HTML Sample" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="HTML Typewriter" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="HTML Variable" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Normal Table" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="annotation subject" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="No List" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="1 / a / i" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="1 / 1.1 / 1.1.1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Article / Section" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Simple 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Simple 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Simple 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Classic 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Classic 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Classic 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Classic 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Colorful 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Colorful 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Colorful 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Columns 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Columns 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Columns 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Columns 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Columns 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Grid 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Grid 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Grid 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Grid 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Grid 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Grid 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Grid 7" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Grid 8" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table List 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table List 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table List 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table List 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table List 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table List 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table List 7" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table List 8" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table 3D effects 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table 3D effects 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table 3D effects 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Contemporary" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Elegant" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Professional" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Subtle 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Subtle 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Web 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Web 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Web 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Balloon Text" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Grid" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Table Theme" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Placeholder Text" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="No Spacing" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Light Shading" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Light List" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Light Grid" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Shading 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Shading 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium List 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium List 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Grid 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Grid 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Grid 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Dark List" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Colorful Shading" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Colorful List" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Colorful Grid" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Light Shading Accent 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Light List Accent 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Light Grid Accent 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Shading 1 Accent 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Shading 2 Accent 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium List 1 Accent 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="List Paragraph" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Quote" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Intense Quote" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium List 2 Accent 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Grid 1 Accent 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Grid 2 Accent 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Grid 3 Accent 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Dark List Accent 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Colorful Shading Accent 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Colorful List Accent 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Colorful Grid Accent 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Light Shading Accent 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Light List Accent 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Light Grid Accent 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Shading 1 Accent 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Shading 2 Accent 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium List 1 Accent 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium List 2 Accent 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Grid 1 Accent 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Grid 2 Accent 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Grid 3 Accent 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Dark List Accent 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Colorful Shading Accent 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Colorful List Accent 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Colorful Grid Accent 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Light Shading Accent 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Light List Accent 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Light Grid Accent 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Shading 1 Accent 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Shading 2 Accent 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium List 1 Accent 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium List 2 Accent 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Grid 1 Accent 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Grid 2 Accent 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Grid 3 Accent 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Dark List Accent 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Colorful Shading Accent 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Colorful List Accent 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Colorful Grid Accent 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Light Shading Accent 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Light List Accent 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Light Grid Accent 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Shading 1 Accent 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Shading 2 Accent 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium List 1 Accent 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium List 2 Accent 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Grid 1 Accent 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Grid 2 Accent 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Grid 3 Accent 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Dark List Accent 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Colorful Shading Accent 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Colorful List Accent 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Colorful Grid Accent 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Light Shading Accent 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Light List Accent 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Light Grid Accent 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Shading 1 Accent 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Shading 2 Accent 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium List 1 Accent 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium List 2 Accent 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Grid 1 Accent 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Grid 2 Accent 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Grid 3 Accent 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Dark List Accent 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Colorful Shading Accent 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Colorful List Accent 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Colorful Grid Accent 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Light Shading Accent 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Light List Accent 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Light Grid Accent 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Shading 1 Accent 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Shading 2 Accent 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium List 1 Accent 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium List 2 Accent 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Grid 1 Accent 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Grid 2 Accent 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Medium Grid 3 Accent 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Dark List Accent 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Colorful Shading Accent 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Colorful List Accent 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Colorful Grid Accent 6" ></w:LsdException>
+</w:LatentStyles></xml><![endif]-->
+    <style>
+@font-face{
+font-family:"Times New Roman";
+}
+
+@font-face{
+font-family:"宋体";
+}
+
+@font-face{
+font-family:"Calibri";
+}
+
+@font-face{
+font-family:"等线";
+}
+
+p.MsoNormal{
+mso-style-name:正文;
+mso-style-parent:"";
+margin:0pt;
+margin-bottom:.0001pt;
+mso-pagination:none;
+text-align:justify;
+text-justify:inter-ideograph;
+font-family:Calibri;
+mso-fareast-font-family:宋体;
+mso-bidi-font-family:'Times New Roman';
+font-size:10.5000pt;
+mso-font-kerning:1.0000pt;
+}
+
+span.msoIns{
+mso-style-type:export-only;
+mso-style-name:"";
+text-decoration:underline;
+text-underline:single;
+color:blue;
+}
+
+span.msoDel{
+mso-style-type:export-only;
+mso-style-name:"";
+text-decoration:line-through;
+color:red;
+}
+@page{mso-page-border-surround-header:no;
+	mso-page-border-surround-footer:no;}@page Section0{
+}
+div.Section0{page:Section0;}</style>另外，我们还可以更改初始流速和流体的黏度，看见不同的现象。比如说当流速很
+    小时，流动比较稳定，接近层流，基本不会产生旋涡。如下所示，左图为低流速情形，右图为高流速情形。<br>
+    <img moz-do-not-send="true"
+      src="images/%E4%BD%8E%E6%B5%81%E9%80%9F.png" alt="" width="691"
+      height="326"><img moz-do-not-send="true"
+      src="images/%E9%AB%98%E6%B5%81%E9%80%9F.png" alt="" width="692"
+      height="327"><br>
+    <br>
+    <h2>5. 学习心得和收获</h2>
+    <p>通过学习本课程，我掌握了Python基本的语法，了解了其丰富的函数库，学会了如何使用Python解决一些用C语言难以解决的问题。在
+      完成这次大作业的过程中，我学习到了不少新颖的计算方法，对下学期将要学习的计算力学有了一定的认识，同时也通过实践巩固了本学期所
+      学习的知识。相信Python将在今后的学习中给予我更多的帮助。 </p>
+    <h2>参考资料</h2>
+    [1] 何雅玲，《格子Boltzmann方法的理论及应用》。<br>
+    [2] 格子玻尔兹曼方法：基本概念 - 知乎 (zhihu.com)<br>
+    [3] 格子玻尔兹曼(LBM)小白的进阶之路_stickzhong的博客-CSDN博客_格子玻尔兹曼<br>
+    [4] 我如何使用参数自动绘制翼型 - 知乎 (zhihu.com)<br>
+    [5] 庄礼贤，尹协远，马晖扬，《流体力学》<br>
+    <h2>讲解日期</h2>
+    12.22<br>
+  </body>
+</html>

@@ -1,0 +1,337 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>用python实现截面核心的计算</title>
+  </head>
+  <body>
+    <h1 align="center">用python实现截面核心的计算</h1>
+    <p align="center">工程科学学院 张润民 PB21051005<br>
+    </p>
+    <h2>1.科学技术原理</h2>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      在实际的工程应用当中，很多时候都要用到用来承受压力的短柱，比如桥墩和建筑中用来承压的立柱。这种短柱大多采用受压能力较好的混凝土或者
+      铸铁制成。虽然这类材料有着极强的抗压性能，但其受拉能力却极差。可以证明，当集中力作用于截面形心时，柱体的各个部分均受到压应力的作用，
+      此时柱体的受力情况处于安全状态。但由于各种各样的误差存在，等效集中力的作用点，不一定恰好作用在形心处，使得柱体受到弯矩的作用。这就有
+      可能使得主体的某些部分受 到拉应力，由于柱体材料抗拉能力极差，很容易造成柱体的断裂。但是<b>在截面形心的周围存在一块区域，当等效集
+        中力作用于此区域时，整个柱体的所 有部分，只受到压力的作用。这块区域被称之为截面核心</b>（如下图阴影区域所示）<b>。</b>截
+      面核心在工程问题中具有十分重要的意义，但我未找到可以用来计算截面核心的相关软
+      件，于是我决定利用“python科学计算基础”课上所学的知识，编写用来计算截面核心的程序。<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+      <img moz-do-not-send="true" src="images/core.jpg" alt=""
+        width="164" height="217"><br>
+      <br>
+    </p>
+    <h3> 1.1原理介绍</h3>
+    <img moz-do-not-send="true" src="images/core%20schematic.png" alt=""
+      width="350" height="295"><br>
+    当短柱上的压力与轴线平行但并不与轴线重合时，即为偏心压缩。假设横截面上的y轴和z轴为形心主惯性轴，F的作用点的坐标为<math
+      xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>(</mo><mrow><msub><mi>y</mi><mi>F</mi></msub><mo>,</mo><msub><mi>z</mi><mi>F</mi></msub></mrow><mo>)</mo></mrow></semantics></math><math
+      xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>，将
+            偏心压力向短柱的轴线OO简</mo></mrow></semantics></math>化，便得到与轴线重合的压力F和力
+    偶矩Fe。将Fe再分解为形心主惯性平面x-y和x-z内的弯矩<math
+      xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>M</mi><mi>z</mi></msub><mo>=</mo><mi>F</mi><msub><mi>y</mi><mi>F</mi></msub></mrow><annotation
+          encoding="TeX">M_{z}=Fy_{F}</annotation></semantics></math> ,<math
+      xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>M</mi><mi>y</mi></msub><annotation
+          encoding="TeX">M_{y}</annotation></semantics></math><math
+      xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi></mi><mi></mi></msub><mo>=</mo><mi>F</mi><msub><mi>y</mi><mi>z</mi></msub></mrow><annotation
+          encoding="TeX">M_{z}=Fy_{F}</annotation></semantics></math>。与轴
+    线重合的F引起压缩，<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>M</mi><mi>y</mi></msub><annotation
+          encoding="TeX">M_{y}</annotation></semantics></math>，<math
+      xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>M</mi><mi>z</mi></msub><annotation
+          encoding="TeX">M_{z}</annotation></semantics></math>引起弯曲。在任意横截
+    面上，坐标为(y,z)的B点与三种变形对应的应力分别是<br>
+    <div align="center"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>σ</mi><mo>′</mo></msup><mo>=</mo><mo>−</mo><mfrac><mi>F</mi><mi>A</mi></mfrac></mrow><annotation
+            encoding="TeX">\sigma '=-\frac{F}{A}</annotation></semantics></math><br>
+    </div>
+    <div align="center"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>σ</mi><mo>″</mo></msup><mo>=</mo><mfrac><mrow><msub><mi>M</mi><mi>z</mi></msub><mi>y</mi></mrow><msub><mi>I</mi><mi>z</mi></msub></mfrac><mo>=</mo><mo>−</mo><mfrac><mrow><mi>F</mi><msub><mi>y</mi><mi>F</mi></msub><mi>y</mi></mrow><msub><mi>I</mi><mi>z</mi></msub></mfrac></mrow><annotation
+            encoding="TeX">\sigma
+            ''=\frac{M_{z}y}{I_{z}}=-\frac{Fy_{F}y}{I_{z}}</annotation></semantics></math><br>
+    </div>
+    <div align="center">
+      <div align="left">
+        <div align="center"><math
+            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>σ</mi><mo>‴</mo></msup><mo>=</mo><mfrac><mrow><msub><mi>M</mi><mi>y</mi></msub><mi>z</mi></mrow><msub><mi>I</mi><mi>y</mi></msub></mfrac><mo>=</mo><mo>−</mo><mfrac><mrow><mi>F</mi><msub><mi>z</mi><mi>F</mi></msub><mi>z</mi></mrow><msub><mi>I</mi><mi>y</mi></msub></mfrac></mrow><annotation
+                encoding="TeX"></annotation></semantics></math><br>
+        </div>
+        <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><annotation
+              encoding="TeX"></annotation>sh</semantics></math></div>
+      <div align="left"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><annotation
+              encoding="TeX"></annotation>是中富豪的是压应力妈了个逼的**四中负号表示压力世宗你好你妈
+            了个逼的是中负号表示负压力式中负号表示压印力</semantics></math><br>
+        <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics>式中<annotation
+              encoding="TeX"></annotation>式中</semantics></math></div>
+      <div align="left"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><annotation
+              encoding="TeX">式中负号表示压应力。叠加以上三种应力得该点应力，又有 </annotation></semantics></math><br>
+        <div align="center"><math
+            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>I</mi><mi>z</mi></msub><mo>=</mo><mi>A</mi><msubsup><mi>i</mi><mi>z</mi><mn>2</mn></msubsup></mrow><annotation
+                encoding="TeX">I_{z}=Ai_{z}^{2}</annotation></semantics></math><br>
+          <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>I</mi><mi>y</mi></msub><mo>=</mo><mi>A</mi><msubsup><mi>i</mi><mi>y</mi><mn>2</mn></msubsup></mrow><annotation
+                encoding="TeX">I_{y}=Ai_{y}^{2}</annotation></semantics></math><br>
+          <div align="left">（式中，<math
+              xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>i</mi><mi>z</mi></msub><annotation
+                  encoding="TeX">i_{z}</annotation></semantics></math>和<math
+              xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>i</mi><mi>y</mi></msub><annotation
+                  encoding="TeX">i_{y}</annotation></semantics></math>分别
+            表示横截面对z轴和y轴的惯性半径。）<br>
+            <br>
+            可得横截面上的压应力<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>σ</mi><mo>=</mo><mo>−</mo><mfrac><mi>F</mi><mi>A</mi></mfrac><mrow><mo>(</mo><mrow><mn>1</mn><mo>+</mo><mfrac><mrow><msub><mi>y</mi><mi>F</mi></msub><mi>y</mi></mrow><msubsup><mi>i</mi><mi>z</mi><mn>2</mn></msubsup></mfrac><mo>+</mo><mfrac><mrow><msub><mi>z</mi><mi>F</mi></msub><mi>z</mi></mrow><msubsup><mi>i</mi><mi>y</mi><mn>2</mn></msubsup></mfrac></mrow><mo>)</mo></mrow></mrow><annotation
+                  encoding="TeX">\sigma =-\frac{F}{A}\left(
+                  1+\frac{y_{F}y}{i_{z}^{2}}+\frac{z_{F}z}{i_{y}^{2}}\right)
+                </annotation></semantics></math></div>
+          <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><annotation
+                encoding="TeX"></annotation></semantics></math></div>
+        <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><annotation
+              encoding="TeX"></annotation></semantics></math></div>
+      <div align="left"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><annotation
+              encoding="TeX"></annotation></semantics></math>先确定中性轴的位置，若
+        中性轴上各点的坐标为<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>(</mo><mrow><msub><mi>y</mi><mi>0</mi></msub><mo>,</mo><msub><mi>z</mi><mi>0</mi></msub></mrow><mo>)，
+                由于中性轴上各点的应力等于0</mo></mrow></semantics></math><br>
+        <div align="center"><math
+            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><annotation
+                encoding="TeX"></annotation>是</semantics></math><math
+            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>=</mo><mo>−</mo><mfrac><mi>F</mi><mi>A</mi></mfrac><mrow><mo>(</mo><mrow><mn>1</mn><mo>+</mo><mfrac><mrow><msub><mi>y</mi><mi>F</mi></msub><msub><mi>y</mi><mn>0</mn></msub></mrow><msubsup><mi>i</mi><mi>z</mi><mn>2</mn></msubsup></mfrac><mo>+</mo><mfrac><mrow><msub><mi>z</mi><mi>F</mi></msub><msub><mi>z</mi><mn>0</mn></msub></mrow><msubsup><mi>i</mi><mi>y</mi><mn>2</mn></msubsup></mfrac></mrow><mo>)</mo></mrow></mrow><annotation
+                encoding="TeX">0=-\frac{F}{A}\left(
+                1+\frac{y_{F}y_{0}}{i_{z}^{2}}+\frac{z_{F}z_{0}}{i_{y}^{2}}\right)
+              </annotation></semantics></math></div>
+      </div>
+      <div align="left">即<br>
+        <br>
+        <div align="center"><math
+            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>=</mo><mn>1</mn><mo>+</mo><mfrac><mrow><msub><mi>y</mi><mi>F</mi></msub><msub><mi>y</mi><mn>0</mn></msub></mrow><msubsup><mi>i</mi><mi>z</mi><mn>2</mn></msubsup></mfrac><mo>+</mo><mfrac><mrow><msub><mi>z</mi><mi>F</mi></msub><msub><mi>z</mi><mn>0</mn></msub></mrow><msubsup><mi>i</mi><mi>y</mi><mn>2</mn></msubsup></mfrac></mrow><annotation
+                encoding="TeX">0=1+\frac{y_{F}y_{0}}{i_{z}^{2}}+\frac{z_{F}z_{0}}{i_{y}^{2}}
+
+
+              </annotation></semantics></math><br>
+          <div align="left"><math
+              xmlns="http://www.w3.org/1998/Math/MathML"><semantics><annotation
+                  encoding="TeX"></annotation>若</semantics></math></div>
+        </div>
+      </div>
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><annotation
+            encoding="TeX"></annotation></semantics></math><br>
+      <div align="left"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>若</mtext><mtext>中</mtext><mtext>性</mtext><mtext>轴</mtext><mtext>在</mtext><mi>y</mi><mtext>轴</mtext><mtext>和</mtext><mi>z</mi><mtext>轴</mtext><mtext>上</mtext><mtext>的</mtext><mtext>截</mtext><mtext>距</mtext><mtext>分</mtext><mtext>别</mtext><mtext>是</mtext><msub><mi>a</mi><mi>y</mi></msub><mtext>和</mtext><msub><mi>a</mi><mi>z</mi></msub></mrow><annotation
+              encoding="TeX">若中性轴在y轴和z轴上的截距分别是 a_{y}和a_{z}</annotation></semantics></math>，
+        由中性轴方程易得<br>
+        <div align="center"><math
+            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>y</mi></msub><mo>=</mo><mo>−</mo><mfrac><msubsup><mi>i</mi><mi>z</mi><mn>2</mn></msubsup><msub><mi>y</mi><mi>F</mi></msub></mfrac><mo>,</mo><msub><mi>a</mi><mi>z</mi></msub><mo>=</mo><mo>−</mo><mfrac><msubsup><mi>i</mi><mi>y</mi><mn>2</mn></msubsup><msub><mi>z</mi><mi>F</mi></msub></mfrac></mrow><annotation
+                encoding="TeX">a_{y}=-\frac{i_{z}^{2}}{y_{F}},a_{z}=-\frac{i_{y}^{2}}{z_{F}}</annotation></semantics></math><br>
+          <br>
+          <div align="left"><b>故只要知道中性轴的方程，即可得到力的作用点。</b><br>
+            <br>
+            由于中性轴把整个截面分为两部分，其中一部分只受到拉力的作用，另一部分只受到压力的作用。那么<b>当中性轴与截面边界相切
+              时，所确定的力的作用点也就是截面核心边界上一点，由此便可以确定出截面核心区域。</b><br>
+            <br>
+            这自然会引出一个问题，若截面边界存在尖角，也就是切线不只一条，怎么办。<br>
+            <div align="left">设截面边界上尖角（r，s）的应力为0，即要求中性轴通过点（r，s），得出<math
+                xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>y</mi><mi>F</mi></msub><annotation
+                    encoding="TeX">y_{F}</annotation></semantics></math>和<math
+                xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>z</mi><mi>F</mi></msub><annotation
+                    encoding="TeX">z_{F}</annotation></semantics></math>需
+              要满足关系式<br>
+              <div align="center"><msub><mi><math
+                      xmlns="http://www.w3.org/1998/Math/MathML"><semantics><annotation
+                          encoding="TeX"></annotation>guan</semantics></math></mi></msub></div>
+            </div>
+          </div>
+          <div align="center"><math
+              xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>=</mo><mn>1</mn><mo>+</mo><mfrac><mrow><msub><mi>y</mi><mi>F</mi></msub><msub><mi>r</mi><mn></mn></msub></mrow><msubsup><mi>i</mi><mi>z</mi><mn>2</mn></msubsup></mfrac><mo>+</mo><mfrac><mrow><msub><mi>z</mi><mi>F</mi></msub><msub><mi>s</mi><mn></mn></msub></mrow><msubsup><mi>i</mi><mi>y</mi><mn>2</mn></msubsup></mfrac></mrow><annotation
+                  encoding="TeX">0=1+\frac{y_{F}y_{0}}{i_{z}^{2}}+\frac{z_{F}z_{0}}{i_{y}^{2}}
+
+
+                </annotation></semantics></math><br>
+            <div align="center"><math
+                xmlns="http://www.w3.org/1998/Math/MathML"><semantics><annotation
+                    encoding="TeX"></annotation>若</semantics></math><math
+                xmlns="http://www.w3.org/1998/Math/MathML"><semantics>即<annotation
+                    encoding="TeX"></annotation></semantics></math><br>
+              <br>
+            </div>
+          </div>
+        </div>
+        <div align="left">即<b>绕</b><b>截面边界尖角</b><b>（r，s）旋转的切线组对应的截面核心边缘为
+            直线</b>。<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><annotation
+                encoding="TeX"></annotation></semantics></math><br>
+          <br>
+        </div>
+      </div>
+      <div align="left">
+        <h2><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><annotation
+                encoding="TeX"></annotation></semantics></math></h2>
+        <h2>2.设计思路</h2>
+        <p>希望用python自带的turtle库绘制出任给截面的截面核心<br>
+        </p>
+        <p>若截面边界为曲线，由于曲线的方程难以给出，截面的各个参数难以求出，截面切线也难以寻找。故考虑使用直线段与圆弧近似所需图形。
+          由于在实际工程问题中不需要求出精确度极高的解，为简化算法，圆弧段也可用直线段去近似。<br>
+        </p>
+        <h3>2.1程序的输入参数</h3>
+        <p>用户需按逆时针方向依次把截面的节点和半径输入一个列表中，这句话不太好理解，下面举例说明。<br>
+          列表s=[(100,0,200),(-100,0),(-100,-200,-100),(100,-200)]中<br>
+          第一个元素表示turtle小乌龟从(100,0）点出发，其运动轨迹的曲率半径是200，200为正数代表相对圆心的绕行方向为逆
+          时针（若为负数，则为顺时针），该段圆弧的终点坐标为下一个元素的前两位，即(-100,0)。<br>
+        </p>
+        <h3>2.2程序输出结果</h3>
+        <p>程序运行结束后会输出截面边界的图像，以及截面核心区域，其用绿色填充。并在spyder界面的输出框中输出截面核心的边界节点坐
+          标。<br>
+        </p>
+        <h3>2.3程序大致流程</h3>
+        <ol>
+          <li>将输入的列表转换成只含有坐标的列表。其中圆弧的处理方式是，将其十等分，然后记录这些节点的坐标。该部由函数
+            to_standard_s()实现。</li>
+          <li>计算出截面的参数：面积S，惯性矩<math
+              xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>I</mi><mi>y</mi></msub><mo>,</mo><msub><mi>I</mi><mi>z</mi></msub><mo>,</mo><mtext>质
+                    心（xc，yc），惯</mtext><mtext>性</mtext><mtext>矩</mtext><msub><mi>I</mi><mrow><mi>x</mi><mi>z</mi></mrow></msub></mrow><annotation
+                  encoding="TeX">I_{y},I_{z},惯性矩I_{x</annotation></semantics></math></li>
+        </ol>
+      </div>
+      <div align="left"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><annotation
+              encoding="TeX">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+              对于顶点坐标已知的多边形有</annotation></semantics></math><br>
+        <br>
+        <div align="center"><math
+            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>=</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>S</mi><mi>i</mi></msub><mo>,</mo><msub><mi>S</mi><mi>i</mi></msub><mo>=</mo><mfrac><mrow><msub><mi>x</mi><mi>i</mi></msub><msub><mi>y</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>−</mo><msub><mi>x</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow></msub><msub><mi>y</mi><mi>i</mi></msub></mrow><mn>2</mn></mfrac><mtext>，</mtext><mo
+                  stretchy="false">(</mo><mi>i</mi><mo>=</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mo>…</mo><mo>,</mo><mi>n</mi><mo
+                  stretchy="false">)</mo></mrow><annotation
+                encoding="TeX">S=\sum
+                ^{n}_{i=1}S_{i},S_{i}=\frac{x_{i}y_{i+1}-x_{i+1}y_{i}}{2}
+                ，( i= 1,2,\ldots ,n) </annotation></semantics></math></div>
+      </div>
+      <div align="left">
+        <div align="center"><math
+            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>I</mi><mi>z</mi></msub><mo>=</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></munderover><msub><mi>S</mi><mi>i</mi></msub><mo>⋅</mo><mfrac><mrow><msubsup><mi>y</mi><mi>i</mi><mn>2</mn></msubsup><mo>+</mo><msub><mi>y</mi><mi>i</mi></msub><msub><mi>y</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>+</mo><msubsup><mi>y</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow><mn>2</mn></msubsup></mrow><mn>6</mn></mfrac><mo>+</mo><msub><mi>S</mi><mi>n</mi></msub><mo>⋅</mo><mfrac><mrow><msubsup><mi>y</mi><mi>n</mi><mn>2</mn></msubsup><mo>+</mo><msub><mi>y</mi><mi>n</mi></msub><msub><mi>y</mi><mn>0</mn></msub><mo>+</mo><msubsup><mi>y</mi><mn>0</mn><mn>2</mn></msubsup></mrow><mn>6</mn></mfrac><mtext>
+                </mtext></mrow></semantics></math><br>
+        </div>
+        <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext></mtext></mrow></semantics></math></div>
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>I</mi><mi>y</mi></msub><mo>=</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></munderover><msub><mi>S</mi><mi>i</mi></msub><mo>⋅</mo><mfrac><mrow><msubsup><mi>z</mi><mi>i</mi><mn>2</mn></msubsup><mo>+</mo><msub><mi>z</mi><mi>i</mi></msub><msub><mi>z</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>+</mo><msubsup><mi>z</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow><mn>2</mn></msubsup></mrow><mn>6</mn></mfrac><mo>+</mo><msub><mi>S</mi><mi>n</mi></msub><mo>⋅</mo><mfrac><mrow><msubsup><mi>z</mi><mi>n</mi><mn>2</mn></msubsup><mo>+</mo><msub><mi>z</mi><mi>n</mi></msub><msub><mi>z</mi><mn>0</mn></msub><mo>+</mo><msubsup><mi>z</mi><mn>0</mn><mn>2</mn></msubsup></mrow><mn>6</mn></mfrac><mtext>
+            </mtext></mrow></semantics></math><br>
+      <br>
+      <div align="center"><math
+          xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable
+              displaystyle="true" columnalign="right left right left
+              right left right left right left" columnspacing="0em"><mtr><mtd><msub><mi>I</mi><mrow><mi>y</mi><mi>z</mi></mrow></msub><mo>=</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mfrac><mrow><msubsup><mi>x</mi><mi>i</mi><mn>2</mn></msubsup><msub><mi>y</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow></msub><mrow><mo>(</mo><mrow><mn>2</mn><msub><mi>y</mi><mi>i</mi></msub><mo>+</mo><msub><mi>y</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow></msub></mrow><mo>)</mo></mrow><mo>−</mo><msubsup><mi>x</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow><mn>2</mn></msubsup><msub><mi>y</mi><mi>i</mi></msub><mrow><mo>(</mo><mrow><msub><mi>y</mi><mi>i</mi></msub><mo>+</mo><mn>2</mn><msub><mi>y</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow></msub></mrow><mo>)</mo></mrow><mo>+</mo><mn>2</mn><msub><mi>x</mi><mi>i</mi></msub><msub><mi>x</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow></msub><mrow><mo>(</mo><mrow><mo>−</mo><msubsup><mi>y</mi><mi>i</mi><mn>2</mn></msubsup><mo>+</mo><msubsup><mi>y</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow><mn>2</mn></msubsup></mrow><mo>)</mo></mrow></mrow><mn>24</mn></mfrac></mtd></mtr><mtr><mtd><mo></mo></mtd></mtr></mtable><annotation
+              encoding="TeX">\begin{aligned}I_{yz}=\sum
+              ^{n}_{i=1}\frac{x_{i}^{2}y_{i+1}\left(
+              2y_{i}+y_{i+1}\right) -x_{i+1}^{2}y_{i}\left(
+              y_{i}+2y_{i+1}\right)+2 x_{i}x_{i+1}\left(-
+              y_{i}^{2}+y_{i+1}^{2}\right)}{24}\\ .\end{aligned}</annotation></semantics></math><br>
+      </div>
+      <div align="center"><math
+          xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable
+              displaystyle="true" columnalign="right left right left
+              right left right left right left" columnspacing="0em"><mtr><mtd><msub><mi>y</mi><mi>c</mi></msub><mo>=</mo><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>s</mi><mi>i</mi></msub><mo>⋅</mo><mfrac><mrow><msub><mi>y</mi><mi>i</mi></msub><mo>+</mo><msub><mi>y</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow></msub></mrow><mn>3</mn></mfrac></mrow><mi>S</mi></mfrac></mtd></mtr><mtr><mtd></mtd></mtr></mtable><annotation
+              encoding="TeX">\begin{aligned}y_{c}=\frac{\sum
+              ^{n}_{i=1}s_{i}\cdot \frac{y_{i}+y_{i+1}}{3}}{S}\\
+              \end{aligned}</annotation></semantics></math>,<math
+          xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable
+              displaystyle="true" columnalign="right left right left
+              right left right left right left" columnspacing="0em"><mtr><mtd><msub><mi>z</mi><mi>c</mi></msub><mo>=</mo><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>s</mi><mi>i</mi></msub><mo>⋅</mo><mfrac><mrow><msub><mi>z</mi><mi>i</mi></msub><mo>+</mo><msub><mi>z</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow></msub></mrow><mn>3</mn></mfrac></mrow><mi>S</mi></mfrac></mtd></mtr><mtr><mtd></mtd></mtr></mtable><annotation
+              encoding="TeX">\begin{aligned}y_{c}=\frac{\sum
+              ^{n}_{i=1}s_{i}\cdot \frac{y_{i}+y_{i+1}}{3}}{S}\\
+              \end{aligned}</annotation></semantics></math></div>
+      <div align="left">&nbsp;&nbsp;&nbsp;&nbsp; 3.计算出形心主惯性轴的角度。<br>
+        &nbsp; &nbsp;&nbsp; 4.找出截面所有的切线。（难点）<br>
+        &nbsp; &nbsp;&nbsp; 5.找到切线对应的截面核心区域的边界点。 <br>
+      </div>
+      <br>
+      <div align="left">
+        <h2>3.创新性描述</h2>
+        <p>1.用线段和圆弧段近似复杂曲线段，简化了算法。<br>
+          2.独立推导出了，由多边形顶点坐标计算惯<msub><mrow><mi><math
+                  xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>性
+                          积I</mi><mrow><mi>y</mi><mi>z</mi></mrow></msub><mi>的
+                        计算公式。</mi><mi></mi></mrow><annotation
+                      encoding="TeX">I_{yz}de</annotation></semantics></math></mi></mrow></msub></p>
+      </div>
+      <div align="left">3.想到巧妙的算法，找到多边形截面的切线。<br>
+        &nbsp; 注：这里的切线是指恰好与图形相接触的直线，非数学意义上的切线。<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        如下图中直线a为该算法所求切线，直线b并不是这里所谓的切线。<br>
+        <br>
+      </div>
+      <div align="left"><img moz-do-not-send="true"
+          src="images/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE(355).jpg"
+          alt="" width="230" height="236"><br>
+        该算法的简要思想为，依次判别多边形每个节点相互之间的连线是否为切线。判断的标准是，若其余的所有节点均在该直线的同侧，则该直线为该
+        图形的切线。<br>
+        具体算法可参见程序中的find_tangent()函数<br>
+        4.并未找到其他可以实现该功能的程序，故该程序算法大概率为本人首创。<br>
+      </div>
+      <br>
+      <div align="left">
+        <h2>4.参数设置和运行方法</h2>
+        <p>将截面形状的坐标按照规定（参见该文档2.1）输入列表后，赋值给程序263行的s，点击运行按钮，即可获得结果。<br>
+          程序251至260行的列表s1-s10可供程序测试和老师检查使用。<br>
+        </p>
+        <p><br>
+        </p>
+        <h2>5.运行结果</h2>
+        <p>令s=s1=[(0,0),(400,0),(300,300),(100,300)],可得运行结果如下，截面核心节点坐标为相
+          对于质心的坐标<br>
+          <img moz-do-not-send="true" src="images/s1.jpg" alt=""
+            width="256" height="202"><br>
+          <img moz-do-not-send="true" src="images/s1_.jpg" alt=""
+            width="428" height="40"></p>
+        <p>令s=s3=[(0,0),(300,0),(300,250,150),(0,250)]，可得运行结果如下<br>
+          <img moz-do-not-send="true" src="images/1.jpg" alt=""
+            width="210" height="236"><br>
+          <img moz-do-not-send="true" src="images/s2_.jpg" alt=""
+            width="598" height="139"><br>
+        </p>
+        <p>令s=s6=[(50,0),(150,0),(150,200),(200,200),(200,300),(0,300),
+          (0,200),(50,200)],可 得运行结果如下<br>
+          <img moz-do-not-send="true" src="images/s3.jpg" alt=""
+            width="196" height="233"><br>
+          <img moz-do-not-send="true" src="images/s3_.jpg" alt=""
+            width="618" height="57"><br>
+        </p>
+      </div>
+      <div align="left">以上三例例取自 刘鸿文.材料力学 I[M].第 6 版. 北京:高等教育出版社,2017
+        第298页 习题8.11<br>
+        与标准答案对比可见该程序运行结果正确<br>
+      </div>
+      <br>
+      <br>
+      <div align="left">当然该程序同样可以处理十分复杂的截面图形，列举如下<br>
+        <img moz-do-not-send="true" src="images/1.jpg" alt=""
+          width="155" height="238">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+        <img moz-do-not-send="true" src="images/2.jpg" alt=""
+          width="230" height="223">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+        <img moz-do-not-send="true" src="images/3.jpg" alt=""
+          width="157" height="237">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img
+          moz-do-not-send="true" src="images/4.jpg" alt="" width="195"
+          height="177">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img
+          moz-do-not-send="true" src="images/5.jpg" alt="" width="212"
+          height="157"><br>
+        <h2>6.学习心得与收获</h2>
+        <p>通过与大一所学的C语言的对比学习，我体会到了python语言的便捷与灵活。虽然python的运行效率不如C语言，但由于其可
+          以调用的库十分丰富，可以实现的功能也更加强大。虽然本次大作业的思路在我的心中已经酝酿了很久，但真正动手写程序的时候总是漏洞百
+          出。但是当自己写出的程序可以顺利运行，并且输出正确的结果时，内心的成就感是无与伦比的。本学期的学习中令我印象最深刻的内容是类
+          的概念以及面向对象的编程。我大一学习C语言的时候从未接触过面向对象的编程，这学期学习并且理解后发现面向对象的编程可以实现很多
+          面向过程的编程做不到的功能，我从未想到竟然有这样的编程方法，我感到学到了新的知识，十分兴奋。<br>
+        </p>
+        <p><br>
+        </p>
+        <h2>7.参考文献</h2>
+        <p>[1]刘鸿文.材料力学 I[M].第 6 版. 北京:高等教育出版社,2017.<br>
+          [2]任意单连通多边形截面惯性矩的计算研究 晏 钊 陈小亮 牟亚清<br>
+          [3]任苇.任意形状平面几何图形几何特性的数值分析求解及工 程应用[J].西北水力发电,2005(S1):72-74.<br>
+          [4]Python科学计算基础 罗奇鸣<br>
+        </p>
+        <p><br>
+          <br>
+        </p>
+        <br>
+      </div>
+      <br>
+    </div>
+  </body>
+</html>

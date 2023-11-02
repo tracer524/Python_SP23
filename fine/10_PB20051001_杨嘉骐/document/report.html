@@ -1,0 +1,344 @@
+<!DOCTYPE html><html><head>
+      <title>report</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:///c:\Users\Segment\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.6.5\node_modules\@shd101wyy\mume\dependencies\katex\katex.min.css">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <style>
+      /**
+ * prism.js Github theme based on GitHub's theme.
+ * @author Sam Clarke
+ */
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #333;
+  background: none;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.4;
+
+  -moz-tab-size: 8;
+  -o-tab-size: 8;
+  tab-size: 8;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+  padding: .8em;
+  overflow: auto;
+  /* border: 1px solid #ddd; */
+  border-radius: 3px;
+  /* background: #fff; */
+  background: #f5f5f5;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+  padding: .1em;
+  border-radius: .3em;
+  white-space: normal;
+  background: #f5f5f5;
+}
+
+.token.comment,
+.token.blockquote {
+  color: #969896;
+}
+
+.token.cdata {
+  color: #183691;
+}
+
+.token.doctype,
+.token.punctuation,
+.token.variable,
+.token.macro.property {
+  color: #333;
+}
+
+.token.operator,
+.token.important,
+.token.keyword,
+.token.rule,
+.token.builtin {
+  color: #a71d5d;
+}
+
+.token.string,
+.token.url,
+.token.regex,
+.token.attr-value {
+  color: #183691;
+}
+
+.token.property,
+.token.number,
+.token.boolean,
+.token.entity,
+.token.atrule,
+.token.constant,
+.token.symbol,
+.token.command,
+.token.code {
+  color: #0086b3;
+}
+
+.token.tag,
+.token.selector,
+.token.prolog {
+  color: #63a35c;
+}
+
+.token.function,
+.token.namespace,
+.token.pseudo-element,
+.token.class,
+.token.class-name,
+.token.pseudo-class,
+.token.id,
+.token.url-reference .token.variable,
+.token.attr-name {
+  color: #795da3;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+.token.title,
+.token.title .token.punctuation {
+  font-weight: bold;
+  color: #1d3e81;
+}
+
+.token.list {
+  color: #ed6a43;
+}
+
+.token.inserted {
+  background-color: #eaffea;
+  color: #55a532;
+}
+
+.token.deleted {
+  background-color: #ffecec;
+  color: #bd2c00;
+}
+
+.token.bold {
+  font-weight: bold;
+}
+
+.token.italic {
+  font-style: italic;
+}
+
+
+/* JSON */
+.language-json .token.property {
+  color: #183691;
+}
+
+.language-markup .token.tag .token.punctuation {
+  color: #333;
+}
+
+/* CSS */
+code.language-css,
+.language-css .token.function {
+  color: #0086b3;
+}
+
+/* YAML */
+.language-yaml .token.atrule {
+  color: #63a35c;
+}
+
+code.language-yaml {
+  color: #183691;
+}
+
+/* Ruby */
+.language-ruby .token.function {
+  color: #333;
+}
+
+/* Markdown */
+.language-markdown .token.url {
+  color: #795da3;
+}
+
+/* Makefile */
+.language-makefile .token.symbol {
+  color: #795da3;
+}
+
+.language-makefile .token.variable {
+  color: #183691;
+}
+
+.language-makefile .token.builtin {
+  color: #0086b3;
+}
+
+/* Bash */
+.language-bash .token.keyword {
+  color: #0086b3;
+}
+
+/* highlight */
+pre[data-line] {
+  position: relative;
+  padding: 1em 0 1em 3em;
+}
+pre[data-line] .line-highlight-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  display: block;
+  width: 100%;
+}
+
+pre[data-line] .line-highlight {
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: inherit 0;
+  margin-top: 1em;
+  background: hsla(24, 20%, 50%,.08);
+  background: linear-gradient(to right, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
+  pointer-events: none;
+  line-height: inherit;
+  white-space: pre;
+}
+
+pre[data-line] .line-highlight:before, 
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-start);
+  position: absolute;
+  top: .4em;
+  left: .6em;
+  min-width: 1em;
+  padding: 0 .5em;
+  background-color: hsla(24, 20%, 50%,.4);
+  color: hsl(24, 20%, 95%);
+  font: bold 65%/1.5 sans-serif;
+  text-align: center;
+  vertical-align: .3em;
+  border-radius: 999px;
+  text-shadow: none;
+  box-shadow: 0 1px white;
+}
+
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-end);
+  top: auto;
+  bottom: .4em;
+}html body{font-family:"Helvetica Neue",Helvetica,"Segoe UI",Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ul,html body>ol{margin-bottom:16px}html body ul,html body ol{padding-left:2em}html body ul.no-list,html body ol.no-list{padding:0;list-style-type:none}html body ul ul,html body ul ol,html body ol ol,html body ol ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:bold;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:bold}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em !important;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::before,html body code::after{letter-spacing:-0.2em;content:"\00a0"}html body pre>code{padding:0;margin:0;font-size:.85em !important;word-break:normal;white-space:pre;background:transparent;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;font-size:.85em !important;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:before,html body pre tt:before,html body pre code:after,html body pre tt:after{content:normal}html body p,html body blockquote,html body ul,html body ol,html body dl,html body pre{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body pre,html body code{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview .pagebreak,.markdown-preview .newpage{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center !important}.markdown-preview:not([for="preview"]) .code-chunk .btn-group{display:none}.markdown-preview:not([for="preview"]) .code-chunk .status{display:none}.markdown-preview:not([for="preview"]) .code-chunk .output-div{margin-bottom:16px}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0}@media screen and (min-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{font-size:14px !important;padding:1em}}@media print{html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,0.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{padding:0 1.6em;margin-top:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc li{margin-bottom:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{list-style-type:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% -  300px);padding:2em calc(50% - 457px -  150px);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+.markdown-preview.markdown-preview {
+  font-family: "system-ui", "Times New Roman", "Microsoft YaHei", "KaiTi", Georgia, Serif;
+}
+
+      </style>
+    </head>
+    <body for="html-export">
+      <div class="mume markdown-preview  ">
+      <h1 class="mume-header" id="%E9%BB%91%E6%B4%9E%E5%8F%AF%E8%A7%86%E5%8C%96%E6%A8%A1%E6%8B%9F%E7%A8%8B%E5%BA%8F">&#x9ED1;&#x6D1E;&#x53EF;&#x89C6;&#x5316;&#x6A21;&#x62DF;&#x7A0B;&#x5E8F;</h1>
+
+<p>&#x8BA1;&#x7B97;&#x673A;&#x5B66;&#x9662; PB20051001 &#x6768;&#x5609;&#x9A90;</p>
+<h2 class="mume-header" id="%E7%A7%91%E5%AD%A6%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86">&#x79D1;&#x5B66;&#x6280;&#x672F;&#x539F;&#x7406;</h2>
+
+<p>&#x9ED1;&#x6D1E;&#xFF08;&#x82F1;&#x6587;&#xFF1A;Black Hole&#xFF09;&#x662F;&#x73B0;&#x4EE3;&#x5E7F;&#x4E49;&#x76F8;&#x5BF9;&#x8BBA;&#x4E2D;&#xFF0C;&#x5B58;&#x5728;&#x4E8E;&#x5B87;&#x5B99;&#x7A7A;&#x95F4;&#x4E2D;&#x7684;&#x4E00;&#x79CD;&#x5929;&#x4F53;&#x3002;&#x9ED1;&#x6D1E;&#x7684;&#x5F15;&#x529B;&#x6781;&#x5176;&#x5F3A;&#x5927;&#xFF0C;&#x4F7F;&#x5F97;&#x89C6;&#x754C;&#x5185;&#x7684;&#x9003;&#x9038;&#x901F;&#x5EA6;&#x5927;&#x4E8E;&#x5149;&#x901F;&#x3002;&#x6545;&#x800C;&#xFF0C;&#x9ED1;&#x6D1E;&#x662F;&#x65F6;&#x7A7A;&#x66F2;&#x7387;&#x5927;&#x5230;&#x5149;&#x90FD;&#x65E0;&#x6CD5;&#x4ECE;&#x5176;&#x4E8B;&#x4EF6;&#x89C6;&#x754C;&#x9003;&#x8131;&#x7684;&#x5929;&#x4F53;&#x3002;</p>
+<p>&#x6839;&#x636E;&#x5E7F;&#x4E49;&#x76F8;&#x5BF9;&#x8BBA;&#xFF0C;&#x5927;&#x8D28;&#x91CF;&#x7269;&#x4F53;&#x4F1A;&#x5F15;&#x8D77;&#x65F6;&#x7A7A;&#x7684;&#x626D;&#x66F2;&#xFF0C;&#x5176;&#x4E00;&#x4E2A;&#x91CD;&#x8981;&#x4F53;&#x73B0;&#x5C31;&#x662F;&#x5149;&#x7684;&#x5F15;&#x529B;&#x900F;&#x955C;&#x6548;&#x5E94;&#x3002;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#xFF0C;&#x50CF;&#x9ED1;&#x6D1E;&#x8FD9;&#x6837;&#x7684;&#x5927;&#x8D28;&#x91CF;&#x7269;&#x4F53;&#x4F1A;&#x5F15;&#x8D77;&#x8FDC;&#x65B9;&#x80CC;&#x666F;&#x53D1;&#x51FA;&#x7684;&#x5149;&#x7EBF;&#x5F2F;&#x6298;&#xFF0C;&#x4ECE;&#x800C;&#x5176;&#x6539;&#x53D8;&#x5176;&#x89C6;&#x89C9;&#x5F62;&#x8C61;&#x3002;&#x501F;&#x52A9;&#x6570;&#x5B66;&#x5DE5;&#x5177;&#xFF0C;&#x5728;&#x672C;&#x6B21;&#x5B9E;&#x9A8C;&#x4E2D;&#x6211;&#x5C06;&#x4F1A;&#x5C1D;&#x8BD5;&#x6A21;&#x62DF;&#x4E00;&#x4E2A;&#x975E;&#x65CB;&#x8F6C;&#x9ED1;&#x6D1E;(&#x53F2;&#x74E6;&#x897F;&#x9ED1;&#x6D1E;)&#x5B58;&#x5728;&#x65F6;&#x7684;&#x89C6;&#x89C9;&#x5F62;&#x8C61;&#x3002;</p>
+<p>&#x9ED1;&#x6D1E;&#x7684;&#x5E7F;&#x4E49;&#x76F8;&#x5BF9;&#x8BBA;&#x63CF;&#x8FF0;&#x8FC7;&#x4E8E;&#x590D;&#x6742;&#xFF0C;&#x4F46;&#x6839;&#x636E;&#x9ED1;&#x6D1E;&#x7684;&#x5BF9;&#x79F0;&#x6027;&#xFF0C;&#x6A21;&#x62DF;&#x9ED1;&#x6D1E;&#x7684;&#x89C6;&#x89C9;&#x5F62;&#x8C61;&#x53EA;&#x9700;&#x8981;&#x83B7;&#x5F97;&#x9ED1;&#x6D1E;&#x4E00;&#x6761;&#x534A;&#x5F84;&#x6240;&#x5728;&#x5C04;&#x7EBF;&#x4E0A;&#x7684;&#x5149;&#x7EBF;&#x8F68;&#x8FF9;&#x3002;&#x67E5;&#x9605;&#x8D44;&#x6599;&#x53EF;&#x5F97;&#x6B64;&#x65F6;&#x63CF;&#x8FF0;&#x5149;&#x5B50;&#x8F68;&#x8FF9;&#x7684;&#x5E38;&#x5FAE;&#x5206;&#x65B9;&#x7A0B;&#x5982;&#x4E0B;:</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mfrac><mrow><msup><mi mathvariant="normal">d</mi><mn>2</mn></msup><mi>u</mi></mrow><mrow><mi mathvariant="normal">d</mi><msup><mi>&#x3D5;</mi><mn>2</mn></msup></mrow></mfrac><mo>&#x2212;</mo><mfrac><mrow><mn>3</mn><msub><mi>R</mi><mi>s</mi></msub><msup><mi>u</mi><mn>2</mn></msup></mrow><mn>2</mn></mfrac><mo>+</mo><mi>u</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\frac{\mathrm{d}^2u}{\mathrm{d}\phi^2} - \frac{3 R_s u^2}{2} + u = 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.3715em;vertical-align:-0.8804em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.4911em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">d</span><span class="mord"><span class="mord mathnormal">&#x3D5;</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7401em;"><span style="top:-2.989em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathrm">d</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mord mathnormal">u</span></span></span></span><span class="vlist-s">&#x200B;</span></span><span class="vlist-r"><span class="vlist" style="height:0.8804em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">&#x2212;</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:2.1771em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.4911em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">3</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0077em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">s</span></span></span></span><span class="vlist-s">&#x200B;</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">u</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">&#x200B;</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">u</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span></span></p>
+<p>&#x5176;&#x4E2D; <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mo stretchy="false">(</mo><mi>&#x3D5;</mi><mo stretchy="false">)</mo><mo>=</mo><mfrac><mn>1</mn><mrow><mi>r</mi><mo stretchy="false">(</mo><mi>&#x3D5;</mi><mo stretchy="false">)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">u(\phi)=\frac{1}{r(\phi)}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">u</span><span class="mopen">(</span><span class="mord mathnormal">&#x3D5;</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.3651em;vertical-align:-0.52em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mopen mtight">(</span><span class="mord mathnormal mtight">&#x3D5;</span><span class="mclose mtight">)</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">&#x200B;</span></span><span class="vlist-r"><span class="vlist" style="height:0.52em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span> &#x4E14; <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>R</mi><mi>s</mi></msub><mo>=</mo><mfrac><mrow><mn>2</mn><mi>M</mi><mi>G</mi></mrow><msup><mi>c</mi><mn>2</mn></msup></mfrac></mrow><annotation encoding="application/x-tex">R_s = \frac{2MG}{c^2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0077em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">s</span></span></span></span><span class="vlist-s">&#x200B;</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.2173em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8723em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight">c</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7463em;"><span style="top:-2.786em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mathnormal mtight">MG</span></span></span></span></span><span class="vlist-s">&#x200B;</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>. <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>R</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">R_s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0077em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">s</span></span></span></span><span class="vlist-s">&#x200B;</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> &#x662F;&#x9ED1;&#x6D1E;&#x7684;&#x89C6;&#x754C;&#x534A;&#x5F84;&#x3002;</p>
+<p>&#x5C06;&#x5176;&#x8F6C;&#x5316;&#x4E3A;&#x4E24;&#x4E2A;&#x4E00;&#x9636;&#x65B9;&#x7A0B;:</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>v</mi><mn>0</mn></msub><mo>=</mo><mi>u</mi><mo stretchy="false">[</mo><mn>1</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">v_0 = u[1]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">&#x200B;</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">u</span><span class="mopen">[</span><span class="mord">1</span><span class="mclose">]</span></span></span></span></span></p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>v</mi><mn>1</mn></msub><mo>=</mo><mfrac><mrow><mn>3</mn><msub><mi>R</mi><mi>s</mi></msub></mrow><mn>2</mn></mfrac><mi>u</mi><mo stretchy="false">[</mo><mn>0</mn><msup><mo stretchy="false">]</mo><mn>2</mn></msup><mo>&#x2212;</mo><mi>u</mi><mo stretchy="false">[</mo><mn>0</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">v_1 = \frac{3 R_s}{2}u[0]^2-u[0]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">&#x200B;</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.0463em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3603em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">3</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0077em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">s</span></span></span></span><span class="vlist-s">&#x200B;</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">&#x200B;</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord mathnormal">u</span><span class="mopen">[</span><span class="mord">0</span><span class="mclose"><span class="mclose">]</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">&#x2212;</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">u</span><span class="mopen">[</span><span class="mord">0</span><span class="mclose">]</span></span></span></span></span></p>
+<p>&#x5176;&#x4E2D; <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mo stretchy="false">[</mo><mn>0</mn><mo stretchy="false">]</mo><mo>=</mo><mi>u</mi><mo stretchy="false">[</mo><mi>&#x3D5;</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">u[0] = u[\phi]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">u</span><span class="mopen">[</span><span class="mord">0</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">u</span><span class="mopen">[</span><span class="mord mathnormal">&#x3D5;</span><span class="mclose">]</span></span></span></span> &#x4E14; <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mo stretchy="false">[</mo><mn>1</mn><mo stretchy="false">]</mo><mo>=</mo><mfrac><mrow><mi mathvariant="normal">d</mi><mi>u</mi></mrow><mrow><mi mathvariant="normal">d</mi><mi>&#x3D5;</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">u[1] = \frac{\mathrm{d}u}{\mathrm{d}\phi}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">u</span><span class="mopen">[</span><span class="mord">1</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.3612em;vertical-align:-0.4811em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8801em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathrm mtight">d</span><span class="mord mathnormal mtight">&#x3D5;</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathrm mtight">d</span><span class="mord mathnormal mtight">u</span></span></span></span></span><span class="vlist-s">&#x200B;</span></span><span class="vlist-r"><span class="vlist" style="height:0.4811em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>.</p>
+<p>&#x8FB9;&#x754C;&#x6761;&#x4EF6;&#x6709;:</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>v</mi><mn>0</mn></msub><mo stretchy="false">(</mo><mn>0</mn><mo stretchy="false">)</mo><mo>=</mo><mfrac><mn>1</mn><mi>D</mi></mfrac></mrow><annotation encoding="application/x-tex">v_0(0) = \frac{1}{D}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">&#x200B;</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord">0</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.0074em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">D</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">&#x200B;</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>v</mi><mn>1</mn></msub><mo stretchy="false">(</mo><mn>0</mn><mo stretchy="false">)</mo><mo>=</mo><mfrac><mn>1</mn><mrow><mi>D</mi><mi>tan</mi><mo>&#x2061;</mo><mo stretchy="false">(</mo><mi>&#x3B1;</mi><mo stretchy="false">)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">v_1(0) = \frac{1}{D\tan(\alpha)}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">&#x200B;</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord">0</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.2574em;vertical-align:-0.936em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">tan</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0037em;">&#x3B1;</span><span class="mclose">)</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">&#x200B;</span></span><span class="vlist-r"><span class="vlist" style="height:0.936em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
+<p>&#x5DEE;&#x5206;&#x65B9;&#x7A0B;&#x7684;&#x89E3;&#x5BF9;&#x5E94;&#x7684;&#x53EF;&#x89C6;&#x89D2;&#x5EA6;&#x4E0E;&#x504F;&#x8F6C;&#x89D2;&#x5EA6;&#x4E4B;&#x95F4;&#x7684;&#x5173;&#x7CFB;&#x5982;&#x4E0B;:</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mrow><mi mathvariant="normal">s</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">_</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">g</mi><mi mathvariant="normal">l</mi><mi mathvariant="normal">e</mi></mrow><mo>=</mo><mi>&#x3C0;</mi><mo>&#x2212;</mo><mi>&#x3B1;</mi></mrow><annotation encoding="application/x-tex">\mathrm{seen\_angle} = \pi - \alpha</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0044em;vertical-align:-0.31em;"></span><span class="mord"><span class="mord mathrm">seen_angle</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">&#x3C0;</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">&#x2212;</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">&#x3B1;</span></span></span></span></span></p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mrow><mi mathvariant="normal">d</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">v</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">d</mi><mi mathvariant="normal">_</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">g</mi><mi mathvariant="normal">l</mi><mi mathvariant="normal">e</mi></mrow><mo>=</mo><mi>&#x3D5;</mi><mo>+</mo><mi>&#x3B1;</mi><mi>sin</mi><mo>&#x2061;</mo><mo stretchy="false">(</mo><mfrac><mi>D</mi><mi>R</mi></mfrac><mi>sin</mi><mo>&#x2061;</mo><mo stretchy="false">(</mo><mi>&#x3D5;</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\mathrm{deviated\_angle} = \phi + \alpha \sin(\frac{D}{R}\sin(\phi))</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0044em;vertical-align:-0.31em;"></span><span class="mord"><span class="mord mathrm">deviated_angle</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">&#x3D5;</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:2.0463em;vertical-align:-0.686em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">&#x3B1;</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">sin</span><span class="mopen">(</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3603em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">D</span></span></span></span><span class="vlist-s">&#x200B;</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">sin</span><span class="mopen">(</span><span class="mord mathnormal">&#x3D5;</span><span class="mclose">))</span></span></span></span></span><br>
+&#x8FD9;&#x6837;, &#x5C31;&#x53EF;&#x4EE5;&#x501F;&#x52A9;scipy.integrate.solve_ivp&#x7B49;&#x51FD;&#x6570;&#x6765;&#x6C42;&#x89E3;&#x8FD9;&#x4E2A;&#x5FAE;&#x5206;&#x65B9;&#x7A0B;&#xFF0C;&#x83B7;&#x5F97;&#x6BCF;&#x4E2A;&#x70B9;&#x4E0A;&#x5BF9;&#x5E94;&#x7684;&#x5149;&#x7EBF;&#x504F;&#x8F6C;&#x89D2;&#x5EA6;&#x4E86;&#x3002;&#x6C42;&#x89E3;&#x5B8C;&#x6210;&#x540E;&#xFF0C;&#x5229;&#x7528;&#x63D2;&#x503C;&#x6CD5;&#x7B49;&#x65B9;&#x6CD5;&#x5C06;&#x4E00;&#x6761;&#x8F68;&#x8FF9;&#x4E0A;&#x7684;&#x8DEF;&#x5F84;&#x5E94;&#x7528;&#x5230;&#x6240;&#x6709;&#x50CF;&#x7D20;&#x4E0A;&#xFF0C;&#x5F97;&#x5230;&#x53D8;&#x6362;&#x540E;&#x6240;&#x6709;&#x50CF;&#x7D20;&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x8BA1;&#x7B97;&#x51FA;&#x6700;&#x7EC8;&#x7684;&#x56FE;&#x50CF;&#x3002;</p>
+<h2 class="mume-header" id="%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF">&#x8BBE;&#x8BA1;&#x601D;&#x8DEF;</h2>
+
+<ul>
+<li>&#x4F7F;&#x7528; Python &#x79D1;&#x5B66;&#x8BA1;&#x7B97;&#x5E93;&#x4E2D;&#x7684;Scipy&#x3001;Numpy&#x7B49;&#x5E93;&#x8FDB;&#x884C;&#x5411;&#x91CF;&#x548C;&#x77E9;&#x9635;&#x7684;&#x8BA1;&#x7B97;&#xFF0C;&#x5E76;&#x4F7F;&#x7528;PIL&#x5E93;&#x8FDB;&#x884C;&#x56FE;&#x50CF;&#x5904;&#x7406;</li>
+<li>&#x8BBE;&#x8BA1; Blackhole &#x7C7B;&#xFF0C;&#x627F;&#x8F7D;&#x8BA1;&#x7B97;&#x7684;&#x4E3B;&#x4F53;&#x3002;</li>
+<li>&#x5728; Blackhole &#x7C7B;&#x5185;&#x7684;compute&#x51FD;&#x6570;&#x4E2D;&#x627F;&#x8F7D;&#x8BA1;&#x7B97;&#x903B;&#x8F91;&#x3002;</li>
+<li>&#x9996;&#x5148;&#x901A;&#x8FC7;&#x4E0A;&#x8FF0;&#x7684;&#x8F68;&#x8FF9;&#x65B9;&#x7A0B;&#xFF0C;&#x6C42;&#x89E3;&#x51FA;&#x4E00;&#x6761;&#x5F84;&#x5411;&#x8DEF;&#x5F84;&#x4E0A;&#x7684;&#x5149;&#x5B50;&#x8FD0;&#x52A8;&#x8F68;&#x8FF9;&#xFF0C;&#x8FD4;&#x56DE;&#x53EF;&#x89C6;&#x89D2;&#x5EA6;&#x4E0E;&#x504F;&#x8F6C;&#x89D2;&#x5EA6;&#x4E4B;&#x95F4;&#x7684;&#x5BF9;&#x5E94;&#x5173;&#x7CFB;
+<ul>
+<li>&#x6839;&#x636E;serach_alpha_min&#x51FD;&#x6570;&#x8BA1;&#x7B97;&#x5176;&#x5173;&#x4E8E;&#x9ED1;&#x6D1E;&#x7684;&#x5F20;&#x89D2;alpha&#xFF0C;&#x6C42;&#x51FA;&#x5149;&#x7EBF;&#x6765;&#x6E90;&#x7684;&#x8303;&#x56F4;</li>
+<li>&#x5BF9;&#x4E8E;&#x6BCF;&#x4E2A;alpha&#x6C42;&#x89E3;&#x5FAE;&#x5206;&#x65B9;&#x7A0B;&#x3001;&#x8BA1;&#x7B97;&#x5149;&#x5B50;&#x8F68;&#x8FF9;&#x3002;&#x8C03;&#x7528;scipy.integrate.solve_ivp&#x6C42;&#x89E3;&#x5DEE;&#x5206;&#x65B9;&#x7A0B;&#x7684;&#x6570;&#x503C;&#x89E3;&#x3002;</li>
+<li>&#x5C06;&#x7ED3;&#x679C;&#x8F6C;&#x6362;&#x4E3A;&#x7403;&#x5750;&#x6807;</li>
+</ul>
+</li>
+<li>&#x4E4B;&#x540E;&#x901A;&#x8FC7;&#x63D2;&#x503C;&#x6CD5;&#xFF0C;&#x501F;&#x52A9;numpy&#x5E93;&#x8FDB;&#x884C;&#x77E9;&#x9635;&#x53D8;&#x6362;&#xFF0C;&#x5C06;&#x4E00;&#x6761;&#x8DEF;&#x5F84;&#x4E0A;&#x7684;&#x89D2;&#x5EA6;&#x5E94;&#x7528;&#x5230;&#x56FE;&#x7247;&#x7684;&#x6240;&#x6709;&#x50CF;&#x7D20;&#x4E0A;&#xFF0C;&#x83B7;&#x5F97;&#x504F;&#x8F6C;&#x77E9;&#x9635;&#x3002;</li>
+<li>&#x6700;&#x540E;&#x5C06;&#x8FD9;&#x4E2A;&#x504F;&#x8F6C;&#x77E9;&#x9635;&#x5E94;&#x7528;&#x5230;&#x539F;&#x59CB;&#x56FE;&#x50CF;&#x4E0A;&#xFF0C;&#x901A;&#x8FC7;PIL&#x5E93;&#x8FDB;&#x884C;&#x56FE;&#x7247;&#x7684;&#x8F6C;&#x5316;&#xFF0C;&#x5F97;&#x5230;&#x6700;&#x7EC8;&#x7684;&#x9ED1;&#x6D1E;&#x7684;&#x89C6;&#x89C9;&#x56FE;&#x50CF;</li>
+</ul>
+<h2 class="mume-header" id="%E5%88%9B%E6%96%B0%E6%80%A7%E6%8F%8F%E8%BF%B0">&#x521B;&#x65B0;&#x6027;&#x63CF;&#x8FF0;</h2>
+
+<p>&#x672C;&#x6B21;&#x5B9E;&#x9A8C;&#x5229;&#x7528;&#x5E7F;&#x4E49;&#x76F8;&#x5BF9;&#x8BBA;&#x5BF9;&#x4E8E;&#x5149;&#x53D7;&#x5230;&#x5927;&#x8D28;&#x91CF;&#x7269;&#x4F53;&#x800C;&#x504F;&#x6298;&#x7684;&#x8BA1;&#x7B97;&#x516C;&#x5F0F;&#xFF0C;&#x8BBE;&#x8BA1;&#x5B9E;&#x73B0;&#x4E86;&#x8BA1;&#x7B97;&#x9ED1;&#x6D1E;&#x7684;&#x89C6;&#x89C9;&#x5F62;&#x8C61;&#x7684;&#x7A0B;&#x5E8F;&#x3002;</p>
+<p>&#x5728;&#x4EE3;&#x7801;&#x4E2D;&#x5229;&#x7528;&#x9ED1;&#x6D1E;&#x672C;&#x8EAB;&#x7684;&#x5BF9;&#x79F0;&#x6027;&#xFF0C;&#x4EC5;&#x8BA1;&#x7B97;&#x4E00;&#x6761;&#x5F84;&#x5411;&#x7684;&#x5149;&#x7EBF;&#x504F;&#x6298;&#x89C4;&#x5F8B;&#xFF0C;&#x65E0;&#x9700;&#x5BF9;&#x56FE;&#x50CF;&#x4E0A;&#x6BCF;&#x4E2A;&#x70B9;&#x8FDB;&#x884C;&#x4E00;&#x6B21;&#x8BA1;&#x7B97;&#xFF0C;&#x63D0;&#x9AD8;&#x4E86;&#x8BA1;&#x7B97;&#x6548;&#x7387;&#xFF0C;&#x51CF;&#x5C11;&#x4E86;&#x8FD0;&#x884C;&#x65F6;&#x95F4;&#x3002;</p>
+<p>&#x5229;&#x7528;&#x63D2;&#x503C;&#x7B49;&#x65B9;&#x6CD5;&#xFF0C;&#x5C06;&#x56FE;&#x50CF;&#x7684;&#x53D8;&#x6362;&#x8F6C;&#x5316;&#x4E3A;&#x77E9;&#x9635;&#x7684;&#x53D8;&#x6362;&#xFF0C;&#x4ECE;&#x800C;&#x80FD;&#x591F;&#x501F;&#x52A9;scipy&#x7B49;&#x5E93;&#x5B9E;&#x73B0;&#x8BA1;&#x7B97;&#x7684;&#x52A0;&#x901F;&#xFF0C;&#x5E76;&#x6700;&#x7EC8;&#x65B9;&#x4FBF;&#x5730;&#x5E94;&#x7528;&#x5230;&#x6700;&#x7EC8;&#x56FE;&#x50CF;&#x4E2D;&#x3002;</p>
+<p>&#x540C;&#x65F6;&#xFF0C;&#x672C;&#x5B9E;&#x9A8C;&#x4E2D;&#x5B9E;&#x73B0;&#x7684;&#x8BA1;&#x7B97;&#x9ED1;&#x6D1E;&#x7684;&#x89C6;&#x89C9;&#x5F62;&#x8C61;&#x7684;&#x4EE3;&#x7801;&#xFF0C;&#x540C;&#x6837;&#x9002;&#x5408;&#x8BA1;&#x7B97;&#x5B87;&#x5B99;&#x4E2D;&#x4E00;&#x5207;&#x5927;&#x8D28;&#x91CF;&#x7269;&#x4F53;&#x4EA7;&#x751F;&#x7684;&#x5F15;&#x529B;&#x504F;&#x6298;&#x6548;&#x5E94;&#xFF0C;&#x5177;&#x6709;&#x5E94;&#x7528;&#x7684;&#x666E;&#x9002;&#x6027;&#x3002;</p>
+<h2 class="mume-header" id="%E8%BF%90%E8%A1%8C%E6%96%B9%E6%B3%95%E5%92%8C%E7%BB%93%E6%9E%9C">&#x8FD0;&#x884C;&#x65B9;&#x6CD5;&#x548C;&#x7ED3;&#x679C;</h2>
+
+<p>&#x8FD0;&#x884C; <code>Blackhole.py</code> &#xFF0C;&#x5728;&#x8FD0;&#x884C;&#x5F00;&#x59CB;&#x524D;&#x53EF;&#x4EE5;&#x5728;main&#x4E2D;&#x4FEE;&#x6539;&#x80CC;&#x666F;&#x56FE;&#x7247;&#x3001;&#x9ED1;&#x6D1E;&#x5927;&#x5C0F;(&#x4EE5;&#x5929;&#x6587;&#x5355;&#x4F4D;&#x4E3A;&#x5355;&#x4F4D;)&#x548C;&#x9ED1;&#x6D1E;&#x79BB;&#x89C2;&#x6D4B;&#x8005;&#x7684;&#x8DDD;&#x79BB;(&#x4EE5;&#x5929;&#x6587;&#x5355;&#x4F4D;&#x4E3A;&#x5355;&#x4F4D;)&#x3002;</p>
+<p>&#x8FD0;&#x884C;&#x65F6;&#xFF0C;&#x7A0B;&#x5E8F;&#x4F1A;&#x5728;&#x63A7;&#x5236;&#x53F0;&#x8F93;&#x51FA;&#x751F;&#x6210;&#x7684;&#x9ED1;&#x6D1E;&#x5BF9;&#x5E94;&#x7684;&#x5404;&#x9879;&#x4FE1;&#x606F;&#x548C;&#x4EA7;&#x751F;&#x56FE;&#x50CF;&#x7684;&#x8BA1;&#x7B97;&#x65F6;&#x95F4;&#x3002;</p>
+<p><img src="images/terminal.png" alt="ter"></p>
+<p>&#x4EE5;8&#x5929;&#x6587;&#x5355;&#x4F4D;&#x4E3A;&#x9ED1;&#x6D1E;&#x5927;&#x5C0F;&#xFF0C;&#x8DDD;&#x79BB;&#x89C2;&#x5BDF;&#x8005;50&#x5929;&#x6587;&#x5355;&#x4F4D;&#x751F;&#x6210;&#x7684;&#x56FE;&#x50CF;&#x5982;&#x56FE;:</p>
+<p><img src="images/output.png" alt="out"></p>
+<p>&#x4FEE;&#x6539;&#x9ED1;&#x6D1E;&#x7684;&#x5927;&#x5C0F;&#x548C;&#x8DDD;&#x79BB;&#x53EF;&#x4EE5;&#x4EA7;&#x751F;&#x4E0D;&#x540C;&#x7684;&#x7ED3;&#x679C;,&#x4F8B;&#x5982;&#x5C06;&#x9ED1;&#x6D1E;&#x5927;&#x5C0F;&#x6539;&#x4E3A;12&#x5929;&#x6587;&#x5355;&#x4F4D;:</p>
+<p><img src="images/output2.png" alt="out2"></p>
+<p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x56FE;&#x7247;&#x6B63;&#x786E;&#x5730;&#x6A21;&#x62DF;&#x4E86;&#x5728;&#x4E00;&#x4E2A;&#x5927;&#x8D28;&#x91CF;&#x9ED1;&#x6D1E;&#x9644;&#x8FD1;&#x770B;&#x5230;&#x7684;&#x5149;&#x7EBF;&#x5F2F;&#x6298;&#x73B0;&#x8C61;&#x3002;</p>
+<h2 class="mume-header" id="%E5%AD%A6%E4%B9%A0%E5%BF%83%E5%BE%97%E6%94%B6%E8%8E%B7">&#x5B66;&#x4E60;&#x5FC3;&#x5F97;&#x6536;&#x83B7;</h2>
+
+<ul>
+<li>&#x901A;&#x8FC7;&#x672C;&#x6B21;&#x8BFE;&#x7A0B;&#xFF0C;&#x4ECE;&#x57FA;&#x7840;&#x5F00;&#x59CB;&#x5B8C;&#x6574;&#x5B66;&#x4E60;&#x4E86;Python&#x7684;&#x57FA;&#x672C;&#x8BED;&#x6CD5;&#x7ED3;&#x6784;&#xFF0C;&#x521D;&#x6B65;&#x638C;&#x63E1;&#x4E86;Python&#x7684;&#x5F3A;&#x5927;&#x79D1;&#x5B66;&#x8BA1;&#x7B97;&#x80FD;&#x529B;&#x3002;</li>
+<li>&#x901A;&#x8FC7;&#x672C;&#x6B21;&#x5B9E;&#x9A8C;&#xFF0C;&#x5B8C;&#x6574;&#x7684;&#x5199;&#x51FA;&#x4E86;&#x4E00;&#x4E2A;&#x8F83;&#x5927;&#x578B;&#x7684;Python&#x7A0B;&#x5E8F;&#xFF0C;&#x5C06;&#x79D1;&#x5B66;&#x65B9;&#x7A0B;&#x5F0F;&#x8F6C;&#x6362;&#x4E3A;&#x4EE3;&#x7801;&#x7684;&#x80FD;&#x529B;&#x5927;&#x5927;&#x63D0;&#x9AD8;&#xFF0C;&#x4EE3;&#x7801;&#x80FD;&#x529B;&#x548C;&#x4EE3;&#x7801;&#x98CE;&#x683C;&#x5F97;&#x5230;&#x4E86;&#x6709;&#x6548;&#x63D0;&#x5347;</li>
+<li>&#x901A;&#x8FC7;&#x672C;&#x6B21;&#x5B9E;&#x9A8C;&#xFF0C;&#x638C;&#x63E1;&#x4E86;&#x66F4;&#x591A;Python&#x79D1;&#x5B66;&#x8BA1;&#x7B97;&#x5E93;&#x7684;&#x7528;&#x6CD5;</li>
+</ul>
+<h2 class="mume-header" id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">&#x53C2;&#x8003;&#x8D44;&#x6599;</h2>
+
+<p>&#x7F57;&#x5947;&#x9E23;. (2022). Python&#x79D1;&#x5B66;&#x8BA1;&#x7B97;&#x57FA;&#x7840;.</p>
+<p>How to draw a Black Hole <a href="https://rantonels.github.io/starless/">https://rantonels.github.io/starless/</a></p>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+    
+    
+  
+    </body></html>

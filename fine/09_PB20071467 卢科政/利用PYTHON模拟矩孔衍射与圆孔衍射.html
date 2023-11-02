@@ -1,0 +1,535 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>衍射</title>
+  </head>
+  <body>
+    <h1 align="center">&nbsp; 利用PYTHON模拟矩孔衍射与圆孔衍射</h1>
+    <div align="center"> 卢科政 PB20071467<br>
+    </div>
+    <font size="+1"><b>1.实验原理</b></font><br>
+    <b>1.1.光的衍射现象</b><br>
+    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+    在日常生活中，相较于光波，人们更熟悉水波与声波。在房间里，人们即使看不到外面的声源，也可以听到声源传来的声音，这说明波不止会直线传播，在
+    遇到障碍物时，可以偏离直线传播。这种现象被称之为波的衍射。<br>
+    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+    光波的衍射在日常生活中难以被察觉，这是因为光的波长很短，而且生活中的光源大多为不相干的面光源。因此，光的衍射现象并不常见。但在实验室条件
+    中，可以采用相干光（例如激光），并且保证光源与屏幕之间的距离足够大，便可以轻易的观察到衍射现象。通过实验可以发现，在几何阴影区与几何照明
+    区的光强<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>I</mi><annotation
+          encoding="TeX">I</annotation></semantics></math>因受到了衍射现象的影响而重新
+    分布。通常，按照根据光源、衍射屏和屏幕之间的距离可以将衍射分为两类：一类是Fresnel衍射，这类衍射的光源和接收屏（或两者之一）与衍射
+    屏的距离有限远；另一类是Fraunhofer衍射，这类衍射的光源和接收屏与衍射屏的距离为无限远。<br>
+    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+    由于实验中难以实现相关参数的连续变化，所以本程序目的是利用程序生成光的衍射图样，并且实现参数的连续变化以更好地观察、理解光的衍射现象。<br>
+    <b>1.2.菲涅尔-基尔霍夫积分公式</b><br>
+    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+    1818年，在巴黎科学院举行的以解释衍射现象为内容的竞赛会上，菲涅尔吸取惠更斯提出的次波概念，用“次波相干叠加”将所有的衍射现象统一到一
+    个原理，即Huygens-Fresnel原理，简单的概括为：<font face="楷体">波前<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi
+            mathvariant="normal">Σ</mi><annotation encoding="TeX">\Sigma</annotation></semantics></math>上
+      每个面元<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi
+              mathvariant="normal">Σ</mi></mrow><annotation
+            encoding="TeX">d\Sigma</annotation></semantics></math>都可以看成是
+      新的振动中心，它们发出次波。在空间某一点<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>P</mi><annotation
+            encoding="TeX">P</annotation></semantics></math>的振动是所有这些次波在这
+      个点的相干叠加。</font><br>
+    其数学表达式可以写为：<br>
+    <div align="center"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>U</mi><mo
+              stretchy="false">(</mo><mi>P</mi><mo stretchy="false">)</mo><mo>=</mo><mi>K</mi><mo>∬</mo><msub><mi>U</mi><mn>0</mn></msub><mo
+              stretchy="false">(</mo><mi>Q</mi><mo stretchy="false">)</mo><mi>F</mi><mo
+              stretchy="false">(</mo><msub><mi>θ</mi><mn>0</mn></msub><mo>,</mo><mi>θ</mi><mo
+              stretchy="false">)</mo><mfrac><msup><mi>e</mi><mrow><mi>i</mi><mi>k</mi><mi>r</mi></mrow></msup><mi>r</mi></mfrac><mi>d</mi><mi
+              mathvariant="normal">Σ</mi></mrow></semantics></math><math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow></mrow><annotation
+            encoding="TeX">U(P)=K∬U_0(Q)F(\theta_0,\theta)\frac{e^{ikr}}{r}d\Sigma</annotation></semantics></math><span
+        style="color: rgb(17, 17, 17); font-family: &quot;Microsoft
+        YaHei&quot;, Arial, Helvetica, sans-serif; font-size: 18px;
+        font-style: normal; font-variant-ligatures: normal;
+        font-variant-caps: normal; font-weight: 400; letter-spacing:
+        normal; orphans: 2; text-align: left; text-indent: 0px;
+        text-transform: none; white-space: normal; widows: 2;
+        word-spacing: 0px; -webkit-text-stroke-width: 0px;
+        background-color: rgb(255, 255, 255); text-decoration-thickness:
+        initial; text-decoration-style: initial; text-decoration-color:
+        initial; display: inline !important; float: none;"></span><br>
+    </div>
+    其中<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mfrac><mrow><mn>2</mn><mi>π</mi></mrow><mi>λ</mi></mfrac></mrow><annotation
+          encoding="TeX">k=\frac{2\pi}{\lambda}</annotation></semantics></math>，<math
+      xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>K</mi><annotation
+          encoding="TeX">K</annotation></semantics></math>为比例常数，<math
+      xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>U</mi><mn>0</mn></msub><mo
+            stretchy="false">(</mo><mi>Q</mi><mo stretchy="false">)</mo></mrow><annotation
+          encoding="TeX">U_0(Q)</annotation></semantics></math>为面元上的复振幅，
+    其余参数见图2所示。&nbsp; <br>
+    <div align="center"><img moz-do-not-send="true"
+src="images/%E8%8F%B2%E6%B6%85%E5%B0%94%E8%A1%8D%E5%B0%84%E7%A7%AF%E5%88%86%E5%85%AC%E5%BC%8F.png"
+        alt="" width="347" height="221"><br>
+    </div>
+    <div align="center">图 1 Fresnel衍射公式中各变量的声明<br>
+    </div>
+    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; 60余年后，Kirchhoff给出了正确的倾斜因子<math
+      xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo
+            stretchy="false">(</mo><msub><mi>θ</mi><mn>0</mn></msub><mo>,</mo><mi>θ</mi><mo
+            stretchy="false">)</mo><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mo
+            stretchy="false">(</mo><mo lspace="0em" rspace="0em">cos</mo><msub><mi>θ</mi><mn>0</mn></msub><mo>+</mo><mo
+            lspace="0em" rspace="0em">cos</mo><mi>θ</mi><mo
+            stretchy="false">)</mo></mrow><annotation encoding="TeX">F(\theta_0,\theta)=\frac{1}{2}(\cos\theta_0+\cos\theta)</annotation></semantics></math>，<math
+      xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi><mo>=</mo><mfrac><msup><mi>e</mi><mrow><mo>−</mo><mi>i</mi><mi>π</mi><mo>/</mo><mn>2</mn></mrow></msup><mi>λ</mi></mfrac></mrow><annotation
+          encoding="TeX">K=\frac{e^{-i\pi/2}}{\lambda}</annotation></semantics></math>，
+    因此得到Fresnel-Kirchhoff公式：<br>
+    <div align="center">
+      <figure>
+        <div align="left">
+          <div align="center"><math
+              xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>U</mi><mo
+                    stretchy="false">(</mo><mi>P</mi><mo
+                    stretchy="false">)</mo><mo>=</mo><mi>K</mi><mo>∬</mo><msub><mi>U</mi><mn>0</mn></msub><mo
+                    stretchy="false">(</mo><mi>Q</mi><mo
+                    stretchy="false">)</mo><mi>F</mi><mo
+                    stretchy="false">(</mo><msub><mi>θ</mi><mn>0</mn></msub><mo>,</mo><mi>θ</mi><mo
+                    stretchy="false">)</mo><mfrac><msup><mi>e</mi><mrow><mi>i</mi><mi>k</mi><mi>r</mi></mrow></msup><mi>r</mi></mfrac><mi>d</mi><mi
+                    mathvariant="normal">Σ</mi></mrow><annotation
+                  encoding="TeX">U(P)=K∬U_0(Q)F(θ_0,θ)\frac{e^{ikr}}{r}d\Sigma</annotation></semantics></math><br>
+          </div>
+          <figcaption></figcaption></div>
+      </figure>
+    </div>
+    <b>1.3.Fraunhofer矩孔衍射</b><br>
+    <div align="center"><img moz-do-not-send="true"
+        src="images/%E7%9F%A9%E5%AD%94%E8%A1%8D%E5%B0%840.png" alt=""
+        width="355" height="220"><br>
+      图2 Fraunhofer矩孔衍射示意图<br>
+      <div align="left"><br>
+      </div>
+      <div align="left">如图2所示，矩孔沿<math
+          xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation
+              encoding="TeX">x</annotation></semantics></math>，<math
+          xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation
+              encoding="TeX">y</annotation></semantics></math>方向的边长分别为<math
+          xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation
+              encoding="TeX">b</annotation></semantics></math>，<math
+          xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>h</mi></semantics></math><math
+          xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi></mi><annotation
+              encoding="TeX">\theta</annotation></semantics></math>，利用
+        Fresnel-Kirchhoff公式有(相关参数见图4)：&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <br>
+      </div>
+      <div align="left"> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mo
+                stretchy="false">(</mo><mi>M</mi><mo stretchy="false">)</mo><mo>=</mo><msup><mi>E</mi><mn>2</mn></msup><mo
+                stretchy="false">(</mo><mi>M</mi><mo stretchy="false">)</mo><mo>=</mo><mo
+                stretchy="false">|</mo><mi>K</mi><mo>∬</mo><msub><mi>U</mi><mn>0</mn></msub><mo
+                stretchy="false">(</mo><mi>Q</mi><mo stretchy="false">)</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>i</mi><msub><mover><mi>k</mi><mo
+                        stretchy="false">⇀</mo></mover><mi>d</mi></msub><mo>·</mo><mover><mrow><mi>O</mi><mi>P</mi></mrow><mo
+                      stretchy="false">⇀</mo></mover></mrow></msup><mi>d</mi><mi>x</mi><mi>d</mi><mi>y</mi><msup><mo
+                  stretchy="false">|</mo><mn>2<br>
+                </mn></msup></mrow><annotation encoding="TeX">I(M)=E^2(M)=|K∬U_0(Q)e^{-i\vec{k}_d·\vec{OP}}dxdy|^2</annotation></semantics></math></div>
+      <img moz-do-not-send="true"
+        src="images/%E7%9F%A9%E5%AD%94%E8%A1%8D%E5%B0%841.png" alt=""
+        width="488" height="218"><img moz-do-not-send="true"
+        src="images/%E7%9F%A9%E5%AD%94%E8%A1%8D%E5%B0%842.png" alt=""
+        width="283" height="220"><br>
+      <div align="center">图3(1)(2) Fraunhofer矩孔衍射参数说明<br>
+        <div align="left">带入<math
+            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>k</mi><mi>d</mi></msub></semantics></math><math
+            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi></mi></mrow><annotation
+                encoding="TeX"></annotation></semantics></math>与<math
+            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>U</mi><mn>0</mn></msub><mo
+                  stretchy="false">(</mo><mi>Q</mi><mo stretchy="false">)</mo></mrow><annotation
+                encoding="TeX">U_0(Q)</annotation></semantics></math>的表达
+          式可得:<br>
+          <div align="center"><math
+              xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mo
+                    stretchy="false">(</mo><mi>M</mi><mo
+                    stretchy="false">)</mo><mo>=</mo><mo
+                    stretchy="false">|</mo><msubsup><mo>∫</mo><mrow><mo>−</mo><mfrac><mi>h</mi><mn>2</mn></mfrac></mrow><mfrac><mi>h</mi><mn>2</mn></mfrac></msubsup><msubsup><mo>∫</mo><mrow><mo>−</mo><mfrac><mi>h</mi><mn>2</mn></mfrac></mrow><mfrac><mi>h</mi><mn>2</mn></mfrac></msubsup><msup><mi>e</mi><mrow><mo>−</mo><mi>i</mi><mfrac><mrow><mn>2</mn><mi>π</mi></mrow><mi>λ</mi></mfrac><mo
+                        stretchy="false">(</mo><mfrac><msub><mi>x</mi><mi>M</mi></msub><mi>f</mi></mfrac><mi>x</mi><mo>+</mo><mfrac><msub><mi>y</mi><mi>M</mi></msub><mi>f</mi></mfrac><mi>y</mi><mo
+                        stretchy="false">)</mo><mo>·</mo><mover><mrow><mi>O</mi><mi>P</mi></mrow><mo
+                          stretchy="false">⇀</mo></mover></mrow></msup><mi>d</mi><mi>x</mi><mi>d</mi><mi>y</mi><msup><mo
+                      stretchy="false">|</mo><mn>2</mn></msup></mrow><annotation
+                  encoding="TeX">I(M)=|\int_{-\frac{h}{2}}^{\frac{h}{2}}\int_{-\frac{h}{2}}^{\frac{h}{2}}e^{-i\frac{2\pi}{\lambda}(\frac{x_M}{f}x+\frac{y_M}{f}y)·\vec{OP}}dxdy|^2</annotation></semantics></math><br>
+          </div>
+          积分可得:<br>
+          <div align="center"><math
+              xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mo
+                    stretchy="false">(</mo><mi>M</mi><mo
+                    stretchy="false">)</mo><mo>=</mo><msub><mi>I</mi><mn>0</mn></msub><mi>s</mi><mi>i</mi><mi>n</mi><msup><mi>c</mi><mn>2</mn></msup><mo
+                    stretchy="false">(</mo><mi>B</mi><msub><mi>x</mi><mi>M</mi></msub><mo
+                    stretchy="false">)</mo><mi>s</mi><mi>i</mi><mi>n</mi><msup><mi>c</mi><mn>2</mn></msup><mo
+                    stretchy="false">(</mo><mi>H</mi><msub><mi>y</mi><mi>M</mi></msub><mo
+                    stretchy="false">)</mo></mrow><annotation
+                  encoding="TeX">I(M)=I_0sinc^2(Bx_M)sinc^2(Hy_M)</annotation></semantics></math><br>
+            <div align="left">其中<math
+                xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mfrac><mrow><mi>π</mi><mi>b</mi></mrow><mrow><mi>λ</mi><mi>f</mi></mrow></mfrac></mrow><annotation
+                    encoding="TeX">B=\frac{\pi b}{\lambdaf}</annotation></semantics></math>，<math
+                xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mo>=</mo><mfrac><mrow><mi>π</mi><mi>h</mi></mrow><mrow><mi>λ</mi><mi>f</mi></mrow></mfrac></mrow><annotation
+                    encoding="TeX">H=\frac{\pi h}{\lambdaf}</annotation></semantics></math><br>
+            </div>
+          </div>
+          <b>1.4.Fraunhofer圆孔衍射及Rayleigh判据</b><br>
+          <div align="center"><img moz-do-not-send="true"
+src="images/%E5%9C%86%E5%AD%94%E8%A1%8D%E5%B0%84%E7%A4%BA%E6%84%8F%E5%9B%BE.png"
+              alt="" width="373" height="220"></div>
+          <div align="center">图4 Fraunhofer圆孔衍射示意图</div>
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+          在光学成像中，光瞳多为圆形，所以考虑Fraunhofer圆孔衍射对于分析成像质量非常重要。依旧是利用Fresnel-
+          Kirchhoff公式：<br>
+          <div align="center"><math
+              xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mo
+                    stretchy="false">(</mo><mi>M</mi><mo
+                    stretchy="false">)</mo><mo>=</mo><msup><mi>E</mi><mn>2</mn></msup><mo
+                    stretchy="false">(</mo><mi>M</mi><mo
+                    stretchy="false">)</mo><mo>=</mo><mo
+                    stretchy="false">|</mo><mi>K</mi><msubsup><mo>∫</mo><mn>0</mn><mi>a</mi></msubsup><msubsup><mo>∫</mo><mn>0</mn><mrow><mn>2</mn><mi>π</mi></mrow></msubsup><msup><mi>e</mi><mrow><mo>−</mo><mi>i</mi><mfrac><mrow><mn>2</mn><mi>π</mi></mrow><mrow><mi>λ</mi><mi>f</mi></mrow></mfrac><msub><mi>r</mi><mi>M</mi></msub><mi>r</mi><mi>c</mi><mi>o</mi><mi>s</mi><mo
+                        stretchy="false">(</mo><msub><mi
+                          mathvariant="normal">Φ</mi><mi>M</mi></msub><mo>−</mo><mi
+                        mathvariant="normal">Φ</mi><mo stretchy="false">)</mo></mrow></msup><mi>r</mi><mi>d</mi><mi>r</mi><mi>d</mi><mi
+                    mathvariant="normal">Φ</mi><msup><mo
+                      stretchy="false">|</mo><mn>2<br>
+                    </mn></msup></mrow><annotation encoding="TeX">I(M)=E^2(M)=|K\int_0^a\int_0^{2\pi}e^{-i\frac{2\pi}{\lambda
+
+
+
+
+
+
+
+
+
+
+                  f}r_Mrcos(\Phi_M-\Phi)}rdrd\Phi|^2</annotation></semantics></math><br>
+          </div>
+        </div>
+        <div align="left">积分可得(积分过程较为繁琐，在此不列出):<br>
+          <div align="center"><math
+              xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mo
+                    stretchy="false">(</mo><mi>M</mi><mo
+                    stretchy="false">)</mo><mo>=</mo><msub><mi>I</mi><mn>0</mn></msub><mo
+                    stretchy="false">(</mo><mfrac><mrow><msub><mi>J</mi><mn>1</mn></msub><mo
+                        stretchy="false">(</mo><mi>A</mi><msub><mi>r</mi><mi>M</mi></msub><mo
+                        stretchy="false">)</mo></mrow><mrow><mi>A</mi><msub><mi>r</mi><mi>M</mi></msub></mrow></mfrac><msup><mo
+                      stretchy="false">)</mo><mn>2</mn></msup></mrow><annotation
+                  encoding="TeX">I(M)=I_0(\frac{J_{1}(Ar_M)}{Ar_M})^2</annotation></semantics></math><br>
+            <div align="left">其中:<math
+                xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>r</mi><mi>M</mi></msub><mo>=</mo><msqrt><mrow><mo
+                          stretchy="false">(</mo><mfrac><mrow><msub><mi>f</mi><mn>2</mn></msub><msub><mi>x</mi><mn>1</mn></msub></mrow><msub><mi>f</mi><mn>1</mn></msub></mfrac><mo>+</mo><msub><mi>x</mi><mi>M</mi></msub><mo
+                          stretchy="false">)</mo><mo>+</mo><msubsup><mi>y</mi><mi>M</mi><mn>2</mn></msubsup></mrow></msqrt></mrow><annotation
+                    encoding="TeX">r_M=\sqrt{(\frac{f_2x_1}{f_1}+x_M)+y_M^2}</annotation></semantics></math>，<math
+                xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>=</mo><mfrac><mrow><mn>2</mn><mi>π</mi><mi>a</mi></mrow><mrow><mi>λ</mi><msub><mi>f</mi><mn>2</mn></msub></mrow></mfrac></mrow><annotation
+                    encoding="TeX">A=\frac{2\pi a}{\lambda f_2}</annotation></semantics></math>，<math
+                xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>J</mi><mn>1</mn></msub><mo
+                      stretchy="false">(</mo><mi>x</mi><mo
+                      stretchy="false">)</mo></mrow><annotation
+                    encoding="TeX">J_1(x)</annotation></semantics></math>是
+              一阶Bessel函数。<br>
+              <div align="center"><img moz-do-not-send="true"
+src="images/%E5%9C%86%E5%AD%94%E8%A1%8D%E5%B0%84%E5%8F%82%E6%95%B0%E7%A4%BA%E6%84%8F%E5%9B%BE.png"
+                  alt="" width="530" height="220"><br>
+                <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow>图5&nbsp;
+
+
+
+
+
+
+
+
+
+
+                    </mrow></semantics></math>Fraunhofer圆孔衍射参数说明<br>
+                <div align="left">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+                  在光学系统中，由于衍射，系统所成的像不再是理想的几何点像，而是有一定大小的光
+                  斑，中央是明亮的圆斑，周围有一组较弱的明暗相间的同心环状条纹，把其中以第一暗环为界限的中央亮斑称作<span
+                    style="color: rgb(38, 38, 38); font-family:
+                    &quot;PingFang SC&quot;, apple-system,
+                    BlinkMacSystemFont, &quot;Helvetica Neue&quot;,
+                    &quot;Microsoft YaHei&quot;, &quot;Source Han Sans
+                    SC&quot;, &quot;Noto Sans CJK SC&quot;,
+                    &quot;WenQuanYi Micro Hei&quot;, sans-serif;
+                    font-size: 16px; font-style: normal;
+                    font-variant-ligatures: normal; font-variant-caps:
+                    normal; font-weight: 400; letter-spacing: 0.96px;
+                    orphans: 2; text-align: start; text-indent: 0px;
+                    text-transform: none; white-space: normal; widows:
+                    2; word-spacing: 0px; -webkit-text-stroke-width:
+                    0px; text-decoration-thickness: initial;
+                    text-decoration-style: initial;
+                    text-decoration-color: initial; display: inline
+                    !important; float: none;">airy disc。</span>当两个物点过于靠
+                  近，其像斑重叠在一起，就可
+                  能分辨不出是两个物点的像，即光学系统中存在着一个分辨极限，这个分辨极限通常采用Rayleigh提
+                  出的判据：当一个<span style="color: rgb(38, 38, 38);
+                    font-family: &quot;PingFang SC&quot;, apple-system,
+                    BlinkMacSystemFont, &quot;Helvetica Neue&quot;,
+                    &quot;Microsoft YaHei&quot;, &quot;Source Han Sans
+                    SC&quot;, &quot;Noto Sans CJK SC&quot;,
+                    &quot;WenQuanYi Micro Hei&quot;, sans-serif;
+                    font-size: 16px; font-style: normal;
+                    font-variant-ligatures: normal; font-variant-caps:
+                    normal; font-weight: 400; letter-spacing: 0.96px;
+                    orphans: 2; text-align: start; text-indent: 0px;
+                    text-transform: none; white-space: normal; widows:
+                    2; word-spacing: 0px; -webkit-text-stroke-width:
+                    0px; text-decoration-thickness: initial;
+                    text-decoration-style: initial;
+                    text-decoration-color: initial; display: inline
+                    !important; float: none;">airy disc</span>的 中心与另一个<span
+                    style="color: rgb(38, 38, 38); font-family:
+                    &quot;PingFang SC&quot;, apple-system,
+                    BlinkMacSystemFont, &quot;Helvetica Neue&quot;,
+                    &quot;Microsoft YaHei&quot;, &quot;Source Han Sans
+                    SC&quot;, &quot;Noto Sans CJK SC&quot;,
+                    &quot;WenQuanYi Micro Hei&quot;, sans-serif;
+                    font-size: 16px; font-style: normal;
+                    font-variant-ligatures: normal; font-variant-caps:
+                    normal; font-weight: 400; letter-spacing: 0.96px;
+                    orphans: 2; text-align: start; text-indent: 0px;
+                    text-transform: none; white-space: normal; widows:
+                    2; word-spacing: 0px; -webkit-text-stroke-width:
+                    0px; text-decoration-thickness: initial;
+                    text-decoration-style: initial;
+                    text-decoration-color: initial; display: inline
+                    !important; float: none;">airy disc</span>的第一级暗环重合时，
+                  刚好能分辨出是两个像。这时，两个像斑的中心的角距离等于每个的半角宽即：<br>
+                  <div align="center"><math
+                      xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>δ</mi><mi>θ</mi><mo>=</mo><mi
+                            mathvariant="normal">Δ</mi><mi>θ</mi><mo>=</mo><mn>1.22</mn><mfrac><mi>λ</mi><mi>D</mi></mfrac></mrow><annotation
+                          encoding="TeX">\delta\theta =
+                          \Delta\theta=1.22\frac{\lambda}{D}</annotation></semantics></math><br>
+                  </div>
+                  <div align="center">
+                    <div align="left">其中D为出射光瞳的直径。<br>
+                    </div>
+                    <img moz-do-not-send="true"
+src="images/%E7%91%9E%E5%88%A9%E5%88%A4%E6%8D%AE%E7%A4%BA%E6%84%8F%E5%9B%BE.png"
+                      alt="" width="355" height="220"><br>
+                    图6 Rayleigh判据示意图<br>
+                  </div>
+                  利用Fresnel- Kirchhoff积分公式，可得光强的表达式为：<br>
+                  <div align="center"><math
+                      xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mo
+                            stretchy="false">(</mo><mi>M</mi><mo
+                            stretchy="false">)</mo><mo>=</mo><msub><mi>I</mi><mn>0</mn></msub><mo
+                            stretchy="false">(</mo><mfrac><mrow><msub><mi>J</mi><mn>1</mn></msub><mo
+                                stretchy="false">(</mo><mi>A</mi><msub><mi>r</mi><mi>M</mi></msub><mo
+                                stretchy="false">)</mo></mrow><mrow><mi>A</mi><msub><mi>r</mi><mi>M</mi></msub></mrow></mfrac><msup><mo
+                              stretchy="false">)</mo><mn>2</mn></msup><mo>+</mo><msub><mi>I</mi><mn>0</mn></msub><mo
+                            stretchy="false">(</mo><mfrac><mrow><msub><mi>J</mi><mn>1</mn></msub><mo
+                                stretchy="false">(</mo><mi>A</mi><msubsup><mi>r</mi><mi>M</mi><mo>′</mo></msubsup><mo
+                                stretchy="false">)</mo></mrow><mrow><mi>A</mi><msubsup><mi>r</mi><mi>M</mi><mo>′</mo></msubsup></mrow></mfrac><msup><mo
+                              stretchy="false">)</mo><mn>2</mn></msup></mrow><annotation
+                          encoding="TeX">I(M)=I_0(\frac{J_1(Ar_M)}{Ar_M})^2+I_0(\frac{J_1(Ar'_M)}{Ar'_M})^2</annotation></semantics></math><br>
+                    <div align="left">其中<math
+                        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>r</mi><mi>M</mi></msub><annotation
+                            encoding="TeX">r_M</annotation></semantics></math>为<math
+                        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>S</mi><mn>1</mn></msub><annotation
+                            encoding="TeX">S_1</annotation></semantics></math>在
+                      屏幕上的点，<math
+                        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>r</mi><mi>M</mi><mo>′</mo></msubsup><annotation
+                            encoding="TeX">r'_M</annotation></semantics></math>为<math
+                        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>S</mi><mn>1</mn><mo>′</mo></msubsup><annotation
+                            encoding="TeX">S'_1</annotation></semantics></math>在
+                      屏幕上的点。<br>
+                      <font size="+1"><b>2.程序设计</b></font><br>
+                      &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+                      利用上文提出的公式很容易的写出相对光强<math
+                        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mo>/</mo><msub><mi>I</mi><mn>0</mn></msub></mrow><annotation
+                            encoding="TeX">I/I_0</annotation></semantics></math>的
+                      表达式，利用PyQt5库创建GUI方便调节参数与实现衍射图样的可视化，从GUI中读取数据，将计算得到
+                      的衍射图样生成在GUI上。<br>
+                      <b>2.1程序设计思路</b><br>
+                      &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+                      首先利用PyQt5库创建GUI，将其保存为MainApp.py，其中需要头文件mplwidget.py以实现其在GUI的widget上显示
+                      matplotlib.pyplot所绘制的图像。在主程序中，导入MainApp.py中的
+                      Ui_Mainwindow，从中读取光的衍射所需要的参数，并且实现滑块与方格内的数据的对应。利用读取
+                      到的数据代入光强表达式，绘制出图像，并设计好图像的参数，使其显示到利用mplwidget.py提升过
+                      的widget中，绘图时XY坐标均为1000个。其中在计算圆孔衍射的光强时，需要用到Bessel函
+                      数，从scipy.special导入jv函数实现Bessel函数的计算，但会导致计算速度偏慢，生成图
+                      像所用时间明显慢于不需要Bessel函数的矩孔衍射。<br>
+                      <b>2.2程序设计优点与创新性</b><br>
+                      &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+                      传统光学教学中，书上给出的衍射图样通常只有单一参数的定性影响，并不能定量的看出衍射屏尺寸、焦距、波长等多个参数对衍射图样的影响，导致部分同学们在
+                      学习光学时，难以理解衍射现象。即使是在光学实验时，由于教学所用激光器不能改变波长、光路容易受干扰，同
+                      学也不容易观察上述参数对衍射图样
+                      的影响。本程序利用python语言，生成GUI以方便同学改变光学系统的参数，并且可以轻松地观察到不同参数下衍射图样的变化，以及可以看到对应的相对
+                      光强。<br>
+                      <font size="+1"><b>3.程序说明及运行结果</b></font><br>
+                      <b>3.1矩孔衍射程序<br>
+                      </b>
+                      <div align="center"><b><img moz-do-not-send="true"
+src="images/%E7%9F%A9%E5%AD%94%E8%A1%8D%E5%B0%84%E7%A8%8B%E5%BA%8F%E7%A4%BA%E6%84%8F%E5%9B%BE.png"
+                            alt="" width="358" height="288"><img
+                            moz-do-not-send="true"
+src="images/%E7%9F%A9%E5%AD%94%E8%A1%8D%E5%B0%84%E7%A8%8B%E5%BA%8F%E7%A4%BA%E6%84%8F%E5%9B%BE2.png"
+                            alt="" width="360" height="288"></b><br>
+                      </div>
+                      <div align="center">
+                        <div align="left">
+                          <div align="center">&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp; 图7 矩孔衍射程序示意图<br>
+                          </div>
+                          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+                          本程序所绘制的图像为矩孔衍射图样，一共有四个可以改变参数，分别是:波长<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation
+                                encoding="TeX">\lambda</annotation></semantics></math>、
+                          矩孔的宽度<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation
+                                encoding="TeX">b</annotation></semantics></math>、
+                          矩孔的高度<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>h</mi><annotation
+                                encoding="TeX">h</annotation></semantics></math>，
+                          凸透镜与屏幕之间的距离<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>f</mi><annotation
+                                encoding="TeX">f</annotation></semantics></math>。
+                          波长的可调节范围为<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>400</mn><mi>n</mi><mi>m</mi><mo>−</mo><mn>900</mn><mi>n</mi><mi>m</mi></mrow><annotation
+                                encoding="TeX">400nm-900nm</annotation></semantics></math>，
+                          步长为<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>10</mn><mi>n</mi><mi>m</mi></mrow><annotation
+                                encoding="TeX">10nm</annotation></semantics></math>；
+                          矩孔的宽度的可调节范围为<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>10</mn><mrow><mo>−</mo><mn>5</mn></mrow></msup><mi>m</mi><mo>−</mo><msup><mn>10</mn><mrow><mo>−</mo><mn>3</mn></mrow></msup><mi>m</mi></mrow><annotation
+                                encoding="TeX">10^{-5}m-10^{-3}m</annotation></semantics></math>，
+                          步长为<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>10</mn><mrow><mo>−</mo><mn>5</mn></mrow></msup><mi>m</mi></mrow><annotation
+                                encoding="TeX">10^{-5}m</annotation></semantics></math>；
+                          矩孔高度的可调节范围为<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>10</mn><mrow><mo>−</mo><mn>5</mn></mrow></msup><mi>m</mi><mo>−</mo><msup><mn>10</mn><mrow><mo>−</mo><mn>3</mn></mrow></msup><mi>m</mi></mrow><annotation
+                                encoding="TeX">10^{-5}m-10^{-3}m</annotation></semantics></math>，
+                          步长为<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>10</mn><mrow><mo>−</mo><mn>5</mn></mrow></msup><mi>m</mi></mrow><annotation
+                                encoding="TeX">10^{-5}m</annotation></semantics></math>；
+                          凸透镜与屏幕之间的距离的可调节范围为<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>m</mi><mo>−</mo><mn>10</mn><mi>m</mi></mrow><annotation
+                                encoding="TeX">1m-10m</annotation></semantics></math>，
+                          步长为<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>m</mi></mrow><annotation
+                                encoding="TeX">0.1m</annotation></semantics></math>。
+                          另一个程序则可以观察xy两个方向的相对光强的变化。通过滑块与Spinbox可以实现数据的调
+                          节。 <b><br>
+                            3.2圆孔衍射程序<br>
+                          </b>
+                          <div align="center"><b><img
+                                moz-do-not-send="true"
+src="images/%E5%9C%86%E5%AD%94%E8%A1%8D%E5%B0%84%E7%A8%8B%E5%BA%8F%E7%A4%BA%E6%84%8F%E5%9B%BE.png"
+                                alt="" width="359" height="288"><img
+                                moz-do-not-send="true"
+src="images/%E5%9C%86%E5%AD%94%E8%A1%8D%E5%B0%84%E7%A8%8B%E5%BA%8F%E7%A4%BA%E6%84%8F%E5%9B%BE2.png"
+                                alt="" width="359" height="288"></b><br>
+                          </div>
+                          <div align="center">图8 圆孔衍射程序示意图<br>
+                          </div>
+                          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+                          本程序所绘制的图像为圆孔衍射图样，一共有五个可以改变参数，分别是:波长<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation
+                                encoding="TeX">\lambda</annotation></semantics></math>、
+                          圆孔半径<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation
+                                encoding="TeX">a</annotation></semantics></math>、
+                          两光源距离<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>d</mi><annotation
+                                encoding="TeX">d</annotation></semantics></math>、
+                          凸 透镜与屏幕之间的距离<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>f</mi><annotation
+                                encoding="TeX">f</annotation></semantics></math>、
+                          屏幕半径<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation
+                                encoding="TeX">r</annotation></semantics></math>。
+                          波 长<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation
+                                encoding="TeX">\lambda</annotation></semantics></math>的
+                          可调节范围为<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>400</mn><mi>n</mi><mi>m</mi><mo>−</mo><mn>900</mn><mi>n</mi><mi>m</mi></mrow><annotation
+                                encoding="TeX">400nm-900nm</annotation></semantics></math>，
+                          步长为<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>10</mn><mi>n</mi><mi>m</mi></mrow><annotation
+                                encoding="TeX">10nm</annotation></semantics></math>；
+                          圆孔半径<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation
+                                encoding="TeX">a</annotation></semantics></math>的
+                          可调节范围为<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>10</mn><mi>μ</mi><mi>m</mi><mo>−</mo><mn>1000</mn><mi>μ</mi><mi>m</mi></mrow><annotation
+                                encoding="TeX">10\mu m-1000\mu m</annotation></semantics></math>，
+                          步长为<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>10</mn><mi>μ</mi><mi>m</mi></mrow><annotation
+                                encoding="TeX">10\mu m</annotation></semantics></math>；
+                          两光源距离<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>d</mi><annotation
+                                encoding="TeX">d</annotation></semantics></math>的
+                          可调节范围为<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>−</mo><msup><mn>10</mn><mrow><mo>−</mo><mn>2</mn></mrow></msup><mi>m</mi></mrow><annotation
+                                encoding="TeX">0-10^{-2}m</annotation></semantics></math>，
+                          步长为<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>10</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup><mi>m</mi></mrow><annotation
+                                encoding="TeX">10^{-4}m</annotation></semantics></math>，
+                          当<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>=</mo><mn>0</mn></mrow><annotation
+                                encoding="TeX">d=0</annotation></semantics></math>时，
+                          即为单光源对应的圆孔衍射；凸透镜与屏幕之间的距离<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>f</mi><annotation
+                                encoding="TeX">f</annotation></semantics></math>的
+                          可调节范围为<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>m</mi><mo>−</mo><mn>10</mn><mi>m</mi></mrow><annotation
+                                encoding="TeX">1m-10m</annotation></semantics></math>，
+                          步长为<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>m</mi></mrow><annotation
+                                encoding="TeX">0.1m</annotation></semantics></math>；
+                          屏幕半径<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation
+                                encoding="TeX">r</annotation></semantics></math>的
+                          可调节范围为<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>10</mn><mrow><mo>−</mo><mn>3</mn></mrow></msup><mo>−</mo><msup><mn>10</mn><mrow><mo>−</mo><mn>1</mn></mrow></msup><mi>m</mi></mrow><annotation
+                                encoding="TeX">10^{-3}-10^{-1}m</annotation></semantics></math>，
+                          步长为<math
+                            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>10</mn><mrow><mo>−</mo><mn>3</mn></mrow></msup><mi>m</mi></mrow><annotation
+                                encoding="TeX">10^{-3}m</annotation></semantics></math>。
+                          另一个程序则可以观察到两个光源相对光强变化以及两者之和。通过滑块与Spinbox可以实现数据
+                          的调节。<br>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div align="left"> <font size="+1"><b>4.总结</b></font><br>
+                  &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+                  该程序的最初想法是源于我学习光学时，由于当时对衍射不是很理解，做实验也不是很方便，便在知乎上查找相关资料，看到了一篇关于python仿真衍射现象
+                  的文章，但当时鉴于python能力不足，无法将其实现。在本学期学习了该课程后，python编程能力得到大幅提
+                  升，因此制作了矩孔衍射、圆孔衍射的
+                  程序，旨在方便同学们理解光的衍射现象。这两个程序的制作，提高了我的GUI的制作与图像的绘制能力，而且在写大作业的过程中，不断地查阅资料丰富了
+                  我的专业知识，提高了编程能力，使我受益良多。<br>
+                  <font size="+1"><b>5.参考文献</b></font><br>
+                  <span style="color: rgb(0, 0, 0); font-family:
+                    &quot;Microsoft YaHei&quot;; font-size: medium;
+                    font-style: normal; font-variant-ligatures: normal;
+                    font-variant-caps: normal; font-weight: 400;
+                    letter-spacing: normal; orphans: 2; text-align:
+                    -webkit-left; text-indent: 0px; text-transform:
+                    none; white-space: normal; widows: 2; word-spacing:
+                    0px; -webkit-text-stroke-width: 0px;
+                    text-decoration-thickness: initial;
+                    text-decoration-style: initial;
+                    text-decoration-color: initial; display: inline
+                    !important; float: none;">罗奇鸣-《Python科学计算基础》</span><br>
+                  赵凯华-《新概念物理教程光学》<br>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
